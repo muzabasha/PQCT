@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from 'react';
-import axios from 'axios';
+import { runShor as simShor, runGrover as simGrover } from '@/lib/crypto';
 import { Math, MathSteps } from '@/components/ui/math';
 
 export default function ShorGroverModule() {
@@ -11,13 +11,11 @@ export default function ShorGroverModule() {
   const [shorResult, setShorResult] = useState<any>(null);
   const [loading, setLoading] = useState(false);
 
-  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
-
   const runShor = async () => {
     setLoading(true);
     try {
-      const res = await axios.post(`${API_URL}/api/shor/run`, { N: shorN });
-      setShorResult(res.data);
+      const res = simShor(shorN);
+      setShorResult(res);
     } catch (e) {
       console.error(e);
     }
@@ -27,8 +25,8 @@ export default function ShorGroverModule() {
   const runGrover = async () => {
     setLoading(true);
     try {
-      const res = await axios.post(`${API_URL}/api/grover/run`, { dataset_size: datasetSize });
-      setGroverResult(res.data);
+      const res = simGrover(datasetSize);
+      setGroverResult(res);
     } catch (e) {
       console.error(e);
     }

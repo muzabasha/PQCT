@@ -1,28 +1,26 @@
 "use client";
 
 import { useState } from 'react';
-import axios from 'axios';
+import { generateRSA, runShor } from '@/lib/crypto';
 
 export default function BreakCrypto() {
   const [keySize, setKeySize] = useState(16);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
 
-  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
-
   const runAttack = async () => {
     setLoading(true);
     try {
       // First generate RSA key
-      const rsaRes = await axios.post(`${API_URL}/api/rsa/generate`, { key_size: keySize });
-      const n = rsaRes.data.public_key.n;
+      const rsaRes = generateRSA(keySize);
+      const n = rsaRes.public_key.n;
 
       // Then attack it with Shor
-      const shorRes = await axios.post(`${API_URL}/api/shor/run`, { N: n });
+      const shorRes = runShor(n);
       
       setResult({
-        rsa: rsaRes.data,
-        shor: shorRes.data
+        rsa: rsaRes,
+        shor: shorRes
       });
     } catch (e) {
       console.error(e);

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from 'react';
-import axios from 'axios';
+import { simulateLattice as simLattice, simulateCode as simCode } from '@/lib/crypto';
 import { Math, MathSteps } from '@/components/ui/math';
 
 export default function PQCModule() {
@@ -9,13 +9,11 @@ export default function PQCModule() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
 
-  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
-
   const simulateLattice = async () => {
     setLoading(true);
     try {
-      const res = await axios.post(`${API_URL}/api/pqc/lattice`, { dimension: 4, noise_level: 0.5 });
-      setResult(res.data);
+      const res = simLattice(4, 0.5);
+      setResult(res);
     } catch (e) {
       console.error(e);
     }
@@ -25,8 +23,8 @@ export default function PQCModule() {
   const simulateCode = async () => {
     setLoading(true);
     try {
-      const res = await axios.post(`${API_URL}/api/pqc/code`, { message_length: 8, error_weight: 2 });
-      setResult(res.data);
+      const res = simCode(8, 2);
+      setResult(res);
     } catch (e) {
       console.error(e);
     }
