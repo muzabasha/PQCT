@@ -2,142 +2,250 @@
 
 import { useState } from 'react';
 import { runShor as simShor, runGrover as simGrover } from '@/lib/crypto';
-import { Math, MathSteps } from '@/components/ui/math';
+import { Math as MathDisplay, MathSteps } from '@/components/ui/math';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function ShorGroverModule() {
+  const [activeTab, setActiveTab] = useState<'Shor' | 'Grover'>('Shor');
+
+  // Shor State
+  const [shorN, setShorN] = useState<string>('15');
+  const [shorResult, setShorResult] = useState<any>(null);
+  
+  // Grover State
   const [datasetSize, setDatasetSize] = useState(1000000);
   const [groverResult, setGroverResult] = useState<any>(null);
-  const [shorN, setShorN] = useState(15);
-  const [shorResult, setShorResult] = useState<any>(null);
-  const [loading, setLoading] = useState(false);
 
-  const runShor = async () => {
-    setLoading(true);
-    try {
-      const res = simShor(shorN);
-      setShorResult(res);
-    } catch (e) {
-      console.error(e);
+  const handleRunShor = () => {
+    const N = parseInt(shorN);
+    if (isNaN(N) || N <= 1) {
+      alert("Please enter a valid integer greater than 1.");
+      return;
     }
-    setLoading(false);
+    const res = simShor(N);
+    setShorResult(res);
   };
 
-  const runGrover = async () => {
-    setLoading(true);
-    try {
-      const res = simGrover(datasetSize);
-      setGroverResult(res);
-    } catch (e) {
-      console.error(e);
-    }
-    setLoading(false);
+  const handleRunGrover = () => {
+    const res = simGrover(datasetSize);
+    setGroverResult(res);
   };
 
   return (
-    <div className="space-y-12 max-w-5xl mx-auto">
-      <div className="text-center space-y-4">
-        <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-indigo-500 bg-clip-text text-transparent">
+    <div className="space-y-12 max-w-6xl mx-auto pb-20 px-4">
+      <div className="text-center space-y-4 pt-10">
+        <h1 className="text-5xl font-extrabold bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent drop-shadow-sm">
           Module 3: Shor & Grover Algorithms
         </h1>
-        <p className="text-xl text-slate-400">How quantum computers break classical security</p>
+        <p className="text-xl text-slate-400 max-w-2xl mx-auto">
+          Experience how quantum computers exploit interference and entanglement to break classical cryptography.
+        </p>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-8">
-        {/* Shor's Algorithm */}
-        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-8 space-y-6">
-          <div>
-            <h2 className="text-2xl font-bold text-purple-400 mb-2">Shor's Algorithm</h2>
-            <p className="text-slate-300">Factorizes large numbers exponentially faster than classical algorithms. Threatens RSA and ECC.</p>
-          </div>
+      <div className="flex justify-center space-x-4 mb-8">
+        <button 
+          onClick={() => setActiveTab('Shor')}
+          className={`px-8 py-3 rounded-full font-bold transition-all shadow-lg ${activeTab === 'Shor' ? 'bg-purple-600 text-white shadow-purple-500/30 scale-105' : 'bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white'}`}
+        >
+          Shor's Algorithm (Breaks RSA)
+        </button>
+        <button 
+          onClick={() => setActiveTab('Grover')}
+          className={`px-8 py-3 rounded-full font-bold transition-all shadow-lg ${activeTab === 'Grover' ? 'bg-blue-600 text-white shadow-blue-500/30 scale-105' : 'bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white'}`}
+        >
+          Grover's Algorithm (Breaks AES/Hashes)
+        </button>
+      </div>
+
+      {activeTab === 'Shor' && (
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-slate-900/60 backdrop-blur-xl border border-slate-800 rounded-3xl p-8 lg:p-12 shadow-2xl relative overflow-hidden"
+        >
+          <div className="absolute top-0 right-0 p-32 bg-purple-500/5 blur-[120px] rounded-full pointer-events-none"></div>
           
-          <div className="bg-slate-950 p-4 rounded-xl">
-            <Math block math="f(x) = a^x \pmod N" />
-            <p className="text-sm text-slate-400 mt-2 text-center">Finds the period of this function using Quantum Fourier Transform</p>
-          </div>
+          <h2 className="text-3xl font-bold mb-6 flex items-center gap-4">
+            <span className="text-4xl">🌊</span>
+            Period Finding via QFT
+          </h2>
+          <p className="text-slate-300 mb-10 text-lg max-w-3xl leading-relaxed">
+            Shor's algorithm turns factoring into a "period finding" problem. It evaluates a modular exponential function for all possible inputs simultaneously, then uses the <strong>Quantum Fourier Transform (QFT)</strong> to find the repeating pattern (period) in one shot.
+          </p>
 
-          <div className="flex gap-4 items-center">
-            <input 
-              type="number" 
-              value={shorN} 
-              onChange={(e) => setShorN(Number(e.target.value))}
-              className="bg-slate-950 border border-slate-700 rounded-lg px-4 py-2 text-white w-full"
-              placeholder="Number to factor (e.g. 15)"
-            />
-            <button 
-              onClick={runShor}
-              disabled={loading}
-              className="bg-purple-600 hover:bg-purple-500 text-white px-6 py-2 rounded-lg font-bold transition-colors whitespace-nowrap"
-            >
-              Run Shor
-            </button>
-          </div>
+          <div className="grid lg:grid-cols-2 gap-10">
+            <div className="space-y-8">
+              <div className="bg-slate-950/80 p-6 rounded-2xl border border-slate-800 shadow-inner">
+                <MathDisplay block math="f(x) = a^x \pmod N" />
+                <p className="text-sm text-slate-400 mt-4 text-center">Finding the period <strong className="text-slate-300">r</strong> where <strong className="text-slate-300">f(x+r) = f(x)</strong></p>
+              </div>
 
-          {shorResult && (
-            <div className="mt-6 space-y-4">
-              <h3 className="font-semibold border-b border-slate-800 pb-2">Execution Steps</h3>
-              <MathSteps steps={shorResult.steps} />
-              {shorResult.result ? (
-                <div className="bg-green-900/30 text-green-400 p-4 rounded-xl border border-green-500/30 text-center text-xl font-bold">
-                  Factors Found: {shorResult.result[0]} and {shorResult.result[1]}
+              <div className="flex flex-col sm:flex-row gap-4">
+                <div className="flex-1 space-y-2">
+                   <label className="text-slate-400 text-sm font-semibold uppercase tracking-wider ml-1">Number to Factor (N)</label>
+                   <input 
+                     type="number" 
+                     value={shorN} 
+                     onChange={(e) => setShorN(e.target.value)}
+                     className="w-full bg-slate-950/80 border border-slate-700 rounded-2xl px-5 py-4 text-xl font-mono text-white focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all shadow-inner"
+                     placeholder="e.g. 15, 21, 35"
+                   />
+                </div>
+                <div className="flex items-end">
+                  <button 
+                    onClick={handleRunShor} 
+                    className="w-full sm:w-auto bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white px-8 py-4 rounded-2xl font-bold transition-all shadow-lg shadow-purple-500/25 active:scale-95 text-lg whitespace-nowrap"
+                  >
+                    Run Quantum Circuit
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-slate-950/80 rounded-3xl p-8 border border-slate-800 shadow-inner relative overflow-hidden flex flex-col justify-center min-h-[300px]">
+              {shorResult ? (
+                <div className="space-y-6 z-10">
+                  <h3 className="text-lg font-bold text-slate-300 uppercase tracking-wider">Quantum Output</h3>
+                  {shorResult.result ? (
+                    <motion.div 
+                      initial={{ scale: 0.9 }} animate={{ scale: 1 }} 
+                      className="bg-emerald-900/20 border border-emerald-500/30 p-6 rounded-2xl text-center"
+                    >
+                      <div className="text-emerald-400 font-medium mb-2">Prime Factors Found</div>
+                      <div className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-400">
+                        {shorResult.result[0]} &times; {shorResult.result[1]}
+                      </div>
+                    </motion.div>
+                  ) : (
+                    <motion.div 
+                      initial={{ scale: 0.9 }} animate={{ scale: 1 }} 
+                      className="bg-red-900/20 border border-red-500/30 p-6 rounded-2xl text-center"
+                    >
+                      <div className="text-red-400 font-bold mb-2">Probabilistic Failure</div>
+                      <div className="text-slate-300 text-sm">
+                        Quantum mechanics is inherently probabilistic. The period found was odd or didn't yield factors. Try running the circuit again!
+                      </div>
+                    </motion.div>
+                  )}
                 </div>
               ) : (
-                <div className="bg-red-900/30 text-red-400 p-4 rounded-xl border border-red-500/30 text-center font-bold">
-                  Failed. Try again (Quantum algorithms are probabilistic).
+                <div className="text-center text-slate-500 italic z-10 text-lg">
+                  Initialize superposition to begin factoring.
                 </div>
               )}
             </div>
-          )}
-        </div>
-
-        {/* Grover's Algorithm */}
-        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-8 space-y-6">
-          <div>
-            <h2 className="text-2xl font-bold text-blue-400 mb-2">Grover's Algorithm</h2>
-            <p className="text-slate-300">Provides quadratic speedup for unstructured search. Threatens AES and Hashes (requires doubling key size).</p>
-          </div>
-          
-          <div className="bg-slate-950 p-4 rounded-xl text-center">
-            <div className="text-3xl mb-2">🔦</div>
-            <p className="text-slate-300 italic">"Turning the spotlight brighter on the correct answer"</p>
           </div>
 
-          <div className="flex flex-col gap-2">
-            <label className="text-slate-400">Dataset Size (N): {datasetSize.toLocaleString()}</label>
-            <input 
-              type="range" 
-              min="1000" 
-              max="10000000" 
-              step="1000" 
-              value={datasetSize} 
-              onChange={(e) => setDatasetSize(Number(e.target.value))}
-              className="w-full accent-blue-500 mb-4"
-            />
-            <button 
-              onClick={runGrover}
-              disabled={loading}
-              className="bg-blue-600 hover:bg-blue-500 text-white px-6 py-2 rounded-lg font-bold transition-colors w-full"
-            >
-              Simulate Grover Search
-            </button>
-          </div>
-
-          {groverResult && (
-            <div className="mt-6 space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 text-center">
-                  <div className="text-xs text-slate-500 mb-1">Classical Steps (avg)</div>
-                  <div className="text-xl text-slate-300 font-bold">{groverResult.classical_average_steps.toLocaleString(undefined, {maximumFractionDigits:0})}</div>
+          <AnimatePresence>
+            {shorResult && (
+              <motion.div 
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                className="mt-10 pt-10 border-t border-slate-800/50"
+              >
+                <h3 className="text-xl font-bold mb-6 flex items-center gap-3 text-slate-200">
+                  <span className="text-purple-400 bg-purple-500/10 p-2 rounded-lg">⚙️</span> Step-by-Step Execution trace
+                </h3>
+                <div className="bg-slate-950/50 p-6 rounded-2xl">
+                  <MathSteps steps={shorResult.steps} />
                 </div>
-                <div className="bg-slate-950 p-4 rounded-xl border border-blue-500/30 text-center">
-                  <div className="text-xs text-slate-500 mb-1">Quantum Steps</div>
-                  <div className="text-xl text-blue-400 font-bold">{groverResult.quantum_steps.toLocaleString(undefined, {maximumFractionDigits:0})}</div>
-                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.div>
+      )}
+
+      {activeTab === 'Grover' && (
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-slate-900/60 backdrop-blur-xl border border-slate-800 rounded-3xl p-8 lg:p-12 shadow-2xl relative overflow-hidden space-y-10"
+        >
+          <div className="absolute top-0 right-0 p-32 bg-blue-500/5 blur-[120px] rounded-full pointer-events-none"></div>
+
+          <div className="max-w-3xl">
+            <h2 className="text-3xl font-bold mb-6 flex items-center gap-4">
+              <span className="text-4xl">🔦</span>
+              Amplitude Amplification
+            </h2>
+            <p className="text-slate-300 mb-10 text-lg leading-relaxed">
+              Grover's algorithm searches unstructured databases in <strong className="text-blue-400">O(√N)</strong> time instead of <strong className="text-slate-400">O(N)</strong>. It does this by repeatedly inverting the target item's phase and inverting all probabilities around the mean, slowly amplifying the correct answer like turning up a spotlight.
+            </p>
+          </div>
+
+          <div className="grid lg:grid-cols-3 gap-10">
+            <div className="lg:col-span-1 space-y-8">
+              <div className="space-y-4">
+                <label className="text-slate-400 text-sm font-semibold uppercase tracking-wider ml-1">Database Size (N): {datasetSize.toLocaleString()}</label>
+                <input 
+                  type="range" 
+                  min="1000" 
+                  max="100000000" 
+                  step="1000" 
+                  value={datasetSize} 
+                  onChange={(e) => setDatasetSize(Number(e.target.value))}
+                  className="w-full accent-blue-500 h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer"
+                />
               </div>
-              <MathSteps steps={groverResult.steps} />
+
+              <button 
+                onClick={handleRunGrover}
+                className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 text-white py-4 rounded-2xl font-bold shadow-lg shadow-blue-500/25 active:scale-95 transition-all text-lg"
+              >
+                Run Grover Search
+              </button>
+
+              <div className="bg-slate-950/80 p-6 rounded-2xl border border-slate-800 shadow-inner">
+                 <h4 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-4">Grover Operator</h4>
+                 <MathDisplay block math="U = (2|s\rangle\langle s| - I)O" />
+                 <p className="text-xs text-slate-400 mt-4 text-center">Oracle (<strong className="text-slate-300">O</strong>) + Diffusion (<strong className="text-slate-300">2|s⟩⟨s| - I</strong>)</p>
+              </div>
             </div>
-          )}
-        </div>
-      </div>
+
+            <div className="lg:col-span-2">
+              {groverResult ? (
+                <div className="space-y-8">
+                  <div className="grid grid-cols-2 gap-6">
+                    <motion.div 
+                      initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: 0.1 }}
+                      className="bg-slate-950/80 p-6 rounded-3xl border border-slate-800 shadow-inner text-center"
+                    >
+                      <div className="text-sm text-slate-500 mb-2 uppercase tracking-wider font-bold">Classical Steps (avg)</div>
+                      <div className="text-3xl font-mono font-black text-slate-300">{Math.floor(groverResult.classical_average_steps).toLocaleString()}</div>
+                      <div className="text-xs text-slate-500 mt-2">N / 2</div>
+                    </motion.div>
+                    
+                    <motion.div 
+                      initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: 0.2 }}
+                      className="bg-blue-900/20 p-6 rounded-3xl border border-blue-500/30 shadow-inner text-center relative overflow-hidden"
+                    >
+                      <div className="absolute inset-0 bg-blue-500/10 animate-pulse"></div>
+                      <div className="text-sm text-blue-400 mb-2 uppercase tracking-wider font-bold relative z-10">Quantum Steps</div>
+                      <div className="text-4xl font-mono font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300 relative z-10">
+                        {Math.floor(groverResult.quantum_steps).toLocaleString()}
+                      </div>
+                      <div className="text-xs text-blue-300/70 mt-2 relative z-10">(π/4)√N</div>
+                    </motion.div>
+                  </div>
+
+                  <motion.div 
+                    initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}
+                    className="bg-slate-950/50 p-6 rounded-2xl"
+                  >
+                    <MathSteps steps={groverResult.steps} />
+                  </motion.div>
+                </div>
+              ) : (
+                <div className="bg-slate-950/80 rounded-3xl p-8 border border-slate-800 shadow-inner h-full flex items-center justify-center min-h-[300px]">
+                  <div className="text-center text-slate-500 italic text-lg">
+                    Adjust the dataset size and run the search to compare classical vs quantum efficiency.
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </motion.div>
+      )}
     </div>
   );
 }
