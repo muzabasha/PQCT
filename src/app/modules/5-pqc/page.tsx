@@ -4,9 +4,11 @@ import { useState } from 'react';
 import { simulateLattice as simLattice, simulateCode as simCode } from '@/lib/crypto';
 import { Math as MathDisplay, MathSteps } from '@/components/ui/math';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Pedagogy } from '@/components/Pedagogy';
 
 export default function PQCModule() {
-  const [activeTab, setActiveTab] = useState<'Lattice' | 'Code'>('Lattice');
+  const [activeTab, setActiveTab] = useState<'Lattice' | 'Code' | 'Multivariate' | 'Hash' | 'Isogeny'>('Lattice');
+
   const [result, setResult] = useState<any>(null);
 
   // Lattice State
@@ -28,7 +30,7 @@ export default function PQCModule() {
   };
 
   return (
-    <div className="space-y-12 max-w-6xl mx-auto pb-20 px-4">
+    <div className="space-y-20 max-w-6xl mx-auto pb-20 px-4">
       <div className="text-center space-y-4 pt-10">
         <h1 className="text-5xl font-extrabold bg-gradient-to-r from-emerald-400 via-teal-500 to-cyan-500 bg-clip-text text-transparent drop-shadow-sm">
           Module 5: Post-Quantum Cryptography
@@ -38,17 +40,70 @@ export default function PQCModule() {
         </p>
       </div>
 
-      <div className="flex flex-wrap justify-center gap-4 mb-8">
-        {['Lattice', 'Code', 'Multivariate', 'Hash', 'Isogeny'].map(tab => (
-          <button 
-            key={tab}
-            onClick={() => { setActiveTab(tab as any); setResult(null); }}
-            className={`px-8 py-3 rounded-full font-bold transition-all shadow-lg ${activeTab === tab ? 'bg-emerald-600 text-white shadow-emerald-500/30 scale-105' : 'bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white'}`}
-          >
-            {tab}-Based
-          </button>
-        ))}
-      </div>
+      <Pedagogy 
+        story="Imagine standing in a perfectly straight forest where trees are planted in a grid. A treasure is buried at a tree, but I give you a 'Messy Map' where the directions are winding and every location is 'about 2 feet' off. Without the 'Secret Compass,' you get lost in the noise. Alternatively, imagine a 'Scrambled Library' where a book is mixed with junk pages. Only the librarian knows the rule to filter the junk and find the true story."
+        whatLearned={[
+          "Intentional mathematical 'noise' or 'errors' can be a powerful shield.",
+          "Complex grids (Lattices) in high dimensions are a maze that Quantum computers can't map.",
+          "Hiding a 'trapdoor' inside error-correction codes creates a lock that lasts forever."
+        ]}
+        topicName="Post-Quantum Cryptography (PQC)"
+        topicIntroduction="PQC is a new generation of math designed to be 'Quantum Resistant.' Instead of relying on prime factors, it uses problems like 'Learning With Errors' (Lattice-based) or 'Decoding Noisy Codewords' (Code-based) which are NP-Hard even for the most powerful quantum machines."
+        activities={[
+          { 
+            title: "Teacher do", 
+            description: "Demonstrate how 'Noise' hides a signal by shifting points on a simple 2D grid.",
+            instructions: [
+              "Draw a grid of dots on the board.",
+              "Circle a specific dot, then draw a new point slightly shifted from the original.",
+              "Ask: 'If I didn't tell you, could you guess which grid intersection this belongs to?'",
+              "Explain that PQC uses this 'fuzziness' (Noise) as a mathematical shield."
+            ]
+          },
+          { 
+            title: "Teacher & Student", 
+            description: "Explore the Lattice simulation below and observe how increasing 'Noise Level' makes the keys more complex.",
+            instructions: [
+              "Go to the 'Lattice-Based' tab.",
+              "Increase the 'Noise Level (e)' slider to its maximum.",
+              "Click 'Generate Lattice Keys' and look at the 'A · s + e' formula.",
+              "Discuss why even a Quantum Computer can't 'un-see' the noise without the secret key."
+            ]
+          },
+          { 
+            title: "All Students", 
+            description: "Group Challenge: Try to 'decode' a short message that has been scrambled with 1 intentional error per word.",
+            instructions: [
+              "The teacher provides a sentence with 1 letter changed in every word (e.g., 'Tho quontum throot is rool').",
+              "Try to decode it as fast as possible.",
+              "Discuss how having a 'Codebook' (Trapdoor) makes this instant for the owner but hard for others."
+            ]
+          },
+          { 
+            title: "Individual Student", 
+            description: "Use the sandboxes below to generate Lattice (LWE) keys and trace the math that filters out the noise.",
+            instructions: [
+              "Switch to the 'Code-Based' tab.",
+              "Set Message Length to 8 and Error Weight to 2.",
+              "Click 'Encode Message'.",
+              "Trace the steps to see how the 'Fast Decoding' algorithm successfully removes the 2 errors you added."
+            ]
+          }
+        ]}
+      />
+
+      <div className="space-y-12">
+        <div className="flex flex-wrap justify-center gap-4 mb-8">
+          {['Lattice', 'Code', 'Multivariate', 'Hash', 'Isogeny'].map(tab => (
+            <button 
+              key={tab}
+              onClick={() => { setActiveTab(tab as any); setResult(null); }}
+              className={`px-8 py-3 rounded-full font-bold transition-all shadow-lg ${activeTab === tab ? 'bg-emerald-600 text-white shadow-emerald-500/30 scale-105' : 'bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white'}`}
+            >
+              {tab}-Based
+            </button>
+          ))}
+        </div>
 
       <div className="bg-slate-900/60 backdrop-blur-xl border border-slate-800 rounded-3xl p-8 lg:p-12 shadow-2xl relative overflow-hidden min-h-[500px]">
         {activeTab === 'Lattice' && (
@@ -166,15 +221,57 @@ export default function PQCModule() {
           </motion.div>
         )}
 
-        {['Multivariate', 'Hash', 'Isogeny'].includes(activeTab) && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col items-center justify-center h-full min-h-[400px] text-center">
-            <div className="text-8xl mb-6 drop-shadow-lg">🚧</div>
-            <h3 className="text-3xl font-bold text-slate-300 mb-4">{activeTab} Simulation Coming Soon</h3>
-            <p className="text-slate-500 text-lg max-w-lg leading-relaxed">
-              The mathematical sandbox for this PQC algorithm is currently being calibrated in the quantum lab. Check back later for interactive experimental learning.
-            </p>
+        {activeTab === 'Multivariate' && (
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-10">
+             <div className="absolute top-0 right-0 p-32 bg-orange-500/5 blur-[120px] rounded-full pointer-events-none"></div>
+             <div className="max-w-3xl">
+               <h2 className="text-3xl font-bold text-orange-400 mb-4 flex items-center gap-3">
+                 <span className="text-4xl">📐</span> Multivariate Cryptography
+               </h2>
+               <p className="text-slate-300 text-lg leading-relaxed">
+                 Uses systems of non-linear polynomial equations over finite fields. Solving these systems (the MQ problem) is proven to be NP-Hard. While signatures like <strong>Rainbow</strong> have seen challenges, the field remains a vital pillar of PQC for high-speed signatures.
+               </p>
+             </div>
+             <div className="bg-slate-950/80 p-8 rounded-3xl border border-orange-500/20 text-center italic text-slate-500">
+               Interactive MQ-Solver simulation is being calibrated.
+             </div>
           </motion.div>
         )}
+
+        {activeTab === 'Hash' && (
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-10">
+             <div className="absolute top-0 right-0 p-32 bg-red-500/5 blur-[120px] rounded-full pointer-events-none"></div>
+             <div className="max-w-3xl">
+               <h2 className="text-3xl font-bold text-red-400 mb-4 flex items-center gap-3">
+                 <span className="text-4xl">🧱</span> Hash-Based Cryptography
+               </h2>
+               <p className="text-slate-300 text-lg leading-relaxed">
+                 The most 'conservative' PQC choice. It relies only on the security of cryptographic hash functions (like SHA-3). If the hash is secure, the signature (e.g., <strong>SPHINCS+</strong>) is secure. It is the gold standard for long-term digital signatures.
+               </p>
+             </div>
+             <div className="bg-slate-950/80 p-8 rounded-3xl border border-red-500/20 text-center italic text-slate-500">
+               Merkle Tree visualizer is being assembled.
+             </div>
+          </motion.div>
+        )}
+
+        {activeTab === 'Isogeny' && (
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-10">
+             <div className="absolute top-0 right-0 p-32 bg-purple-500/5 blur-[120px] rounded-full pointer-events-none"></div>
+             <div className="max-w-3xl">
+               <h2 className="text-3xl font-bold text-purple-400 mb-4 flex items-center gap-3">
+                 <span className="text-4xl">🎢</span> Isogeny-Based Cryptography
+               </h2>
+               <p className="text-slate-300 text-lg leading-relaxed">
+                 Uses maps (isogenies) between elliptic curves. It offers the smallest key sizes of all PQC candidates but is mathematically the most complex. Although SIDH was recently broken, newer variants like <strong>CSIDH</strong> are still being researched.
+               </p>
+             </div>
+             <div className="bg-slate-950/80 p-8 rounded-3xl border border-purple-500/20 text-center italic text-slate-500">
+               Isogeny graph explorer is under construction.
+             </div>
+          </motion.div>
+        )}
+      </div>
       </div>
     </div>
   );

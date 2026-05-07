@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { runShor as simShor, runGrover as simGrover } from '@/lib/crypto';
 import { Math as MathDisplay, MathSteps } from '@/components/ui/math';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Pedagogy } from '@/components/Pedagogy';
 
 export default function ShorGroverModule() {
   const [activeTab, setActiveTab] = useState<'Shor' | 'Grover'>('Shor');
@@ -32,7 +33,7 @@ export default function ShorGroverModule() {
   };
 
   return (
-    <div className="space-y-12 max-w-6xl mx-auto pb-20 px-4">
+    <div className="space-y-20 max-w-6xl mx-auto pb-20 px-4">
       <div className="text-center space-y-4 pt-10">
         <h1 className="text-5xl font-extrabold bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent drop-shadow-sm">
           Module 3: Shor & Grover Algorithms
@@ -42,20 +43,71 @@ export default function ShorGroverModule() {
         </p>
       </div>
 
-      <div className="flex justify-center space-x-4 mb-8">
-        <button 
-          onClick={() => setActiveTab('Shor')}
-          className={`px-8 py-3 rounded-full font-bold transition-all shadow-lg ${activeTab === 'Shor' ? 'bg-purple-600 text-white shadow-purple-500/30 scale-105' : 'bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white'}`}
-        >
-          Shor's Algorithm (Breaks RSA)
-        </button>
-        <button 
-          onClick={() => setActiveTab('Grover')}
-          className={`px-8 py-3 rounded-full font-bold transition-all shadow-lg ${activeTab === 'Grover' ? 'bg-blue-600 text-white shadow-blue-500/30 scale-105' : 'bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white'}`}
-        >
-          Grover's Algorithm (Breaks AES/Hashes)
-        </button>
-      </div>
+      <Pedagogy 
+        story="Imagine a scientist invents 'X-Ray Glasses.' When you look at a locked box through these glasses, you don't see the metal; you see the internal pattern of the tumblers. Suddenly, what took years of trial and error now takes seconds. The metal isn't 'broken'—the glasses simply bypass the struggle by seeing a hidden pattern. Similarly, in a dark warehouse, a 'Magic Flashlight' doesn't just shine on one box; it makes the box with the gold coin grow brighter while others get darker."
+        whatLearned={[
+          "Something 'impossible' can become 'easy' if we change how we look at the problem.",
+          "Finding hidden 'patterns' or 'periods' is the secret to breaking math-based locks.",
+          "We can 'amplify' the right answer and cancel out the wrong ones using interference."
+        ]}
+        topicName="Shor's and Grover's Algorithms"
+        topicIntroduction="These are the two pillars of Quantum Advantage. Shor's Algorithm uses 'X-Ray' logic to find periods in math, breaking RSA/ECC. Grover's Algorithm uses the 'Magic Flashlight' to amplify correct answers in unsorted data, doubling the required key size for symmetric encryption."
+        activities={[
+          { 
+            title: "Teacher do", 
+            description: "Show a repeating sequence of numbers and explain how finding the 'period' (pattern) is the key to the lock.",
+            instructions: [
+              "Draw a simple repeating sequence on the board (e.g., 2, 4, 8, 6, 2, 4, 8, 6).",
+              "Ask the class: 'What is the pattern length?'",
+              "Explain that a Quantum computer doesn't count 1-2-3-4; it uses interference to see the 'frequency' of the whole pattern at once."
+            ]
+          },
+          { 
+            title: "Teacher & Student", 
+            description: "Use the Shor simulation to factor a small number and observe the 'wave' pattern detection.",
+            instructions: [
+              "Enter the number 15 into the Shor's simulation box.",
+              "Click 'Run Quantum Circuit'.",
+              "Review the 'Execution Trace' to see how the factors 3 and 5 are derived from the discovered period."
+            ]
+          },
+          { 
+            title: "All Students", 
+            description: "Play a 'Period Finding' game: guess the next number in a complex modular sequence.",
+            instructions: [
+              "Teacher provides a starting number (e.g., 7) and a rule (multiply by 7 and take remainder of 15).",
+              "Students manually calculate the next 4 numbers: 7, 4, 13, 1...",
+              "Discuss how a Quantum computer finds the '1' (the end of the period) exponentially faster than humans."
+            ]
+          },
+          { 
+            title: "Individual Student", 
+            description: "Run the Grover search below to see the 'spotlight' effect on a database of 1 million items.",
+            instructions: [
+              "Switch to the Grover's Algorithm tab.",
+              "Set the database size slider to 100,000,000.",
+              "Click 'Run Grover Search' and compare the Classical (50M steps) vs Quantum (7.8K steps) results.",
+              "Observe how the 'Magic Flashlight' provides a quadratic speedup for searching secrets."
+            ]
+          }
+        ]}
+      />
+
+      <div className="space-y-12">
+        <div className="flex justify-center space-x-4 mb-8">
+          <button 
+            onClick={() => setActiveTab('Shor')}
+            className={`px-8 py-3 rounded-full font-bold transition-all shadow-lg ${activeTab === 'Shor' ? 'bg-purple-600 text-white shadow-purple-500/30 scale-105' : 'bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white'}`}
+          >
+            Shor's Algorithm (Breaks RSA)
+          </button>
+          <button 
+            onClick={() => setActiveTab('Grover')}
+            className={`px-8 py-3 rounded-full font-bold transition-all shadow-lg ${activeTab === 'Grover' ? 'bg-blue-600 text-white shadow-blue-500/30 scale-105' : 'bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white'}`}
+          >
+            Grover's Algorithm (Breaks AES/Hashes)
+          </button>
+        </div>
 
       {activeTab === 'Shor' && (
         <motion.div 
@@ -246,6 +298,7 @@ export default function ShorGroverModule() {
           </div>
         </motion.div>
       )}
+      </div>
     </div>
   );
 }

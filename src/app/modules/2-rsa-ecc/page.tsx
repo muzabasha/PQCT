@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { generateRSA as genRSA, generateRSAFromPrimes, encryptRSA as encRSA, isPrime } from '@/lib/crypto';
 import { Math as MathDisplay, MathSteps } from '@/components/ui/math';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Pedagogy } from '@/components/Pedagogy';
 
 export default function RSAECCModule() {
   const [activeTab, setActiveTab] = useState<'RSA' | 'ECC'>('RSA');
@@ -87,7 +88,7 @@ export default function RSAECCModule() {
   };
 
   return (
-    <div className="space-y-12 max-w-6xl mx-auto pb-20 px-4">
+    <div className="space-y-20 max-w-6xl mx-auto pb-20 px-4">
       <div className="text-center space-y-4 pt-10">
         <h1 className="text-5xl font-extrabold bg-gradient-to-r from-blue-400 via-indigo-500 to-purple-500 bg-clip-text text-transparent drop-shadow-sm">
           Module 2: Asymmetric Cryptography
@@ -97,20 +98,73 @@ export default function RSAECCModule() {
         </p>
       </div>
 
-      <div className="flex justify-center space-x-4 mb-8">
-        <button 
-          onClick={() => setActiveTab('RSA')}
-          className={`px-8 py-3 rounded-full font-bold transition-all shadow-lg ${activeTab === 'RSA' ? 'bg-blue-600 text-white shadow-blue-500/30 scale-105' : 'bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white'}`}
-        >
-          RSA Interactive Lab
-        </button>
-        <button 
-          onClick={() => setActiveTab('ECC')}
-          className={`px-8 py-3 rounded-full font-bold transition-all shadow-lg ${activeTab === 'ECC' ? 'bg-indigo-600 text-white shadow-indigo-500/30 scale-105' : 'bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white'}`}
-        >
-          ECC Visualizer
-        </button>
-      </div>
+      <Pedagogy 
+        story="Imagine you want to receive letters from everyone in the city, but you don't want anyone—not even the postman—to read them. You decide to buy 1,000 identical padlocks. You keep the keys safely in your pocket. You leave the padlocks open on a table outside your house with a sign: 'Please use these to lock your letters for me.' Anyone can take a lock and snap it shut, but only you can open it again."
+        whatLearned={[
+          "We can have a 'public' tool (the open lock) that anyone can use to secure something.",
+          "Locking (encryption) is easy for everyone, but unlocking (decryption) is impossible without the secret key.",
+          "Security doesn't require sharing a secret password beforehand; you just need to share the locking mechanism."
+        ]}
+        topicName="Public Key Infrastructure (RSA & ECC)"
+        topicIntroduction="This is the essence of Asymmetric Cryptography. In the digital world, we use large prime numbers (RSA) or elliptic curves (ECC) instead of physical locks. Your Public Key is the open padlock, and your Private Key is the physical key you keep hidden."
+        activities={[
+          { 
+            title: "Teacher do", 
+            description: "Demonstrate a 'one-way function' using a physical prop like mixing two colors of paint to show it's hard to separate them.",
+            instructions: [
+              "Take two clear glasses of water and two different food colors.",
+              "Mix them to create a new color (Encryption).",
+              "Ask students: 'Can you get the original colors back without knowing exactly what I mixed?'",
+              "Explain that asymmetric math works exactly like this: easy to mix, hard to separate."
+            ]
+          },
+          { 
+            title: "Teacher & Student", 
+            description: "Work together to use a simple math rule (modular multiplication) to 'lock' a small number.",
+            instructions: [
+              "Open the RSA Interactive Lab.",
+              "Select p=3 and q=11 as a class.",
+              "Calculate the Modulus (n=33) and the Public Key (e) together.",
+              "Observe the 'Math Behind the Scenes' section to see how Euler's Totient is used."
+            ]
+          },
+          { 
+            title: "All Students", 
+            description: "Divide into pairs. One student generates a 'lock' using two small primes, and the other tries to 'crack' it.",
+            instructions: [
+              "Partner A: Choose two primes between 10 and 50 and write their product (N) on a piece of paper.",
+              "Partner B: Use a calculator to try and find which two primes created N.",
+              "Switch roles and see how much harder it gets as the numbers get slightly larger."
+            ]
+          },
+          { 
+            title: "Individual Student", 
+            description: "Use the RSA/ECC Sandbox below to generate a 16-bit key pair and trace the encryption of your favorite number.",
+            instructions: [
+              "In the RSA Lab, click the '🎲' icon to generate random primes.",
+              "Enter a secret number (e.g., your birth date) into the message box.",
+              "Click 'Encrypt' and observe the transformation into a large ciphertext.",
+              "Switch to the ECC Visualizer and click 'Jump' 5 times to see how ECC uses geometry to hide secrets."
+            ]
+          }
+        ]}
+      />
+
+      <div className="space-y-12">
+        <div className="flex justify-center space-x-4 mb-8">
+          <button 
+            onClick={() => setActiveTab('RSA')}
+            className={`px-8 py-3 rounded-full font-bold transition-all shadow-lg ${activeTab === 'RSA' ? 'bg-blue-600 text-white shadow-blue-500/30 scale-105' : 'bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white'}`}
+          >
+            RSA Interactive Lab
+          </button>
+          <button 
+            onClick={() => setActiveTab('ECC')}
+            className={`px-8 py-3 rounded-full font-bold transition-all shadow-lg ${activeTab === 'ECC' ? 'bg-indigo-600 text-white shadow-indigo-500/30 scale-105' : 'bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white'}`}
+          >
+            ECC Visualizer
+          </button>
+        </div>
 
       {activeTab === 'RSA' && (
         <motion.div 
@@ -419,6 +473,7 @@ export default function RSAECCModule() {
            </div>
         </motion.div>
       )}
+      </div>
     </div>
   );
 }

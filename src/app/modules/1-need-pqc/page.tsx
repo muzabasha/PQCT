@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Math as MathDisplay } from '@/components/ui/math';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { motion } from 'framer-motion';
+import { Pedagogy } from '@/components/Pedagogy';
 
 export default function NeedPQCModule() {
   const [keySize, setKeySize] = useState(2048);
@@ -24,7 +25,7 @@ export default function NeedPQCModule() {
   }
 
   return (
-    <div className="space-y-12 max-w-6xl mx-auto pb-20 px-4">
+    <div className="space-y-20 max-w-6xl mx-auto pb-20 px-4">
       <div className="text-center space-y-4 pt-10">
         <h1 className="text-5xl font-extrabold bg-gradient-to-r from-blue-400 via-indigo-500 to-purple-500 bg-clip-text text-transparent drop-shadow-sm">
           Module 1: Need for Post-Quantum Cryptography
@@ -34,11 +35,65 @@ export default function NeedPQCModule() {
         </p>
       </div>
 
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="bg-slate-900/60 backdrop-blur-xl border border-slate-800 rounded-3xl p-8 lg:p-12 shadow-2xl relative overflow-hidden"
-      >
+      <Pedagogy 
+        story="Imagine a city built on a giant rock that everyone thought was indestructible. Over centuries, people built taller and taller skyscrapers, assuming the ground would never move. But then, researchers discovered that the rock wasn't solid stone; it was actually a giant block of ice sitting on a warming ocean. The skyscrapers aren't falling because they are weak, but because the very foundation they stand on is starting to melt away."
+        whatLearned={[
+          "Security depends entirely on the stability of the mathematical foundation.",
+          "Even the 'strongest' building fails if the ground beneath it changes rules.",
+          "We must find a new 'island' with a foundation that won't melt under quantum heat."
+        ]}
+        topicName="The Quantum Threat to Classical Foundations"
+        topicIntroduction="Current encryption (RSA/ECC) relies on the 'hardness' of factoring large numbers. Quantum computers change the rules of physics, making these 'hard' problems easy, effectively melting the foundation of our digital security."
+        activities={[
+          { 
+            title: "Teacher do", 
+            description: "Demonstrate the 'Sinking Island' analogy using a physical model or a digital whiteboard to show foundation shift.",
+            instructions: [
+              "Set up a visual representation of a skyscraper on a block of ice.",
+              "Explain that the building represents our current RSA/ECC encryption.",
+              "Show that while the building is strong, the ice (math foundation) is melting due to 'Quantum Heat'.",
+              "Conclude that we don't need a stronger building; we need a new island (PQC)."
+            ]
+          },
+          { 
+            title: "Teacher & Student", 
+            description: "Together, explore the 'Complexity Comparison' chart below to identify the 'Melting Point'.",
+            instructions: [
+              "Open the Complexity Comparison chart in the module.",
+              "Drag the slider to increase the key size from 512 to 4096 bits.",
+              "Find the exact point where the purple line (Quantum) drops below the blue line (Classical).",
+              "Discuss why increasing key size doesn't save us from the 'Melting Point'."
+            ]
+          },
+          { 
+            title: "All Students", 
+            description: "Collaborate to list every digital service that would be affected if the foundation 'melted' tomorrow.",
+            instructions: [
+              "In groups of 4, brainstorm a list of 10 digital services you use daily.",
+              "Rank them based on how long the data needs to stay secret (e.g., Banking = 50 years, OTP = 5 minutes).",
+              "Identify which services are most vulnerable to 'Harvest Now, Decrypt Later'."
+            ]
+          },
+          { 
+            title: "Individual Student", 
+            description: "Use the 'Break Time' simulation to find exactly how much faster the ice melts for a 2048-bit key.",
+            instructions: [
+              "Navigate to the 'Break Time' simulation at the bottom of the page.",
+              "Set the slider to 2048 bits and record the Quantum vs. Classical break time.",
+              "Double the key size to 4096 and observe that Classical time becomes 'Infinite' while Quantum only doubles.",
+              "Write down your conclusion on why 'Bigger Keys' is not a long-term solution."
+            ]
+          }
+        ]}
+      />
+
+      <div className="space-y-12">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="bg-slate-900/60 backdrop-blur-xl border border-slate-800 rounded-3xl p-8 lg:p-12 shadow-2xl relative overflow-hidden"
+        >
         <div className="absolute top-0 right-0 p-32 bg-blue-500/5 blur-[120px] rounded-full pointer-events-none"></div>
 
         <h2 className="text-3xl font-bold mb-8 flex items-center gap-3">
@@ -133,6 +188,7 @@ export default function NeedPQCModule() {
           </div>
         </div>
       </motion.div>
+      </div>
     </div>
   );
 }
