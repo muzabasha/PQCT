@@ -1,194 +1,207 @@
 "use client";
 
-import { useState } from 'react';
-import { Math as MathDisplay } from '@/components/ui/math';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { TopicTemplate } from '@/components/TopicTemplate';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Pedagogy } from '@/components/Pedagogy';
 
 export default function NeedPQCModule() {
-  const [keySize, setKeySize] = useState(2048);
+  const [activeStep, setActiveStep] = useState(0);
 
-  // Generate data for the graph
-  const data = [];
-  for (let n = 512; n <= 4096; n += 256) {
-    // Classical ~ O(exp(c * n^(1/3) * (log n)^(2/3))) -> simplified for visual
-    const classical = Math.pow(2, n / 128); 
-    // Quantum ~ O(n^3)
-    const quantum = Math.pow(n / 100, 3);
-    
-    data.push({
-      keySize: n,
-      Classical: classical > 1000000 ? 1000000 : classical, // cap for graph
-      Quantum: quantum
-    });
-  }
+  // Virtual Lab Simulation Component
+  const ShorSimulation = () => {
+    const [x, setX] = useState(1);
+    const [a] = useState(7);
+    const [N] = useState(15);
+    const [history, setHistory] = useState<any[]>([]);
+
+    const step = () => {
+      const result = (Math.pow(a, x) % N);
+      setHistory(prev => [...prev.slice(-5), { x, result }]);
+      setX(prev => prev + 1);
+    };
+
+    return (
+      <div className="p-8 space-y-6">
+        <div className="flex justify-between items-center">
+          <h3 className="text-xl font-bold text-primary">Shor's Period Finding Simulator</h3>
+          <button 
+            onClick={step}
+            className="px-6 py-2 bg-primary text-primary-foreground rounded-lg font-bold hover:scale-105 transition-all"
+          >
+            Compute Next f(x)
+          </button>
+        </div>
+        
+        <div className="grid grid-cols-2 gap-8">
+          <div className="bg-slate-900 border border-slate-800 p-6 rounded-xl">
+            <div className="text-xs font-bold text-muted-foreground uppercase mb-4">Calculation: f(x) = 7^x mod 15</div>
+            <div className="space-y-2">
+              {history.map((h, i) => (
+                <motion.div 
+                  initial={{ x: -20, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  key={i} 
+                  className="flex justify-between text-sm font-mono border-b border-slate-800 pb-1"
+                >
+                  <span className="text-slate-500">x={h.x}</span>
+                  <span className="text-primary font-bold">{h.result}</span>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+          <div className="flex flex-col justify-center items-center bg-slate-900 border border-slate-800 p-6 rounded-xl">
+            <div className="text-4xl font-black text-white mb-2">r = 4</div>
+            <div className="text-xs text-slate-500 uppercase font-bold tracking-widest">Detected Period</div>
+            <p className="mt-4 text-[10px] text-center text-slate-400">
+              In a Quantum Computer, the Quantum Fourier Transform (QFT) finds this '4' almost instantly. 
+              Knowing '4' allows us to factor 15 into 3 and 5 easily.
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  };
 
   return (
-    <div className="space-y-20 max-w-6xl mx-auto pb-20 px-4">
-      <div className="text-center space-y-4 pt-10">
-        <h1 className="text-5xl font-extrabold bg-gradient-to-r from-blue-400 via-indigo-500 to-purple-500 bg-clip-text text-transparent drop-shadow-sm">
-          Module 1: Need for Post-Quantum Cryptography
-        </h1>
-        <p className="text-xl text-slate-400 max-w-2xl mx-auto">
-          Understand why classical cryptography fails exponentially fast against quantum computers.
-        </p>
-      </div>
-
-      <Pedagogy 
-        story="Imagine a city built on a giant rock that everyone thought was indestructible. Over centuries, people built taller and taller skyscrapers, assuming the ground would never move. But then, researchers discovered that the rock wasn't solid stone; it was actually a giant block of ice sitting on a warming ocean. The skyscrapers aren't falling because they are weak, but because the very foundation they stand on is starting to melt away."
-        whatLearned={[
-          "Security depends entirely on the stability of the mathematical foundation.",
-          "Even the 'strongest' building fails if the ground beneath it changes rules.",
-          "We must find a new 'island' with a foundation that won't melt under quantum heat."
-        ]}
-        topicName="The Quantum Threat to Classical Foundations"
-        topicIntroduction="Current encryption (RSA/ECC) relies on the 'hardness' of factoring large numbers. Quantum computers change the rules of physics, making these 'hard' problems easy, effectively melting the foundation of our digital security."
-        activities={[
-          { 
-            title: "Teacher do", 
-            description: "Demonstrate the 'Sinking Island' analogy using a physical model or a digital whiteboard to show foundation shift.",
-            instructions: [
-              "Set up a visual representation of a skyscraper on a block of ice.",
-              "Explain that the building represents our current RSA/ECC encryption.",
-              "Show that while the building is strong, the ice (math foundation) is melting due to 'Quantum Heat'.",
-              "Conclude that we don't need a stronger building; we need a new island (PQC)."
-            ]
-          },
-          { 
-            title: "Teacher & Student", 
-            description: "Together, explore the 'Complexity Comparison' chart below to identify the 'Melting Point'.",
-            instructions: [
-              "Open the Complexity Comparison chart in the module.",
-              "Drag the slider to increase the key size from 512 to 4096 bits.",
-              "Find the exact point where the purple line (Quantum) drops below the blue line (Classical).",
-              "Discuss why increasing key size doesn't save us from the 'Melting Point'."
-            ]
-          },
-          { 
-            title: "All Students", 
-            description: "Collaborate to list every digital service that would be affected if the foundation 'melted' tomorrow.",
-            instructions: [
-              "In groups of 4, brainstorm a list of 10 digital services you use daily.",
-              "Rank them based on how long the data needs to stay secret (e.g., Banking = 50 years, OTP = 5 minutes).",
-              "Identify which services are most vulnerable to 'Harvest Now, Decrypt Later'."
-            ]
-          },
-          { 
-            title: "Individual Student", 
-            description: "Use the 'Break Time' simulation to find exactly how much faster the ice melts for a 2048-bit key.",
-            instructions: [
-              "Navigate to the 'Break Time' simulation at the bottom of the page.",
-              "Set the slider to 2048 bits and record the Quantum vs. Classical break time.",
-              "Double the key size to 4096 and observe that Classical time becomes 'Infinite' while Quantum only doubles.",
-              "Write down your conclusion on why 'Bigger Keys' is not a long-term solution."
-            ]
+    <TopicTemplate 
+      topicId="1-1"
+      topicName="The Quantum Threat to Classical Foundations"
+      story={{
+        title: "The Case of the Vibrating Safe",
+        content: "Mr. Locksmith was famous for his 'Prime Safes'. To open them, you needed two secret prime numbers. He told everyone, 'Even the world's fastest burglars would take trillions of years to guess these!' But one day, a mysterious thief arrived with 'Frequency Glasses'. Instead of guessing numbers, the glasses looked at the internal gears and saw how often they repeated their patterns. Suddenly, the trillion-year problem was solved in minutes because the gears couldn't hide their rhythm.",
+        analogy: "The safe is RSA encryption. The primes are our keys. The 'world's fastest burglars' are classical supercomputers. The thief with glasses is a Quantum Computer running Shor's Algorithm.",
+        reflectiveQuestions: [
+          "If the safe isn't broken but the combination is revealed by a 'glitch', is it still safe?",
+          "Why did looking at the 'rhythm' (frequency) help the thief?",
+          "Can we build a safe that doesn't rely on gears that vibrate in patterns?"
+        ],
+        connectToTopic: "Our entire digital world (HTTPS, Banking, VPNs) is built on 'Prime Safes'. Shor's Algorithm is the 'Frequency Glasses' that finds the hidden periodicity in our encryption math, making the impossible factoring problem trivial."
+      }}
+      mathModelling={{
+        need: "Classical RSA security relies on the fact that factoring a large number N = p*q is 'Hard'.",
+        motivation: "If we can find the 'period' of a modular function, we can factor N easily. Classical computers must check every number. Quantum computers use physics to see the whole pattern at once.",
+        challenges: {
+          realWorld: "Trillions of dollars in global commerce rely on the 'hardness' of factoring.",
+          technical: "Quantum computers use Superposition to compute f(x) for all x simultaneously, and Interference to cancel out wrong answers."
+        },
+        advantages: [
+          "Exponential speedup",
+          "Breaks RSA-2048 in hours",
+          "Mathematically proven"
+        ],
+        limitations: [
+          "Requires stable qubits",
+          "High error rates in current hardware",
+          "Needs Quantum Fourier Transform (QFT)"
+        ],
+        equations: [
+          {
+            latex: "f(x) = a^x \\pmod N",
+            symbols: {
+              "a": "A random number coprime to N",
+              "x": "The input value (integer)",
+              "N": "The large number we want to factor",
+              "f(x)": "The modular exponentiation result"
+            },
+            meaning: "This function is periodic. It repeats its values every 'r' steps.",
+            whyNeeded: "Finding the period 'r' is the key to Shor's algorithm. If we know 'r', we can find p and q using Greatest Common Divisors.",
+            interpretation: "The rhythm of this function contains the secret code to the safe.",
+            numericalExample: "Let N=15, a=7.\nx=1: 7^1 mod 15 = 7\nx=2: 7^2 mod 15 = 49 mod 15 = 4\nx=3: 7^3 mod 15 = 343 mod 15 = 13\nx=4: 7^4 mod 15 = 1\nx=5: 7^5 mod 15 = 7 (REPEAT!)\nPeriod r = 4."
           }
-        ]}
-      />
-
-      <div className="space-y-12">
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="bg-slate-900/60 backdrop-blur-xl border border-slate-800 rounded-3xl p-8 lg:p-12 shadow-2xl relative overflow-hidden"
-        >
-        <div className="absolute top-0 right-0 p-32 bg-blue-500/5 blur-[120px] rounded-full pointer-events-none"></div>
-
-        <h2 className="text-3xl font-bold mb-8 flex items-center gap-3">
-          <span className="text-4xl">📈</span> Complexity Comparison
-        </h2>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-10">
-          <div className="bg-slate-950/80 p-6 rounded-2xl border border-slate-800 shadow-inner">
-            <h3 className="text-lg font-bold text-blue-400 mb-4 flex items-center gap-2"><span className="text-2xl">💻</span> Classical Attack (GNFS)</h3>
-            <MathDisplay block math="O\left(\exp\left(\left(\frac{64}{9}\right)^{1/3} n^{1/3} (\log n)^{2/3}\right)\right)" />
-            <p className="text-slate-400 mt-4 leading-relaxed"><strong>Exponential time complexity.</strong> As key size grows, the attack time required by classical supercomputers grows so fast it becomes practically infinite.</p>
-          </div>
-          <div className="bg-slate-950/80 p-6 rounded-2xl border border-slate-800 shadow-inner">
-            <h3 className="text-lg font-bold text-purple-400 mb-4 flex items-center gap-2"><span className="text-2xl">⚛️</span> Quantum Attack (Shor's)</h3>
-            <MathDisplay block math="O(n^3)" />
-            <p className="text-slate-400 mt-4 leading-relaxed"><strong>Polynomial time complexity.</strong> As key size grows, the attack time required by a quantum computer remains incredibly manageable.</p>
-          </div>
-        </div>
-
-        <div className="bg-slate-950/80 rounded-2xl p-6 border border-slate-800 shadow-inner h-[400px]">
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
-              <XAxis dataKey="keySize" stroke="#64748b" label={{ value: 'Key Size (bits)', position: 'bottom', offset: 0 }} />
-              <YAxis scale="log" domain={['auto', 'auto']} stroke="#64748b" label={{ value: 'Operations (Log Scale)', angle: -90, position: 'left' }} />
-              <Tooltip contentStyle={{ backgroundColor: '#0f172a', borderColor: '#1e293b', borderRadius: '12px', color: '#fff' }} itemStyle={{ fontWeight: 'bold' }} />
-              <Legend verticalAlign="top" height={36}/>
-              <Line type="monotone" dataKey="Classical" stroke="#60a5fa" strokeWidth={4} dot={false} animationDuration={1500} />
-              <Line type="monotone" dataKey="Quantum" stroke="#c084fc" strokeWidth={4} dot={false} animationDuration={1500} />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
-      </motion.div>
-
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2 }}
-        className="bg-slate-900/60 backdrop-blur-xl border border-slate-800 rounded-3xl p-8 lg:p-12 shadow-2xl relative overflow-hidden"
-      >
-        <div className="absolute top-0 left-0 p-32 bg-purple-500/5 blur-[120px] rounded-full pointer-events-none"></div>
-
-        <h2 className="text-3xl font-bold mb-8 flex items-center gap-3">
-          <span className="text-4xl">⏱️</span> Interactive Simulation: Break Time
-        </h2>
-        <div className="grid lg:grid-cols-2 gap-10 items-center">
-          <div className="space-y-8">
-            <div className="space-y-4 bg-slate-950/80 p-6 rounded-2xl border border-slate-800 shadow-inner">
-              <label className="block text-sm font-bold uppercase tracking-wider text-slate-400 mb-2">Adjust Key Size: <span className="text-white text-lg">{keySize} bits</span></label>
-              <input 
-                type="range" 
-                min="512" 
-                max="4096" 
-                step="256" 
-                value={keySize} 
-                onChange={(e) => setKeySize(Number(e.target.value))}
-                className="w-full accent-blue-500 h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer"
-              />
-            </div>
-            
-            <div className="grid grid-cols-2 gap-6">
-              <motion.div key={`classical-${keySize}`} initial={{ scale: 0.95 }} animate={{ scale: 1 }} className="bg-slate-950/80 p-6 rounded-2xl border border-slate-800 shadow-inner text-center">
-                <div className="text-sm font-semibold uppercase tracking-wider text-slate-500 mb-2">Classical Supercomputer</div>
-                <div className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">
-                  {keySize >= 2048 ? "300 Trillion Yrs" : keySize >= 1024 ? "100,000 Years" : "Few Months"}
-                </div>
-              </motion.div>
-              <motion.div key={`quantum-${keySize}`} initial={{ scale: 0.95 }} animate={{ scale: 1 }} className="bg-purple-900/20 p-6 rounded-2xl border border-purple-500/30 shadow-inner text-center">
-                <div className="text-sm font-semibold uppercase tracking-wider text-purple-400 mb-2">Quantum (Shor's)</div>
-                <div className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
-                  {keySize >= 4096 ? "24 Hours" : keySize >= 2048 ? "8 Hours" : "< 1 Hour"}
-                </div>
-              </motion.div>
-            </div>
-          </div>
-
-          <div className="bg-slate-950/80 p-8 rounded-3xl border border-slate-800 shadow-inner h-full flex flex-col justify-center">
-            <h3 className="font-bold text-xl mb-6 flex items-center gap-3">
-              <span className="bg-slate-800 p-2 rounded-lg">💡</span> The Analogy
-            </h3>
-            <div className="space-y-6">
-              <p className="text-slate-300 leading-relaxed text-lg flex gap-4">
-                <span className="text-2xl">🏖️</span> 
-                <span><strong>Classical Search:</strong> Searching for a specific grain of sand on a vast beach. It's exponentially hard.</span>
-              </p>
-              <div className="h-px w-full bg-slate-800"></div>
-              <p className="text-slate-300 leading-relaxed text-lg flex gap-4">
-                <span className="text-2xl">🚁</span> 
-                <span><strong>Quantum Search:</strong> Using a magical drone that highlights the exact grain of sand instantly. It's polynomial ease.</span>
-              </p>
-            </div>
-          </div>
-        </div>
-      </motion.div>
-      </div>
-    </div>
+        ],
+        simulationResults: "The simulator demonstrates that for small numbers, we can see the period. For large numbers, a quantum computer finds the same period using the QFT algorithm."
+      }}
+      abl={[
+        {
+          level: 1,
+          title: "The Periodic Paper Fold",
+          objective: "Visualize how a pattern repeats and how finding that repetition reveals structure.",
+          time: "15 Mins",
+          materials: ["Strip of Paper", "Marker"],
+          instructions: [
+            "Teacher folds a long strip of paper multiple times in the same direction.",
+            "Unfold and mark the creases.",
+            "Show that the distance between creases is constant (the 'period').",
+            "Explain that if we know the distance, we know how the paper was folded."
+          ],
+          expectedOutput: "Students identify the 'rhythm' of the folds.",
+          assessmentRubrics: ["Observation of pattern", "Connecting folds to periodicity"],
+        },
+        {
+          level: 2,
+          title: "Modular Math Relay",
+          objective: "Calculate modular exponentiation manually to feel the 'work' involved.",
+          time: "20 Mins",
+          materials: ["Chalkboard", "Scientific Calculators"],
+          instructions: [
+            "Teacher gives N=21, a=2.",
+            "Students take turns calculating 2^1, 2^2, 2^3... mod 21.",
+            "The class shouts 'PERIOD!' when the numbers start repeating.",
+            "Analyze how much 'work' it took to find it."
+          ],
+          expectedOutput: "Discovery of r=6 for 2^x mod 21.",
+          assessmentRubrics: ["Accuracy of calculation", "Time taken to detect repeat"],
+        }
+      ]}
+      pbl={{
+        scope: "Design a 'Quantum-Ready' audit checklist for a local small business.",
+        feasibility: "High - Requires only research and documentation.",
+        risks: [
+          { description: "Data complexity", level: "Low" },
+          { description: "Regulatory changes", level: "Medium" }
+        ],
+        budget: "₹0 (Academic Project)",
+        timeline: "2 Weeks",
+        objectives: ["Identify encrypted data assets", "Map current algorithms used"],
+        outcomes: ["Risk assessment report", "Migration priority list"],
+        milestones: [
+          { date: "Day 3", task: "Inventory of current software" },
+          { date: "Day 7", task: "Algorithm vulnerability scan" },
+          { date: "Day 14", task: "Final Audit Presentation" }
+        ],
+        teamRoles: {
+          "Lead Researcher": "Analyzing current encryption standards",
+          "Risk Analyst": "Evaluating impact of Shor's on specific data",
+          "Documentation Officer": "Compiling the audit report"
+        }
+      }}
+      questions={[
+        {
+          type: "Conceptual",
+          text: "Why is finding the period 'r' of a modular function so dangerous for RSA?",
+          answer: "Because if we know the period 'r' of f(x) = a^x mod N, we can calculate the factors p and q of N using simple GCD operations like gcd(a^(r/2) ± 1, N).",
+          explanation: "RSA's security is entirely based on the difficulty of factoring N. Shor's algorithm converts factoring into period finding, which quantum computers are incredibly good at.",
+          keyPoints: ["Period finding", "Shor's Algorithm", "RSA Collapse"],
+          commonMistakes: ["Thinking Shor's guesses the primes", "Confusing it with Grover's search"],
+          tips: ["Remember: Shor's = Frequency/Periodicity"]
+        },
+        {
+          type: "Numerical",
+          text: "Find the period 'r' for a=2 and N=15.",
+          answer: "r = 4",
+          explanation: "2^1 mod 15 = 2; 2^2 mod 15 = 4; 2^3 mod 15 = 8; 2^4 mod 15 = 1. Since 2^4 mod 15 = 1, the period is 4.",
+          keyPoints: ["Successive powers", "Modulo reduction"],
+          commonMistakes: ["Stopping before hitting 1", "Calculation errors"],
+          tips: ["The sequence always goes back to 1 before repeating."]
+        }
+      ]}
+      virtualLab={{
+        title: "Quantum Fourier Transform Visualizer",
+        description: "Simulate how a quantum computer 'sees' the period of a function using wave interference.",
+        controls: ["Compute Step", "Reset Simulator"],
+        dataFlow: "Input Integer -> Modular Exponentiation -> QFT Waveform -> Period Extraction",
+        processExplanation: "While a classical computer checks each point one by one, the QFT uses constructive interference to make the 'period' peak stand out from the noise.",
+        component: <ShorSimulation />
+      }}
+      summary={{
+        insights: ["Classical security is a temporary island", "Physics can solve math problems"],
+        advantages: ["Provides transition path to PQC", "Standardizes threat models"],
+        disadvantages: ["High computational overhead", "Hardware dependency"],
+        futureScope: "Implementation of Shor's on 10,000+ logical qubits.",
+        industrialApps: ["Cryptographic Auditing", "Secure Communication Design"],
+        careerRelevance: "Essential for Quantum Security Engineers and Cryptographers."
+      }}
+      onNextTopic={() => {}}
+    />
   );
 }
