@@ -1,12 +1,5 @@
 "use client";
 
-import { motion } from 'framer-motion';
-
-interface Milestone {
-  date: string;
-  task: string;
-}
-
 interface Risk {
   description: string;
   level: 'Low' | 'Medium' | 'High';
@@ -20,11 +13,11 @@ interface PBLProps {
   timeline: string;
   objectives: string[];
   outcomes: string[];
-  milestones: Milestone[];
+  milestones: { date: string; task: string }[];
   teamRoles: Record<string, string>;
 }
 
-export function PBLBlock({ scope, feasibility, risks, objectives, outcomes, milestones, teamRoles }: PBLProps) {
+export function PBLBlock({ scope, feasibility, risks, objectives, outcomes, teamRoles }: PBLProps) {
   return (
     <div className="space-y-12">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -107,37 +100,6 @@ export function PBLBlock({ scope, feasibility, risks, objectives, outcomes, mile
         </div>
       </div>
 
-      {/* Timeline / Gantt Visualization */}
-      <div className="glass p-8 rounded-3xl">
-        <h3 className="text-xl font-bold mb-8 flex items-center gap-3">
-          <span className="text-secondary">📅</span> Implementation Timeline
-        </h3>
-        <div className="relative">
-          <div className="absolute top-0 bottom-0 left-4 w-px bg-slate-800 md:left-1/2"></div>
-          <div className="space-y-12">
-            {milestones.map((ms, i) => (
-              <motion.div 
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className={`relative flex flex-col md:flex-row items-center ${i % 2 === 0 ? 'md:flex-row-reverse' : ''}`}
-              >
-                <div className="hidden md:block w-1/2"></div>
-                <div className="absolute left-0 md:left-1/2 w-8 h-8 bg-secondary rounded-full border-4 border-slate-950 -translate-x-1/2 flex items-center justify-center z-10 shadow-lg shadow-secondary/20">
-                  <div className="w-2 h-2 bg-white rounded-full"></div>
-                </div>
-                <div className={`w-full md:w-1/2 pl-12 md:pl-0 ${i % 2 === 0 ? 'md:pr-12' : 'md:pl-12'}`}>
-                  <div className="bg-slate-900/50 p-6 rounded-2xl border border-slate-800 hover:border-secondary/30 transition-colors">
-                    <div className="text-secondary font-bold text-sm mb-1">{ms.date}</div>
-                    <div className="text-slate-200 font-medium">{ms.task}</div>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </div>
     </div>
   );
 }
