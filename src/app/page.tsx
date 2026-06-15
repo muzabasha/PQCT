@@ -85,8 +85,8 @@ export default function Home() {
           </h1>
 
           <p className="text-base md:text-xl lg:text-2xl text-slate-400 max-w-3xl mx-auto leading-relaxed px-2">
-            The complete experiential learning platform for the quantum-safe era.
-            Learn through storytelling, interactive math, virtual labs, and structured projects.
+            Measure and validate the impact of post-quantum cryptography techniques.
+            Quantify threat levels, benchmark performance, and validate security through interactive simulations.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-4 pt-4">

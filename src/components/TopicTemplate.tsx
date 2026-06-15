@@ -60,19 +60,31 @@ interface TopicTemplateProps {
     summary: string[];
     mcqs: MCQ[];
   };
+  skills?: { icon: string; name: string; description: string }[];
+  nepAlignment?: { policy: string; icon: string; description: string }[];
+  miniActivity?: {
+    title: string;
+    instructions: string;
+    checkpoints: string[];
+    reflection: string;
+  };
   onNextTopic: () => void;
 }
 
-const sections = [
-  { id: 'prerequisites', label: 'Prerequisites', icon: '📋' },
+type Section = { id: string; label: string; icon: string; condition?: (p: TopicTemplateProps) => boolean };
+const sections: Section[] = [
+  { id: 'prerequisites', label: 'Prerequisites', icon: '📋', condition: (p) => !!p.prerequisites },
   { id: 'story', label: 'Story', icon: '🎭' },
   { id: 'math', label: 'Math', icon: '∑' },
   { id: 'lab', label: 'Lab', icon: '🧪' },
   { id: 'abl', label: 'ABL', icon: '🎯' },
   { id: 'pbl', label: 'PBL', icon: '🚀' },
   { id: 'questions', label: 'Questions', icon: '❓' },
+  { id: 'mini-activity', label: 'Quick Check', icon: '⚡', condition: (p) => !!p.miniActivity },
   { id: 'summary', label: 'Summary', icon: '💎' },
-  { id: 'recap', label: 'Recap', icon: '📌' },
+  { id: 'skills', label: 'Skills', icon: '🎯', condition: (p) => !!p.skills },
+  { id: 'nep-policy', label: 'NEP 2020', icon: '📜', condition: (p) => !!p.nepAlignment },
+  { id: 'recap', label: 'Recap', icon: '📌', condition: (p) => !!p.recap },
 ];
 
 export function TopicTemplate(props: TopicTemplateProps) {
@@ -81,7 +93,7 @@ export function TopicTemplate(props: TopicTemplateProps) {
       {/* Sticky Section Navigation */}
       <div className="sticky top-20 z-40 -mx-4 md:-mx-6 px-4 md:px-6 py-2 md:py-3 bg-slate-950/90 backdrop-blur-xl border-b border-border/50 overflow-x-auto">
         <div className="flex gap-1 min-w-max">
-          {sections.filter(s => !(s.id === 'prerequisites' && !props.prerequisites) && !(s.id === 'recap' && !props.recap)).map(s => (
+          {sections.filter(s => !s.condition || s.condition(props)).map(s => (
             <a key={s.id} href={`#${s.id}`}
               className="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-primary hover:bg-primary/10 transition-all whitespace-nowrap flex items-center gap-1.5">
               <span>{s.icon}</span> {s.label}
@@ -301,6 +313,86 @@ export function TopicTemplate(props: TopicTemplateProps) {
           </div>
         </div>
       </section>
+
+      {/* MINI ACTIVITY — Quick Check */}
+      {props.miniActivity && (
+        <section id="mini-activity" className="space-y-6 md:space-y-8 pt-8 md:pt-12">
+          <div className="flex items-center gap-3 md:gap-4">
+            <div className="h-px flex-1 bg-border/50" />
+            <h2 className="text-lg md:text-3xl font-bold font-outfit uppercase tracking-tighter flex items-center gap-2 md:gap-3">
+              <span>⚡</span> Quick Check Activity
+            </h2>
+            <div className="h-px flex-1 bg-border/50" />
+          </div>
+          <div className="glass p-6 md:p-10 rounded-2xl md:rounded-3xl border-2 border-secondary/20">
+            <h3 className="text-xl md:text-2xl font-bold mb-2">{props.miniActivity.title}</h3>
+            <p className="text-sm md:text-base text-slate-400 mb-6">{props.miniActivity.instructions}</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+              <div>
+                <h4 className="text-xs font-bold uppercase text-secondary tracking-widest mb-3">Checkpoints</h4>
+                <ul className="space-y-2">
+                  {props.miniActivity.checkpoints.map((cp, i) => (
+                    <li key={i} className="flex gap-3 text-sm text-slate-300">
+                      <span className="flex-shrink-0 w-5 h-5 rounded-full bg-secondary/20 text-secondary flex items-center justify-center text-[10px] font-bold">{i + 1}</span>
+                      {cp}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="bg-slate-900/50 border border-slate-800 p-5 md:p-6 rounded-xl md:rounded-2xl">
+                <h4 className="text-xs font-bold uppercase text-accent tracking-widest mb-3">Reflection</h4>
+                <p className="text-sm text-slate-400 leading-relaxed italic">{props.miniActivity.reflection}</p>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* SKILLS MAPPING */}
+      {props.skills && (
+        <section id="skills" className="space-y-6 md:space-y-8 pt-8 md:pt-12">
+          <div className="flex items-center gap-3 md:gap-4">
+            <div className="h-px flex-1 bg-border/50" />
+            <h2 className="text-lg md:text-3xl font-bold font-outfit uppercase tracking-tighter flex items-center gap-2 md:gap-3">
+              <span>🎯</span> Skills You Earn
+            </h2>
+            <div className="h-px flex-1 bg-border/50" />
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+            {props.skills.map((skill, i) => (
+              <div key={i} className="glass p-5 md:p-6 rounded-xl md:rounded-2xl border border-primary/10 hover:border-primary/30 transition-all hover:translate-y-[-2px]">
+                <div className="text-2xl md:text-3xl mb-3">{skill.icon}</div>
+                <h4 className="font-bold text-sm md:text-base mb-2 text-primary">{skill.name}</h4>
+                <p className="text-xs md:text-sm text-slate-400 leading-relaxed">{skill.description}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* NEP 2020 & STEM POLICY ALIGNMENT */}
+      {props.nepAlignment && (
+        <section id="nep-policy" className="space-y-6 md:space-y-8 pt-8 md:pt-12">
+          <div className="flex items-center gap-3 md:gap-4">
+            <div className="h-px flex-1 bg-border/50" />
+            <h2 className="text-lg md:text-3xl font-bold font-outfit uppercase tracking-tighter flex items-center gap-2 md:gap-3">
+              <span>📜</span> NEP 2020 & STEM Policy Alignment
+            </h2>
+            <div className="h-px flex-1 bg-border/50" />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+            {props.nepAlignment.map((item, i) => (
+              <div key={i} className="bg-slate-900/60 border border-slate-800 rounded-xl md:rounded-2xl p-4 md:p-5 hover:border-accent/30 transition-all">
+                <div className="flex items-center gap-3 mb-2">
+                  <span className="text-xl md:text-2xl">{item.icon}</span>
+                  <h4 className="font-bold text-xs md:text-sm text-accent uppercase tracking-wider">{item.policy}</h4>
+                </div>
+                <p className="text-[10px] md:text-xs text-slate-400 leading-relaxed">{item.description}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* RECAP SESSION */}
       {props.recap && (

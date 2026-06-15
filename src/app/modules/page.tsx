@@ -4,11 +4,11 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 
 const modules = [
-  { id: 1, path: '/modules/1-need-pqc', title: 'The Quantum Threat', desc: 'Why classical cryptography fails against quantum computers. Complexity classes, period finding, and the RSA collapse model.', icon: '⚛️', accent: 'primary', topics: 4, labs: 1, abls: 4, pbl: 1 },
-  { id: 2, path: '/modules/2-rsa-ecc', title: 'RSA & Elliptic Curves', desc: 'Build, encrypt, and decrypt with real mathematical operations. Includes a working RSA key generator and ECC visualizer.', icon: '🔐', accent: 'secondary', topics: 4, labs: 1, abls: 4, pbl: 1 },
-  { id: 3, path: '/modules/3-shor-grover', title: "Shor's & Grover's", desc: 'Simulate the two quantum algorithms that break classical cryptography. Compare step counts: classical vs quantum.', icon: '🌊', accent: 'math', topics: 4, labs: 1, abls: 4, pbl: 1 },
-  { id: 4, path: '/modules/4-shor-impact', title: 'Harvest Now, Decrypt Later', desc: 'Calculate your migration deadline. Understand why HNDL is an active threat today — not a future concern.', icon: '⏳', accent: 'destructive', topics: 4, labs: 1, abls: 4, pbl: 1 },
-  { id: 5, path: '/modules/5-pqc', title: 'Post-Quantum Cryptography', desc: 'Lattice-based, code-based, and hash-based algorithms. Simulate LWE key generation and explore NIST FIPS 203/204/205.', icon: '🛡️', accent: 'success', topics: 4, labs: 1, abls: 4, pbl: 1 },
+  { id: 1, path: '/modules/1-need-pqc', title: 'Measuring the Quantum Threat', desc: 'Quantify the quantum threat impact using complexity metrics, security level benchmarks, and validated speedup ratios — measuring why classical crypto fails.', icon: '⚛️', accent: 'primary', topics: 4, labs: 1, abls: 4, pbl: 1 },
+  { id: 2, path: '/modules/2-rsa-ecc', title: 'Measuring RSA & ECC Security', desc: 'Measure the security asymmetry of RSA and ECC trapdoors. Validate key sizes, benchmark performance, and quantify quantum vulnerability.', icon: '🔐', accent: 'secondary', topics: 4, labs: 1, abls: 4, pbl: 1 },
+  { id: 3, path: '/modules/3-shor-grover', title: "Validating Quantum Algorithm Impact", desc: 'Measure quantum advantage ratios. Validate Shor\'s exponential vs Grover\'s quadratic speedup. Quantify the impact on cryptographic security.', icon: '🌊', accent: 'math', topics: 4, labs: 1, abls: 4, pbl: 1 },
+  { id: 4, path: '/modules/4-shor-impact', title: 'Measuring HNDL Risk & Migration Urgency', desc: 'Validate HNDL exposure using the T_migrate formula. Quantify migration urgency with financial impact and risk scoring frameworks.', icon: '⏳', accent: 'destructive', topics: 4, labs: 1, abls: 4, pbl: 1 },
+  { id: 5, path: '/modules/5-pqc', title: 'Validating Post-Quantum Cryptography', desc: 'Measure PQC security margins, benchmark performance tradeoffs, and validate quantum resistance through NIST\'s proven evaluation framework.', icon: '🛡️', accent: 'success', topics: 4, labs: 1, abls: 4, pbl: 1 },
   { id: 6, path: '/modules/6-dashboard', title: 'Comparative Dashboard', desc: 'Side-by-side algorithm comparison, learning progress tracker, and topic dependency graph.', icon: '📊', accent: 'accent', topics: 4, labs: 0, abls: 0, pbl: 0 },
 ];
 
@@ -30,8 +30,8 @@ export default function ModulesPage() {
         </div>
         <h1 className="text-3xl md:text-5xl font-black font-outfit tracking-tighter">All Modules</h1>
         <p className="text-sm md:text-xl text-muted-foreground max-w-3xl leading-relaxed">
-          6 modules covering the complete post-quantum cryptography curriculum. 
-          Each module includes storytelling, math modelling, virtual labs, ABL, PBL, and a human review gate.
+          6 modules measuring and validating the impact of post-quantum cryptography techniques. 
+          Each module quantifies threat levels, validates security assumptions, and benchmarks PQC performance — from complexity metrics to real-world deployment data.
         </p>
       </div>
 
