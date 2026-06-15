@@ -3,6 +3,7 @@ import { Inter, Outfit } from "next/font/google";
 import "./globals.css";
 import "katex/dist/katex.min.css";
 import Link from "next/link";
+import { Nav } from "@/components/Nav";
 
 const inter = Inter({ 
   subsets: ["latin"],
@@ -28,9 +29,9 @@ export default function RootLayout({
     <html lang="en" className={`${inter.variable} ${outfit.variable}`}>
       <body className="bg-background text-foreground min-h-screen flex flex-col font-sans selection:bg-primary/30">
         <header className="glass sticky top-0 z-50 border-b border-border/50">
-          <div className="container mx-auto px-4 md:px-6 h-16 md:h-20 flex items-center justify-between">
-            <Link href="/" className="flex items-center gap-1.5 md:gap-2 group">
-              <div className="w-8 h-8 md:w-10 md:h-10 bg-primary rounded-lg md:rounded-xl flex items-center justify-center font-black text-primary-foreground text-sm md:text-base transform group-hover:rotate-12 transition-transform">
+          <div className="container mx-auto px-4 md:px-6 h-16 md:h-20 flex items-center justify-between gap-4">
+            <Link href="/" className="flex items-center gap-1.5 md:gap-2 group shrink-0">
+              <div className="w-8 h-8 md:w-10 md:h-10 bg-primary rounded-lg md:rounded-xl flex items-center justify-center font-black text-primary-foreground text-sm md:text-base group-hover:rotate-12 transition-transform">
                 P
               </div>
               <span className="text-lg md:text-2xl font-black tracking-tighter font-outfit bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">
@@ -38,22 +39,14 @@ export default function RootLayout({
               </span>
             </Link>
             
-            <nav className="hidden lg:flex items-center gap-6 xl:gap-8 text-sm font-medium">
-              <Link href="/subject-overview" className="hover:text-primary transition-colors">Curriculum</Link>
-              <Link href="/modules" className="hover:text-primary transition-colors">Modules</Link>
-              <Link href="/virtual-lab" className="hover:text-primary transition-colors">Virtual Lab</Link>
-              <Link href="/analytics" className="hover:text-primary transition-colors">Analytics</Link>
-              <Link href="/question-bank" className="hover:text-primary transition-colors">Assessment</Link>
-            </nav>
+            <Nav />
 
-            <div className="flex items-center gap-2 md:gap-4">
-              <Link 
-                href="/modules/1-need-pqc" 
-                className="bg-primary text-primary-foreground px-4 md:px-6 py-1.5 md:py-2.5 rounded-full font-bold text-[10px] md:text-sm hover:scale-105 active:scale-95 transition-all shadow-lg shadow-primary/20"
-              >
-                Start Learning
-              </Link>
-            </div>
+            <Link 
+              href="/modules/1-need-pqc" 
+              className="shrink-0 bg-primary text-primary-foreground px-4 md:px-6 py-1.5 md:py-2.5 rounded-full font-bold text-[10px] md:text-sm hover:scale-105 active:scale-95 transition-all shadow-lg shadow-primary/20"
+            >
+              Start Learning
+            </Link>
           </div>
         </header>
 
