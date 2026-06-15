@@ -7,72 +7,194 @@ import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 function ImpactLab() {
   const [selectedAlgo, setSelectedAlgo] = useState<'RSA' | 'ECC'>('RSA');
   const [dataLifetime, setDataLifetime] = useState(20);
-
-  const data = [
-    { year: 2024, security: 100 },
-    { year: 2026, security: 90 },
-    { year: 2028, security: 60 },
-    { year: 2030, security: 20 },
-    { year: 2032, security: 0 },
-  ];
+  const [dataType, setDataType] = useState<string>('custom');
+  const [breachCost, setBreachCost] = useState(10.93);
+  const [migrationCost, setMigrationCost] = useState(0.2);
 
   const qDay = 2032;
+  const currentYear = 2026;
   const deadline = qDay - dataLifetime;
-  const isPastDeadline = deadline <= 2024;
+  const isPastDeadline = deadline <= currentYear;
+  const yrsOverdue = isPastDeadline ? currentYear - deadline : 0;
+
+  const dataPresets: Record<string, { label: string; lifetime: number; color: string }> = {
+    medical: { label: 'Medical Records', lifetime: 50, color: 'text-destructive' },
+    govt: { label: 'Government Intel', lifetime: 80, color: 'text-destructive' },
+    financial: { label: 'Banking Data', lifetime: 30, color: 'text-orange-400' },
+    employment: { label: 'Employment Records', lifetime: 10, color: 'text-yellow-400' },
+    email: { label: 'Personal Email', lifetime: 5, color: 'text-success' },
+    custom: { label: 'Custom', lifetime: dataLifetime, color: 'text-primary' },
+  };
+
+  const applyPreset = (key: string) => {
+    setDataType(key);
+    if (key !== 'custom') {
+      setDataLifetime(dataPresets[key].lifetime);
+    }
+  };
+
+  const hndlProbability = Math.min(1, Math.max(0.1, (currentYear - 2016) / (qDay - 2016)));
+  const expectedLoss = breachCost * hndlProbability;
+  const roi = migrationCost > 0 ? (expectedLoss / migrationCost) : 0;
+
+  const data = [
+    { year: 2024, rsa: 100, ecc: 100, aes: 100 },
+    { year: 2026, rsa: 90, ecc: 85, aes: 100 },
+    { year: 2028, rsa: 60, ecc: 55, aes: 100 },
+    { year: 2030, rsa: 20, ecc: 15, aes: 100 },
+    { year: 2032, rsa: 0, ecc: 0, aes: 100 },
+  ];
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex gap-3 items-center justify-between">
-        <div className="flex gap-3">
+    <div className="p-4 md:p-6 space-y-4 md:space-y-6">
+      {/* Data Type Presets */}
+      <div className="space-y-2">
+        <label className="text-[10px] font-bold text-muted-foreground uppercase">Select Your Data Type</label>
+        <div className="flex gap-2 flex-wrap">
+          {Object.entries(dataPresets).map(([key, preset]) => (
+            <button key={key} onClick={() => applyPreset(key)}
+              className={`px-4 py-2 rounded-xl font-bold text-xs transition-all ${
+                dataType === key 
+                  ? `${preset.color} bg-white/10 border border-white/20 shadow-lg` 
+                  : 'bg-slate-800 text-slate-400 border border-transparent hover:bg-slate-700'
+              }`}>
+              {preset.label} {key !== 'custom' && `(${preset.lifetime}yr)`}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Algorithm Selector + Q-Day */}
+      <div className="flex items-center justify-between">
+        <div className="flex gap-2">
           {(['RSA', 'ECC'] as const).map(a => (
             <button key={a} onClick={() => setSelectedAlgo(a)}
-              className={`px-5 py-2 rounded-full font-bold text-sm transition-all ${selectedAlgo === a ? 'bg-destructive text-white' : 'bg-slate-800 text-slate-400'}`}>
+              className={`px-4 py-2 rounded-full font-bold text-xs transition-all ${selectedAlgo === a ? 'bg-destructive text-white shadow-lg shadow-destructive/20' : 'bg-slate-800 text-slate-400 hover:bg-slate-700'}`}>
               {a}-{a === 'RSA' ? '2048' : '256'}
             </button>
           ))}
         </div>
-        <div className="text-xs text-muted-foreground">Projected Q-Day: ~2032</div>
+        <div className="text-[10px] text-muted-foreground bg-slate-800/50 px-3 py-1.5 rounded-lg">
+          Q-Day Estimate: <span className="font-bold text-destructive">~2032</span>
+        </div>
       </div>
 
-      <div className="h-48 bg-slate-950 rounded-2xl border border-slate-800 p-4">
+      {/* Security Decay Chart */}
+      <div className="h-44 bg-slate-950 rounded-2xl border border-slate-800 p-3">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={data} margin={{ top: 5, right: 10, left: -20, bottom: 0 }}>
             <defs>
-              <linearGradient id="secGrad" x1="0" y1="0" x2="0" y2="1">
+              <linearGradient id="rsaGrad" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor="#ef4444" stopOpacity={0.4} />
                 <stop offset="95%" stopColor="#ef4444" stopOpacity={0} />
               </linearGradient>
+              <linearGradient id="eccGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#f59e0b" stopOpacity={0.4} />
+                <stop offset="95%" stopColor="#f59e0b" stopOpacity={0} />
+              </linearGradient>
+              <linearGradient id="aesGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#22c55e" stopOpacity={0.4} />
+                <stop offset="95%" stopColor="#22c55e" stopOpacity={0} />
+              </linearGradient>
             </defs>
             <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
-            <XAxis dataKey="year" stroke="#64748b" tick={{ fill: '#94a3b8', fontSize: 11 }} />
-            <YAxis stroke="#64748b" tick={{ fill: '#94a3b8', fontSize: 11 }} />
-            <Tooltip contentStyle={{ backgroundColor: '#0f172a', borderColor: '#1e293b', borderRadius: '8px' }} />
-            <Area type="monotone" dataKey="security" stroke="#ef4444" strokeWidth={2} fillOpacity={1} fill="url(#secGrad)" name={`${selectedAlgo} Security`} />
+            <XAxis dataKey="year" stroke="#64748b" tick={{ fill: '#94a3b8', fontSize: 10 }} />
+            <YAxis stroke="#64748b" tick={{ fill: '#94a3b8', fontSize: 10 }} domain={[0, 100]} />
+            <Tooltip contentStyle={{ backgroundColor: '#0f172a', borderColor: '#1e293b', borderRadius: '8px', fontSize: '11px' }} />
+            <Area type="monotone" dataKey="rsa" stroke="#ef4444" strokeWidth={2} fillOpacity={1} fill="url(#rsaGrad)" name="RSA-2048" strokeDasharray={selectedAlgo === 'RSA' ? '0' : '4 2'} opacity={selectedAlgo === 'RSA' ? 1 : 0.4} />
+            <Area type="monotone" dataKey="ecc" stroke="#f59e0b" strokeWidth={2} fillOpacity={1} fill="url(#eccGrad)" name="ECC-256" strokeDasharray={selectedAlgo === 'ECC' ? '0' : '4 2'} opacity={selectedAlgo === 'ECC' ? 1 : 0.4} />
+            <Area type="monotone" dataKey="aes" stroke="#22c55e" strokeWidth={2} fillOpacity={1} fill="url(#aesGrad)" name="AES-256" />
           </AreaChart>
         </ResponsiveContainer>
       </div>
 
-      <div className="space-y-3">
+      {/* Lifetime Slider + Status */}
+      <div className="space-y-2">
         <div className="flex items-center justify-between">
-          <label className="text-xs font-bold text-muted-foreground uppercase">Your Data Lifetime: {dataLifetime} years</label>
-          <span className={`text-xs font-bold px-2 py-1 rounded ${isPastDeadline ? 'bg-destructive/20 text-destructive' : 'bg-success/20 text-success'}`}>
-            {isPastDeadline ? '⚠ Migration OVERDUE' : `Migrate by ${deadline}`}
+          <label className="text-[10px] font-bold text-muted-foreground uppercase">Data Confidentiality Lifetime: {dataLifetime} years</label>
+          <span className={`text-[10px] font-bold px-2.5 py-1 rounded ${
+            isPastDeadline 
+              ? 'bg-destructive/20 text-destructive border border-destructive/30' 
+              : deadline > currentYear + 5 
+                ? 'bg-success/20 text-success border border-success/30'
+                : 'bg-orange-400/20 text-orange-400 border border-orange-400/30'
+          }`}>
+            {isPastDeadline ? `⚠ OVERDUE by ${yrsOverdue}yr` : `Migrate by ${deadline} (${deadline - currentYear}yr left)`}
           </span>
         </div>
-        <input type="range" min={1} max={50} value={dataLifetime} onChange={e => setDataLifetime(Number(e.target.value))}
+        <input type="range" min={1} max={80} value={dataLifetime} onChange={e => { setDataType('custom'); setDataLifetime(Number(e.target.value)); }}
           className="w-full accent-destructive h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer" />
+        <div className="flex justify-between text-[8px] text-slate-600">
+          <span>1yr (Session)</span>
+          <span>10yr (Employment)</span>
+          <span>30yr (Financial)</span>
+          <span>80yr (Medical/Govt)</span>
+        </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
-        <div className="bg-slate-900 border border-slate-800 p-4 rounded-xl">
-          <div className="text-xs font-bold text-muted-foreground mb-1">HNDL Window</div>
-          <div className="text-lg font-black text-destructive">Active NOW</div>
-          <div className="text-[10px] text-slate-500 mt-1">Adversaries collecting encrypted data today</div>
+      {/* Results Grid */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <div className="bg-slate-900 border border-slate-800 p-3 rounded-xl">
+          <div className="text-[9px] font-bold text-muted-foreground uppercase">HNDL Window</div>
+          <div className="text-sm font-black text-destructive">Active NOW</div>
+          <div className="text-[8px] text-slate-500 mt-0.5">Adversaries collecting {selectedAlgo}-encrypted data today will decrypt it post-Q-Day</div>
         </div>
-        <div className="bg-slate-900 border border-slate-800 p-4 rounded-xl">
-          <div className="text-xs font-bold text-muted-foreground mb-1">Safe Migration Deadline</div>
-          <div className={`text-lg font-black ${isPastDeadline ? 'text-destructive' : 'text-success'}`}>{isPastDeadline ? 'PASSED' : deadline}</div>
-          <div className="text-[10px] text-slate-500 mt-1">For {dataLifetime}-year sensitive data</div>
+        <div className={`bg-slate-900 border p-3 rounded-xl ${isPastDeadline ? 'border-destructive/30' : 'border-success/30'}`}>
+          <div className="text-[9px] font-bold text-muted-foreground uppercase">Safe Migration By</div>
+          <div className={`text-sm font-black ${isPastDeadline ? 'text-destructive' : 'text-success'}`}>{isPastDeadline ? 'PASSED' : deadline}</div>
+          <div className="text-[8px] text-slate-500 mt-0.5">For {dataLifetime}-year data using {selectedAlgo}</div>
+        </div>
+        <div className="bg-slate-900 border border-slate-800 p-3 rounded-xl">
+          <div className="text-[9px] font-bold text-muted-foreground uppercase">HNDL Probability</div>
+          <div className="text-sm font-black text-destructive">{(hndlProbability * 100).toFixed(0)}%</div>
+          <div className="text-[8px] text-slate-500 mt-0.5">Based on CRQC timeline estimates</div>
+        </div>
+        <div className="bg-slate-900 border border-slate-800 p-3 rounded-xl">
+          <div className="text-[9px] font-bold text-muted-foreground uppercase">Data at Risk Today</div>
+          <div className="text-sm font-black text-destructive">{dataLifetime > 6 ? `${dataLifetime - 6}+ yrs` : 'Minimal'}</div>
+          <div className="text-[8px] text-slate-500 mt-0.5">Data encrypted before 2032 with {'>'}6yr lifetime</div>
+        </div>
+      </div>
+
+      {/* Financial Impact Calculator */}
+      <div className="bg-slate-900 border border-slate-800 rounded-xl p-4">
+        <div className="text-[10px] font-bold text-muted-foreground uppercase mb-3">💼 Financial Impact Assessment Studio</div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="space-y-3">
+            <div className="space-y-1">
+              <label className="text-[9px] text-muted-foreground">Estimated Breach Cost ($M)</label>
+              <input type="range" min={1} max={50} step={0.5} value={breachCost} onChange={e => setBreachCost(Number(e.target.value))}
+                className="w-full accent-destructive h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer" />
+              <div className="text-right text-xs font-bold text-destructive">${breachCost.toFixed(1)}M</div>
+            </div>
+            <div className="space-y-1">
+              <label className="text-[9px] text-muted-foreground">Estimated PQC Migration Cost ($M)</label>
+              <input type="range" min={0.05} max={2} step={0.05} value={migrationCost} onChange={e => setMigrationCost(Number(e.target.value))}
+                className="w-full accent-success h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer" />
+              <div className="text-right text-xs font-bold text-success">${migrationCost.toFixed(2)}M</div>
+            </div>
+          </div>
+          <div className="bg-slate-950 border border-slate-800/50 rounded-xl p-4 flex flex-col justify-center space-y-2">
+            <div className="flex justify-between text-[10px]">
+              <span className="text-muted-foreground">Expected HNDL Loss</span>
+              <span className="font-bold text-destructive">${expectedLoss.toFixed(2)}M</span>
+            </div>
+            <div className="flex justify-between text-[10px]">
+              <span className="text-muted-foreground">Migration Investment</span>
+              <span className="font-bold text-success">${migrationCost.toFixed(2)}M</span>
+            </div>
+            <div className="border-t border-slate-800 pt-2 flex justify-between text-xs">
+              <span className="font-bold text-muted-foreground">Validated ROI</span>
+              <span className={`font-black text-lg ${roi > 10 ? 'text-success' : 'text-slate-300'}`}>
+                {roi.toFixed(1)}×
+              </span>
+            </div>
+            <p className="text-[8px] text-slate-600 italic mt-1">
+              {roi > 10 
+                ? 'Immediate PQC investment is strongly justified — expected loss far exceeds migration cost.'
+                : 'Consider consolidating migration with broader infrastructure upgrades.'}
+            </p>
+          </div>
         </div>
       </div>
     </div>
@@ -306,7 +428,7 @@ export default function ShorImpactModule() {
       virtualLab={{
         title: "HNDL Timeline Calculator",
         description: "Calculate your data migration deadline based on sensitivity lifetime and projected Q-Day.",
-        controls: ["Select Algorithm", "Adjust Data Lifetime"],
+        controls: ["Data Type Presets", "Algorithm Selector", "Lifetime Slider", "Financial Impact Studio"],
         dataFlow: "Data Lifetime → T_migrate = Q-Day − Lifetime → Status: SAFE / URGENT / OVERDUE",
         processExplanation: "The chart shows the projected security resilience of the selected algorithm over time. The slider calculates whether your data's migration deadline has already passed based on its required confidentiality duration.",
         component: <ImpactLab />,

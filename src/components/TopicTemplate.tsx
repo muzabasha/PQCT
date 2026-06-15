@@ -1,10 +1,10 @@
 "use client";
 
+import { useState, useEffect } from 'react';
 import { MathEquation } from './MathEquation';
 import { ActivityBlock } from './ActivityBlock';
 import { PBLBlock } from './PBLBlock';
 import { QuestionsBlock } from './QuestionsBlock';
-
 import { MCQBlock } from './MCQBlock';
 
 interface MCQ {
@@ -91,6 +91,58 @@ const sections: Section[] = [
 ];
 
 export function TopicTemplate(props: TopicTemplateProps) {
+  const [storyReflections, setStoryReflections] = useState<Record<string, string>>({});
+  const [miniCheckpoints, setMiniCheckpoints] = useState<Record<string, boolean>>({});
+  const [miniReflection, setMiniReflection] = useState('');
+  const [skillRatings, setSkillRatings] = useState<Record<string, number>>({});
+  const [summaryInsight, setSummaryInsight] = useState('');
+  const [savedInsights, setSavedInsights] = useState<string[]>([]);
+
+  useEffect(() => {
+    const moduleKey = props.topicName.replace(/\s+/g, '-').toLowerCase();
+    const savedReflections = localStorage.getItem(`story-reflections-${moduleKey}`);
+    if (savedReflections) setStoryReflections(JSON.parse(savedReflections));
+    const savedCheckpoints = localStorage.getItem(`mini-checkpoints-${moduleKey}`);
+    if (savedCheckpoints) setMiniCheckpoints(JSON.parse(savedCheckpoints));
+    const savedMiniReflection = localStorage.getItem(`mini-reflection-${moduleKey}`);
+    if (savedMiniReflection) setMiniReflection(savedMiniReflection);
+    const savedSkillRatings = localStorage.getItem(`skill-ratings-${moduleKey}`);
+    if (savedSkillRatings) setSkillRatings(JSON.parse(savedSkillRatings));
+    const savedSummaryInsight = localStorage.getItem(`summary-insight-${moduleKey}`);
+    if (savedSummaryInsight) setSummaryInsight(savedSummaryInsight);
+    const savedInsightsList = localStorage.getItem(`saved-insights-${moduleKey}`);
+    if (savedInsightsList) setSavedInsights(JSON.parse(savedInsightsList));
+  }, []);
+
+  useEffect(() => {
+    const moduleKey = props.topicName.replace(/\s+/g, '-').toLowerCase();
+    localStorage.setItem(`story-reflections-${moduleKey}`, JSON.stringify(storyReflections));
+  }, [storyReflections]);
+
+  useEffect(() => {
+    const moduleKey = props.topicName.replace(/\s+/g, '-').toLowerCase();
+    localStorage.setItem(`mini-checkpoints-${moduleKey}`, JSON.stringify(miniCheckpoints));
+  }, [miniCheckpoints]);
+
+  useEffect(() => {
+    const moduleKey = props.topicName.replace(/\s+/g, '-').toLowerCase();
+    localStorage.setItem(`mini-reflection-${moduleKey}`, miniReflection);
+  }, [miniReflection]);
+
+  useEffect(() => {
+    const moduleKey = props.topicName.replace(/\s+/g, '-').toLowerCase();
+    localStorage.setItem(`skill-ratings-${moduleKey}`, JSON.stringify(skillRatings));
+  }, [skillRatings]);
+
+  useEffect(() => {
+    const moduleKey = props.topicName.replace(/\s+/g, '-').toLowerCase();
+    localStorage.setItem(`summary-insight-${moduleKey}`, summaryInsight);
+  }, [summaryInsight]);
+
+  useEffect(() => {
+    const moduleKey = props.topicName.replace(/\s+/g, '-').toLowerCase();
+    localStorage.setItem(`saved-insights-${moduleKey}`, JSON.stringify(savedInsights));
+  }, [savedInsights]);
   return (
     <div className="max-w-7xl mx-auto px-4 md:px-6 pb-16 md:pb-24 space-y-12 md:space-y-24">
       {/* Sticky Section Navigation */}
@@ -139,13 +191,22 @@ export function TopicTemplate(props: TopicTemplateProps) {
               
               <div className="bg-slate-900/40 border border-slate-800 p-4 md:p-8 rounded-2xl md:rounded-3xl">
                 <h4 className="text-accent font-bold mb-3 md:mb-4 uppercase tracking-widest text-[10px] md:text-sm">Reflective Questions</h4>
-                <ul className="space-y-2 md:space-y-3">
+                <div className="space-y-3 md:space-y-4">
                   {props.story.reflectiveQuestions.map((q, i) => (
-                    <li key={i} className="text-sm md:text-lg text-slate-400 flex gap-3 md:gap-4">
-                      <span className="text-accent font-bold">?</span> {q}
-                    </li>
+                    <div key={i} className="space-y-1.5">
+                      <p className="text-sm md:text-lg text-slate-400 flex gap-3 md:gap-4">
+                        <span className="text-accent font-bold shrink-0">?</span> {q}
+                      </p>
+                      <textarea
+                        value={storyReflections[i] ?? ''}
+                        onChange={e => setStoryReflections(prev => ({ ...prev, [i]: e.target.value }))}
+                        placeholder="Type your reflection here..."
+                        rows={2}
+                        className="w-full text-xs md:text-sm bg-slate-950/70 border border-slate-700 rounded-lg p-2 md:p-3 text-slate-200 placeholder-slate-600 focus:border-accent focus:ring-1 focus:ring-accent outline-none resize-none transition"
+                      />
+                    </div>
                   ))}
-                </ul>
+                </div>
               </div>
             </div>
 
@@ -306,7 +367,22 @@ export function TopicTemplate(props: TopicTemplateProps) {
           <div className="glass p-4 md:p-6 rounded-xl md:rounded-2xl insight-card">
             <h4 className="font-bold text-success mb-2 md:mb-3 flex items-center gap-2 text-sm md:text-base"><span>💎</span> Key Insights</h4>
             <ul className="text-[10px] md:text-xs text-slate-400 space-y-1 md:space-y-2">
-              {props.summary.insights.map((s, i) => <li key={i}>• {s}</li>)}
+              {props.summary.insights.map((s, i) => (
+                <li key={i} className="flex items-start gap-2">
+                  <span className="shrink-0 mt-0.5">•</span>
+                  <span>{s}</span>
+                  <button
+                    onClick={() => setSavedInsights(prev => prev.includes(s) ? prev : [...prev, s])}
+                    className={`shrink-0 ml-auto text-[9px] font-bold px-1.5 py-0.5 rounded transition ${
+                      savedInsights.includes(s)
+                        ? 'bg-success/20 text-success'
+                        : 'bg-slate-800 text-slate-500 hover:text-success'
+                    }`}
+                  >
+                    {savedInsights.includes(s) ? 'Saved' : 'Save'}
+                  </button>
+                </li>
+              ))}
             </ul>
           </div>
           <div className="glass p-4 md:p-6 rounded-xl md:rounded-2xl project-card">
@@ -324,6 +400,50 @@ export function TopicTemplate(props: TopicTemplateProps) {
             <p className="text-[10px] md:text-xs text-slate-400 leading-relaxed">{props.summary.careerRelevance}</p>
           </div>
         </div>
+
+        {/* Personal Insight Journal */}
+        <div className="glass p-5 md:p-8 rounded-2xl border border-primary/20">
+          <h4 className="font-bold text-primary mb-3 flex items-center gap-2 text-sm md:text-base">
+            <span>📝</span> Your Insight Journal
+          </h4>
+          <div className="flex gap-2 md:gap-3">
+            <textarea
+              value={summaryInsight}
+              onChange={e => setSummaryInsight(e.target.value)}
+              placeholder="Write your personal insight or takeaway from this module..."
+              rows={2}
+              className="flex-1 text-xs md:text-sm bg-slate-950/70 border border-slate-700 rounded-lg p-2 md:p-3 text-slate-200 placeholder-slate-600 focus:border-primary focus:ring-1 focus:ring-primary outline-none resize-none transition"
+            />
+            <button
+              onClick={() => {
+                if (summaryInsight.trim()) {
+                  setSavedInsights(prev => [...prev, summaryInsight.trim()]);
+                  setSummaryInsight('');
+                }
+              }}
+              className="px-4 py-2 bg-primary/20 hover:bg-primary/30 text-primary font-bold text-xs rounded-lg transition self-end"
+            >
+              Save
+            </button>
+          </div>
+          {savedInsights.filter(i => !i.startsWith('NEP:')).length > 0 && (
+            <div className="mt-4 space-y-1">
+              <h5 className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Saved Journal Entries</h5>
+              {savedInsights.filter(i => !i.startsWith('NEP:')).reverse().map((entry, i) => (
+                <div key={i} className="flex items-start gap-2 text-[10px] md:text-xs text-slate-400 p-2 bg-slate-900/40 rounded-lg">
+                  <span className="text-primary shrink-0">📌</span>
+                  <span>{entry}</span>
+                  <button
+                    onClick={() => setSavedInsights(prev => prev.filter((_, j) => j !== prev.indexOf(entry) || prev.indexOf(entry) !== prev.lastIndexOf(entry) ? j !== prev.indexOf(entry) : j !== prev.length - 1 - i))}
+                    className="ml-auto text-slate-600 hover:text-red-400 text-[9px] font-bold"
+                  >
+                    ✕
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </section>
 
       {/* MINI ACTIVITY — Quick Check */}
@@ -339,21 +459,57 @@ export function TopicTemplate(props: TopicTemplateProps) {
           <div className="glass p-6 md:p-10 rounded-2xl md:rounded-3xl border-2 border-secondary/20">
             <h3 className="text-xl md:text-2xl font-bold mb-2">{props.miniActivity.title}</h3>
             <p className="text-sm md:text-base text-slate-400 mb-6">{props.miniActivity.instructions}</p>
+            {Object.keys(miniCheckpoints).length > 0 && (
+              <div className="mb-6">
+                <div className="flex justify-between text-xs text-slate-500 mb-1">
+                  <span>Progress</span>
+                  <span>{Object.values(miniCheckpoints).filter(Boolean).length} / {props.miniActivity.checkpoints.length}</span>
+                </div>
+                <div className="h-2 bg-slate-800 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-secondary rounded-full transition-all duration-500"
+                    style={{ width: `${(Object.values(miniCheckpoints).filter(Boolean).length / props.miniActivity.checkpoints.length) * 100}%` }}
+                  />
+                </div>
+              </div>
+            )}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
               <div>
                 <h4 className="text-xs font-bold uppercase text-secondary tracking-widest mb-3">Checkpoints</h4>
                 <ul className="space-y-2">
                   {props.miniActivity.checkpoints.map((cp, i) => (
-                    <li key={i} className="flex gap-3 text-sm text-slate-300">
-                      <span className="flex-shrink-0 w-5 h-5 rounded-full bg-secondary/20 text-secondary flex items-center justify-center text-[10px] font-bold">{i + 1}</span>
-                      {cp}
+                    <li key={i}>
+                      <button
+                        onClick={() => setMiniCheckpoints(prev => ({ ...prev, [i]: !prev[i] }))}
+                        className={`w-full flex gap-3 text-sm text-left items-start p-2 rounded-lg transition ${
+                          miniCheckpoints[i] ? 'bg-secondary/10 text-secondary' : 'text-slate-300 hover:bg-slate-800/50'
+                        }`}
+                      >
+                        <span className={`flex-shrink-0 w-5 h-5 rounded-full border-2 flex items-center justify-center text-[10px] font-bold mt-0.5 transition ${
+                          miniCheckpoints[i]
+                            ? 'bg-secondary border-secondary text-white'
+                            : 'border-slate-600 text-transparent'
+                        }`}>
+                          {miniCheckpoints[i] ? '✓' : i + 1}
+                        </span>
+                        {cp}
+                      </button>
                     </li>
                   ))}
                 </ul>
               </div>
               <div className="bg-slate-900/50 border border-slate-800 p-5 md:p-6 rounded-xl md:rounded-2xl">
                 <h4 className="text-xs font-bold uppercase text-accent tracking-widest mb-3">Reflection</h4>
-                <p className="text-sm text-slate-400 leading-relaxed italic">{props.miniActivity.reflection}</p>
+                <textarea
+                  value={miniReflection}
+                  onChange={e => setMiniReflection(e.target.value)}
+                  placeholder="Write your reflection on this activity..."
+                  rows={4}
+                  className="w-full text-xs md:text-sm bg-slate-950/70 border border-slate-700 rounded-lg p-2 md:p-3 text-slate-200 placeholder-slate-600 focus:border-accent focus:ring-1 focus:ring-accent outline-none resize-none transition mb-3"
+                />
+                {miniReflection.trim() && (
+                  <p className="text-[10px] text-accent italic">Reflection saved ✓</p>
+                )}
               </div>
             </div>
           </div>
@@ -375,7 +531,24 @@ export function TopicTemplate(props: TopicTemplateProps) {
               <div key={i} className="glass p-5 md:p-6 rounded-xl md:rounded-2xl border border-primary/10 hover:border-primary/30 transition-all hover:translate-y-[-2px]">
                 <div className="text-2xl md:text-3xl mb-3">{skill.icon}</div>
                 <h4 className="font-bold text-sm md:text-base mb-2 text-primary">{skill.name}</h4>
-                <p className="text-xs md:text-sm text-slate-400 leading-relaxed">{skill.description}</p>
+                <p className="text-xs md:text-sm text-slate-400 leading-relaxed mb-4">{skill.description}</p>
+                <div className="flex items-center gap-1">
+                  {[1, 2, 3, 4, 5].map(star => (
+                    <button
+                      key={star}
+                      onClick={() => setSkillRatings(prev => ({ ...prev, [i]: star }))}
+                      className={`text-lg transition hover:scale-110 ${
+                        star <= (skillRatings[i] ?? 0) ? 'text-yellow-400' : 'text-slate-700'
+                      }`}
+                      title={`Rate ${star} out of 5`}
+                    >
+                      ★
+                    </button>
+                  ))}
+                  <span className="text-[10px] text-slate-600 ml-2">
+                    {skillRatings[i] ? `${skillRatings[i]}/5` : 'Self-assess'}
+                  </span>
+                </div>
               </div>
             ))}
           </div>
@@ -400,9 +573,30 @@ export function TopicTemplate(props: TopicTemplateProps) {
                   <h4 className="font-bold text-xs md:text-sm text-accent uppercase tracking-wider">{item.policy}</h4>
                 </div>
                 <p className="text-[10px] md:text-xs text-slate-400 leading-relaxed">{item.description}</p>
+                <button
+                  onClick={() => {
+                    const newSaved = [...savedInsights, `NEP: ${item.policy} — ${item.description}`];
+                    setSavedInsights(newSaved);
+                  }}
+                  className="mt-3 text-[9px] md:text-[10px] text-accent/60 hover:text-accent transition font-bold"
+                >
+                  + Log this alignment
+                </button>
               </div>
             ))}
           </div>
+          {savedInsights.filter(i => i.startsWith('NEP:')).length > 0 && (
+            <div className="bg-accent/5 border border-accent/20 rounded-xl p-4">
+              <h4 className="text-xs font-bold text-accent uppercase mb-2">Your Logged Alignments</h4>
+              <ul className="space-y-1">
+                {savedInsights.filter(i => i.startsWith('NEP:')).map((insight, i) => (
+                  <li key={i} className="text-[10px] text-slate-400 flex gap-2">
+                    <span className="text-accent">✓</span> {insight.replace('NEP: ', '')}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </section>
       )}
 

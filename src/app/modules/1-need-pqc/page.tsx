@@ -71,52 +71,143 @@ const recapData = {
 
 const ShorSimulation = () => {
     const [x, setX] = useState(1);
-    const [a] = useState(7);
-    const [N] = useState(15);
+    const [baseA, setBaseA] = useState(7);
+    const [modN, setModN] = useState(15);
     const [history, setHistory] = useState<any[]>([]);
+    const [autoRun, setAutoRun] = useState(false);
+    const [period, setPeriod] = useState<number | null>(null);
 
     const step = () => {
-      const result = (Math.pow(a, x) % N);
-      setHistory(prev => [...prev.slice(-5), { x, result }]);
+      const result = (Math.pow(baseA, x) % modN);
+      const newEntry = { x, result };
+      const newHistory = [...history, newEntry];
+      setHistory(newHistory);
       setX(prev => prev + 1);
+
+      // Period detection: check if result repeats
+      const first = newHistory.find(h => h.x < x && h.result === result);
+      if (first) {
+        const detectedPeriod = x - first.x;
+        setPeriod(detectedPeriod);
+        setAutoRun(false);
+      }
     };
+
+    const reset = () => {
+      setX(1); setHistory([]); setPeriod(null); setAutoRun(false);
+    };
+
+    const toggleAuto = () => {
+      if (autoRun) { setAutoRun(false); return; }
+      setAutoRun(true);
+      const interval = setInterval(() => {
+        setX(prev => {
+          setHistory(h => {
+            const r = Math.pow(baseA, prev) % modN;
+            const entry = { x: prev, result: r };
+            const nh = [...h, entry];
+            const first = nh.find(e => e.x < prev && e.result === r);
+            if (first) {
+              setPeriod(prev - first.x);
+              setAutoRun(false);
+              clearInterval(interval);
+            }
+            return nh;
+          });
+          return prev + 1;
+        });
+      }, 500);
+    };
+
+    const quantumSteps = period ? 1 : '?';
+    const classicalMaxSteps = period || modN;
 
     return (
       <div className="p-4 md:p-8 space-y-4 md:space-y-6">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
           <h3 className="text-base md:text-xl font-bold text-primary">Shor's Period Finding Simulator</h3>
-          <button 
-            onClick={step}
-            className="self-stretch sm:self-auto px-4 md:px-6 py-1.5 md:py-2 bg-primary text-primary-foreground rounded-lg font-bold text-xs md:text-sm hover:scale-105 transition-all"
-          >
-            Compute Next f(x)
+        </div>
+
+        <div className="grid grid-cols-2 gap-3">
+          <div className="space-y-1">
+            <label className="text-[10px] font-bold text-muted-foreground uppercase">Base (a)</label>
+            <input type="number" min={2} max={modN - 1} value={baseA} onChange={e => { reset(); setBaseA(Number(e.target.value)); }}
+              className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-lg font-mono text-white focus:ring-2 focus:ring-primary outline-none" />
+          </div>
+          <div className="space-y-1">
+            <label className="text-[10px] font-bold text-muted-foreground uppercase">Modulus (N)</label>
+            <input type="number" min={3} max={999} value={modN} onChange={e => { reset(); setModN(Number(e.target.value)); }}
+              className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-lg font-mono text-white focus:ring-2 focus:ring-primary outline-none" />
+          </div>
+        </div>
+
+        <div className="flex gap-2 flex-wrap">
+          <button onClick={step} disabled={period !== null || autoRun}
+            className="px-5 py-2 bg-primary text-primary-foreground rounded-xl font-bold text-xs hover:scale-105 active:scale-95 transition-all disabled:opacity-30">
+            Compute f(x) Step
+          </button>
+          <button onClick={toggleAuto} disabled={period !== null}
+            className="px-5 py-2 bg-secondary text-white rounded-xl font-bold text-xs hover:scale-105 active:scale-95 transition-all disabled:opacity-30">
+            ▶ Auto-Run
+          </button>
+          <button onClick={reset}
+            className="px-5 py-2 bg-slate-800 text-slate-300 rounded-xl font-bold text-xs hover:bg-slate-700 transition-all">
+            ↺ Reset
           </button>
         </div>
-        
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 md:gap-8">
           <div className="bg-slate-900 border border-slate-800 p-4 md:p-6 rounded-lg md:rounded-xl">
-            <div className="text-[10px] md:text-xs font-bold text-muted-foreground uppercase mb-2 md:mb-4">Calculation: f(x) = 7^x mod 15</div>
-            <div className="space-y-1 md:space-y-2">
+            <div className="text-[10px] md:text-xs font-bold text-muted-foreground uppercase mb-2 md:mb-4">
+              Sequence: f(x) = {baseA}^x mod {modN}
+            </div>
+            <div className="space-y-1 md:space-y-2 max-h-[180px] overflow-y-auto">
+              {history.length === 0 && (
+                <div className="text-[10px] text-slate-600 italic">Click 'Compute' to build the sequence</div>
+              )}
               {history.map((h, i) => (
-                <motion.div 
-                  initial={{ x: -20, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  key={i} 
-                  className="flex justify-between text-[11px] md:text-sm font-mono border-b border-slate-800 pb-1"
-                >
-                  <span className="text-slate-500">x={h.x}</span>
+                <motion.div initial={{ x: -20, opacity: 0 }} animate={{ x: 0, opacity: 1 }} key={i}
+                  className="flex justify-between text-[11px] md:text-sm font-mono border-b border-slate-800 pb-1">
+                  <span className="text-slate-500">f({h.x})</span>
                   <span className="text-primary font-bold">{h.result}</span>
                 </motion.div>
               ))}
             </div>
           </div>
-          <div className="flex flex-col justify-center items-center bg-slate-900 border border-slate-800 p-4 md:p-6 rounded-lg md:rounded-xl">
-            <div className="text-3xl md:text-4xl font-black text-white mb-1 md:mb-2">r = 4</div>
-            <div className="text-[10px] md:text-xs text-slate-500 uppercase font-bold tracking-widest">Detected Period</div>
-            <p className="mt-2 md:mt-4 text-[10px] text-center text-slate-400">
-              In a Quantum Computer, the Quantum Fourier Transform (QFT) finds this '4' almost instantly. 
-              Knowing '4' allows us to factor 15 into 3 and 5 easily.
-            </p>
+          <div className="flex flex-col justify-center items-center bg-slate-900 border border-slate-800 p-4 md:p-6 rounded-lg md:rounded-xl space-y-3">
+            {period ? (
+              <>
+                <div className="text-3xl md:text-5xl font-black text-success mb-1">r = {period}</div>
+                <div className="text-[10px] md:text-xs text-success uppercase font-bold tracking-widest">✓ Period Detected</div>
+                <div className="grid grid-cols-2 gap-3 w-full mt-2">
+                  <div className="bg-slate-950 rounded-xl p-3 text-center">
+                    <div className="text-[9px] text-muted-foreground uppercase">Classical Steps</div>
+                    <div className="text-lg font-black text-slate-300">{classicalMaxSteps}</div>
+                  </div>
+                  <div className="bg-success/10 rounded-xl p-3 text-center border border-success/20">
+                    <div className="text-[9px] text-success uppercase">Quantum Steps (QFT)</div>
+                    <div className="text-lg font-black text-success">1</div>
+                  </div>
+                </div>
+                <p className="text-[10px] text-center text-slate-400 mt-1">
+                  QFT finds period r = {period} in one operation. Classical needs up to {classicalMaxSteps} steps.
+                  Speedup: <span className="text-success font-bold">{classicalMaxSteps}×</span>
+                  {period % 2 === 0 && period > 0 && (
+                    <span className="block mt-1 text-[9px]">
+                      gcd({baseA}^{period/2} ± 1, {modN}) would recover the factors.
+                    </span>
+                  )}
+                </p>
+              </>
+            ) : (
+              <>
+                <div className="text-3xl md:text-4xl font-black text-slate-600 mb-1">r = ?</div>
+                <div className="text-[10px] md:text-xs text-slate-500 uppercase font-bold tracking-widest">Awaiting Period Detection</div>
+                <p className="text-[10px] text-center text-slate-600 mt-1">
+                  Keep computing until the sequence repeats — that repeat distance is the period.
+                </p>
+              </>
+            )}
           </div>
         </div>
       </div>
@@ -763,7 +854,7 @@ export default function NeedPQCModule() {
       virtualLab={{
         title: "Quantum Fourier Transform Visualizer",
         description: "Simulate how a quantum computer 'sees' the period of a function using wave interference.",
-        controls: ["Compute Step", "Reset Simulator"],
+        controls: ["Adjust Base a & Modulus N", "Compute f(x) Step-by-Step", "Auto-Run to Detect Period", "Compare Classical vs Quantum Steps"],
         dataFlow: "Input Integer -> Modular Exponentiation -> QFT Waveform -> Period Extraction",
         processExplanation: "While a classical computer checks each point one by one, the QFT uses constructive interference to make the 'period' peak stand out from the noise.",
         component: <ShorSimulation />,

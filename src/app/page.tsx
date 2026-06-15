@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 
@@ -57,6 +58,79 @@ const pillars = [
   { icon: '✅', label: 'Human Review', desc: 'HITL gate after every topic — no progression without approval.' },
 ];
 
+function ProgressSnapshot() {
+  const [progress, setProgress] = useState({ completed: 0, total: 5, streak: 0 });
+
+  useEffect(() => {
+    const modKeys = [
+      'the-quantum-threat',
+      'rsa--elliptic-curves',
+      "shor's--grover's",
+      'harvest-now-decrypt-later',
+      'post-quantum-cryptography',
+    ];
+    let completedCount = 0;
+    modKeys.forEach(key => {
+      const insightData = localStorage.getItem(`saved-insights-${key}`);
+      const checkData = localStorage.getItem(`mini-checkpoints-${key}`);
+      if (insightData || checkData) {
+        const insights = insightData ? JSON.parse(insightData) : [];
+        const cps = checkData ? Object.values(JSON.parse(checkData) as Record<string, boolean>) : [];
+        if (insights.length > 0 || cps.some(Boolean)) completedCount++;
+      }
+    });
+    const lastVisit = localStorage.getItem('last-visit');
+    const today = new Date().toDateString();
+    const streak = lastVisit === today ? (parseInt(localStorage.getItem('streak') || '0', 10)) : lastVisit ? 1 : 0;
+    localStorage.setItem('last-visit', today);
+    localStorage.setItem('streak', String(streak));
+    setProgress({ completed: completedCount, total: modKeys.length, streak });
+  }, []);
+
+  return (
+    <section className="container mx-auto px-4 md:px-6">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.4 }}
+        className="glass rounded-2xl p-4 md:p-6 border border-primary/10"
+      >
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div className="flex items-center gap-4 md:gap-6">
+            <div>
+              <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Your Progress</div>
+              <div className="text-lg md:text-2xl font-bold text-white">
+                {progress.completed} <span className="text-slate-500">/ {progress.total} modules</span>
+              </div>
+            </div>
+            <div className="w-24 md:w-32">
+              <div className="h-2 bg-slate-800 rounded-full overflow-hidden">
+                <motion.div
+                  initial={{ width: 0 }}
+                  animate={{ width: `${(progress.completed / progress.total) * 100}%` }}
+                  className="h-full bg-gradient-to-r from-primary to-secondary rounded-full"
+                />
+              </div>
+            </div>
+          </div>
+          <div className="flex items-center gap-4">
+            <div className="text-right">
+              <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Streak</div>
+              <div className="text-lg md:text-2xl font-bold text-yellow-400">{progress.streak} days</div>
+            </div>
+            <Link
+              href="/modules/6-dashboard"
+              className="px-4 py-2 bg-primary/20 hover:bg-primary/30 text-primary font-bold text-xs md:text-sm rounded-xl transition"
+            >
+              Full Dashboard →
+            </Link>
+          </div>
+        </div>
+      </motion.div>
+    </section>
+  );
+}
+
 export default function Home() {
   return (
     <div className="space-y-16 md:space-y-32 pb-16 md:pb-32">
@@ -113,6 +187,9 @@ export default function Home() {
           <motion.div animate={{ y: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 1.5 }}>↓</motion.div>
         </motion.div>
       </section>
+
+      {/* Quick Progress Snapshot */}
+      <ProgressSnapshot />
 
       {/* Pedagogical Pillars */}
       <section className="container mx-auto px-4 md:px-6">

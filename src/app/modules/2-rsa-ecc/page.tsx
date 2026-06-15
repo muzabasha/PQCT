@@ -16,6 +16,7 @@ function RSAECCLab() {
   const [decResult, setDecResult] = useState<any>(null);
   const [eccPoints, setEccPoints] = useState<{x:number,y:number}[]>([]);
   const [jumps, setJumps] = useState(0);
+  const [keySizeTest, setKeySizeTest] = useState(0);
 
   const generateRSA = () => {
     const p = parseInt(pInput), q = parseInt(qInput);
@@ -44,12 +45,39 @@ function RSAECCLab() {
   };
 
   const eccJump = () => {
-    if (jumps === 0) { setEccPoints([{x:-2,y:-1}]); }
-    else {
+    if (jumps === 0) {
+      // First point on curve y² = x³ - x + 1 for small values
+      setEccPoints([{x:-1.5,y:1.2}]);
+    } else {
       const last = eccPoints[eccPoints.length-1];
-      setEccPoints([...eccPoints,{x:last.x+(Math.random()-0.5)*4,y:last.y*-1+(Math.random()-0.5)*4}]);
+      // Simulate elliptic curve point addition (simplified)
+      const s = (3 * last.x * last.x - 1) / (2 * last.y);
+      const x3 = s * s - 2 * last.x;
+      const y3 = s * (last.x - x3) - last.y;
+      if (isFinite(x3) && isFinite(y3)) {
+        setEccPoints([...eccPoints,{x:parseFloat(x3.toFixed(2)),y:parseFloat(y3.toFixed(2))}]);
+      } else {
+        // Point at infinity - reset as if we wrapped around
+        setEccPoints([...eccPoints,{x:-1.5,y:1.2}]);
+      }
     }
     setJumps(j=>j+1);
+  };
+
+  const quantumBreakOps = (bits: number) => {
+    // Shor's requires ~ 2n³ quantum gates for n-bit key
+    const n = rsaState?.public_key?.n ? Math.ceil(Math.log2(rsaState.public_key.n)) : bits;
+    return Math.floor(2 * n * n * n);
+  };
+
+  const quantumBreakTime = (bits: number) => {
+    const ops = quantumBreakOps(bits);
+    // Assuming 1MHz quantum gate speed (optimistic for CRQC)
+    const seconds = ops / 1000000;
+    if (seconds < 1) return "< 1 second";
+    if (seconds < 60) return `~${Math.floor(seconds)} seconds`;
+    if (seconds < 3600) return `~${Math.floor(seconds/60)} minutes`;
+    return `~${Math.floor(seconds/3600)} hours`;
   };
 
   return (
@@ -76,7 +104,7 @@ function RSAECCLab() {
           </div>
           <div className="flex gap-3">
             <button onClick={generateRSA} className="flex-1 bg-primary text-primary-foreground py-3 rounded-xl font-bold hover:opacity-90 active:scale-95 transition-all">Compute Keys</button>
-            <button onClick={randomRSA} className="bg-slate-800 hover:bg-slate-700 text-slate-300 px-5 py-3 rounded-xl font-bold">🎲</button>
+            <button onClick={randomRSA} className="bg-slate-800 hover:bg-slate-700 text-slate-300 px-5 py-3 rounded-xl font-bold" title="Random primes">🎲</button>
           </div>
           {rsaState && (
             <motion.div initial={{opacity:0,y:10}} animate={{opacity:1,y:0}} className="space-y-4">
@@ -88,6 +116,25 @@ function RSAECCLab() {
                   </div>
                 ))}
               </div>
+
+              {/* Quantum Break Time Display */}
+              {rsaState && (
+                <div className="bg-destructive/10 border border-destructive/20 p-4 rounded-xl">
+                  <div className="text-[10px] font-bold text-destructive uppercase mb-1">⚛️ Quantum Vulnerability</div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <div className="text-[9px] text-muted-foreground">Shor's Quantum Gates Needed</div>
+                      <div className="text-lg font-black text-destructive">{quantumBreakOps(0).toLocaleString()}</div>
+                    </div>
+                    <div>
+                      <div className="text-[9px] text-muted-foreground">Estimated Break Time (1MHz gate speed)</div>
+                      <div className="text-lg font-black text-destructive">{quantumBreakTime(0)}</div>
+                    </div>
+                  </div>
+                  <p className="text-[9px] text-slate-500 mt-2">Shor's breaks RSA in polynomial time regardless of key size. Increasing p and q doesn't help — only PQC replacement works.</p>
+                </div>
+              )}
+
               <div className="flex gap-3">
                 <input type="number" value={message} onChange={e=>setMessage(Number(e.target.value))}
                   className="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 font-mono text-white outline-none" placeholder="Enter message number" />
@@ -116,37 +163,63 @@ function RSAECCLab() {
           <div className="grid grid-cols-2 gap-6 items-start">
             <div className="space-y-4">
               <div className="bg-slate-900 border border-slate-800 p-5 rounded-xl text-center">
-                <div className="text-sm text-muted-foreground mb-1">Scalar Jumps (N)</div>
+                <div className="text-sm text-muted-foreground mb-1">Scalar Multiplications (Private Key N)</div>
                 <div className="text-5xl font-black font-mono text-secondary">{jumps}</div>
               </div>
               <div className="flex gap-3">
                 <button onClick={eccJump} className="flex-1 bg-secondary text-white py-3 rounded-xl font-bold hover:opacity-90 active:scale-95 transition-all">
-                  {jumps===0?'Plot G':'Jump (+G)'}
+                  {jumps===0?'Plot Initial Point G':'Add G (N+1)'}
                 </button>
-                <button onClick={()=>{setEccPoints([]);setJumps(0);}} disabled={jumps===0} className="bg-slate-800 text-slate-300 px-5 py-3 rounded-xl font-bold disabled:opacity-30">↺</button>
+                <button onClick={()=>{setEccPoints([]);setJumps(0);}} disabled={jumps===0} className="bg-slate-800 text-slate-300 px-5 py-3 rounded-xl font-bold disabled:opacity-30">↺ Reset</button>
               </div>
+              {jumps > 0 && (
+                <div className="bg-destructive/10 border border-destructive/20 p-4 rounded-xl">
+                  <div className="text-xs font-bold text-destructive mb-2">⚛️ Quantum Vulnerability: ECDLP</div>
+                  <p className="text-[10px] text-slate-300 mb-2">Shor's solves the ECDLP (finding N from N×G) in <strong className="text-destructive">O(n³)</strong> quantum gates — even faster than breaking RSA for equivalent security.</p>
+                  <div className="flex gap-2 text-[10px]">
+                    <span className="text-muted-foreground">Private key N:</span>
+                    <span className="font-bold text-white">{jumps}</span>
+                    <span className="text-muted-foreground">| Quantum break:</span>
+                    <span className="font-bold text-destructive">{quantumBreakTime(128)}</span>
+                  </div>
+                </div>
+              )}
               <p className="text-xs text-muted-foreground leading-relaxed">
-                Each jump = one scalar multiplication on the curve. The attacker sees only the final point — finding N is the <strong className="text-white">Elliptic Curve Discrete Logarithm Problem</strong>.
+                Each press of "Add G" performs one scalar multiplication on curve y² = x³ - x + 1. 
+                The attacker sees only the final point — recovering N is the <strong className="text-white">Elliptic Curve Discrete Logarithm Problem (ECDLP)</strong>.
               </p>
             </div>
-            <div className="bg-slate-950 rounded-2xl border border-slate-800 relative overflow-hidden h-64 flex items-center justify-center">
-              <svg viewBox="-5 -5 10 10" className="absolute inset-0 w-full h-full opacity-20 stroke-slate-500 fill-none">
-                <path d="M-2.5,5 Q-1,0 0,1 T3,-5" /><path d="M-2.5,-5 Q-1,0 0,-1 T3,5" />
+            <div className="bg-slate-950 rounded-2xl border border-slate-800 relative overflow-hidden h-72 flex items-center justify-center">
+              <svg viewBox="-4 -4 8 8" className="absolute inset-0 w-full h-full opacity-15 stroke-slate-500 fill-none">
+                {/* Elliptic curve y² = x³ - x + 1 */}
+                {Array.from({length:200},(_,i)=>{
+                  const t = (i/200)*8 - 4;
+                  const ysq = t*t*t - t + 1;
+                  if (ysq < 0) return null;
+                  const y = Math.sqrt(ysq);
+                  return <g key={i}>
+                    <circle cx={t} cy={-y} r="0.04" fill="#64748b" stroke="none" />
+                    <circle cx={t} cy={y} r="0.04" fill="#64748b" stroke="none" />
+                  </g>;
+                })}
               </svg>
               {jumps===0 ? (
-                <span className="text-slate-500 text-sm z-10">Click "Plot G" to begin</span>
+                <span className="text-slate-500 text-sm z-10">Click "Plot Initial Point G" to begin</span>
               ) : (
                 <div className="relative w-full h-full">
                   <AnimatePresence>
                     {eccPoints.map((pt,i)=>(
                       <motion.div key={i}
                         initial={{opacity:0,scale:0}} animate={{opacity:1,scale:1}}
-                        style={{left:`calc(50% + ${pt.x*20}px)`,top:`calc(50% + ${pt.y*20}px)`}}
-                        className={`absolute w-7 h-7 -ml-3.5 -mt-3.5 rounded-full flex items-center justify-center text-[10px] font-black text-white ${i===eccPoints.length-1?'bg-secondary shadow-lg shadow-secondary/50 z-20':'bg-slate-600 opacity-60 z-10'}`}>
+                        style={{left:`calc(50% + ${(pt.x+2)*40}px)`,top:`calc(50% + ${(-pt.y+2)*40}px)`}}
+                        className={`absolute w-6 h-6 -ml-3 -mt-3 rounded-full flex items-center justify-center text-[9px] font-black text-white ${i===eccPoints.length-1?'bg-secondary shadow-lg shadow-secondary/50 z-20 ring-2 ring-white':'bg-slate-600 opacity-50 z-10'}`}>
                         {i+1}
                       </motion.div>
                     ))}
                   </AnimatePresence>
+                  <div className="absolute bottom-2 left-2 text-[8px] text-slate-600 z-30">
+                    Points on curve y² = x³ - x + 1
+                  </div>
                 </div>
               )}
             </div>
