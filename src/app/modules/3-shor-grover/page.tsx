@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { TopicTemplate } from '@/components/TopicTemplate';
 import { runShor as simShor, runGrover as simGrover } from '@/lib/crypto';
 
@@ -130,6 +130,155 @@ function ShorGroverLab() {
     </div>
   );
 }
+
+const prerequisitesData = {
+  topics: [
+    "Complexity classes: P, NP, and exponential time problems",
+    "Shor's Algorithm basic concept: period-finding",
+    "Grover's Algorithm basic concept: amplitude amplification",
+    "RSA encryption mechanism (Module 2 content)",
+    "Quantum superposition and interference principles"
+  ],
+  mcqs: [
+    {
+      question: "What is the difference between polynomial and exponential time algorithms?",
+      options: ["Polynomial is always slower", "Exponential time becomes infeasible as input size grows; polynomial remains feasible", "They are the same thing", "Exponential is always better"],
+      correctIndex: 1,
+      justification: "An O(n³) algorithm running on n=2048 takes ~8.6 billion steps. An exponential O(2^n) would take more steps than atoms in the universe. This gap is Shor's advantage over classical factoring."
+    },
+    {
+      question: "What is the complexity class of integer factoring classically?",
+      options: ["P (polynomial)", "NP but not known to be in P", "PSPACE", "BQP"],
+      correctIndex: 1,
+      justification: "Factoring is in NP but not known to be in P. The best classical algorithm (GNFS) is sub-exponential — faster than full exponential but still infeasible for 2048-bit numbers."
+    },
+    {
+      question: "What does BQP stand for in quantum computing?",
+      options: ["Basic Quantum Processing", "Bounded-error Quantum Polynomial time", "Binary Quantum Protocol", "Boolean Quantum Programming"],
+      correctIndex: 1,
+      justification: "BQP is the class of problems solvable by a quantum computer in polynomial time with error probability ≤ 1/3. Shor's Algorithm puts factoring in BQP."
+    },
+    {
+      question: "What is the Oracle in Grover's Algorithm?",
+      options: ["A database of classical information", "A quantum circuit that recognizes the correct answer by flipping its phase", "A random number generator", "An encryption function"],
+      correctIndex: 1,
+      justification: "The Oracle is a quantum circuit that marks the target state by flipping its phase: U_w|x⟩ = -|x⟩ if x is the target, otherwise |x⟩."
+    },
+    {
+      question: "Why does Grover's provide only a quadratic speedup while Shor's provides exponential?",
+      options: ["Grover's is less useful", "Unstructured search has a proven optimal quantum lower bound of Ω(√N)", "Grover's was designed poorly", "Shor's uses more qubits"],
+      correctIndex: 1,
+      justification: "Grover's algorithm is proven optimal for unstructured search — no quantum algorithm can beat Ω(√N). Shor's exponential speedup is possible because factoring has hidden structure (periodicity)."
+    },
+    {
+      question: "What is the Diffusion operator in Grover's Algorithm?",
+      options: ["A classical noise generator", "An operator that inverts amplitudes around the mean, amplifying the target", "A measurement device", "An encryption circuit"],
+      correctIndex: 1,
+      justification: "The Diffusion operator (2|s⟩⟨s| - I) inverts all amplitudes around their average value. This amplifies the target state (whose phase was flipped by the Oracle) while suppressing others."
+    },
+    {
+      question: "What happens to AES-128 under Grover's Algorithm?",
+      options: ["It remains fully secure", "Its effective security drops from 128 to 64 bits", "It becomes completely broken", "It becomes more secure"],
+      correctIndex: 1,
+      justification: "Grover's searches the key space of 2^128 in √(2^128) = 2^64 steps. While 2^64 operations are potentially feasible for future hardware, doubling to AES-256 (cost 2^128) restores safety."
+    },
+    {
+      question: "Why can't Grover's Algorithm break AES-256?",
+      options: ["AES-256 uses quantum-resistant math", "Grover's on AES-256 requires 2^128 operations — still infeasible", "AES-256 has no structure for Grover's", "Grover's only works on small databases"],
+      correctIndex: 1,
+      justification: "Grover's always provides √N speedup. For AES-256, N = 2^256. √(2^256) = 2^128 operations, which is computationally infeasible. Doubling key size fully mitigates Grover's threat."
+    },
+    {
+      question: "What is the complexity of Shor's Algorithm in terms of bit-length n?",
+      options: ["O(n)", "O(n³)", "O(2^n)", "O(log n)"],
+      correctIndex: 1,
+      justification: "Shor's Algorithm has polynomial complexity O(n³) where n is the number of bits of the number being factored. This is the exponential-to-polynomial speedup that makes it dangerous."
+    },
+    {
+      question: "What is the role of superposition in quantum algorithms?",
+      options: ["It stores classical bits", "It allows the qubit to be in a combination of |0⟩ and |1⟩ states simultaneously, enabling parallel computation", "It corrects errors", "It measures results"],
+      correctIndex: 1,
+      justification: "Superposition allows a qubit to exist in both |0⟩ and |1⟩ simultaneously. With n qubits, a quantum computer can represent 2ⁿ states at once, enabling massive parallelism."
+    }
+  ]
+};
+
+const recapData = {
+  summary: [
+    "Shor's Algorithm solves factoring in polynomial time O(n³) using the Quantum Fourier Transform — an exponential speedup over classical GNFS",
+    "Grover's Algorithm provides exactly quadratic speedup O(√N) for unstructured search — the optimal possible for that problem class",
+    "Shor's breaks public-key cryptography (RSA, ECC, Diffie-Hellman) completely — these algorithms must be replaced with PQC alternatives",
+    "Grover's weakens symmetric cryptography — AES-128 becomes AES-64 equivalent; AES-256 remains safe as it becomes AES-128 equivalent",
+    "The Quantum Fourier Transform is the core of Shor's — it converts the period-finding problem from exponential to polynomial time",
+    "Amplitude Amplification is the core of Grover's — the Oracle marks the target, and the Diffusion operator amplifies it over √N iterations",
+    "Doubling symmetric key sizes mitigates Grover's threat, but no classical parameter change can protect RSA/ECC against Shor's",
+    "Shor's exploits algebraic structure (periodicity of modular exponentiation), while Grover's works on any unstructured problem",
+    "Both algorithms require fault-tolerant quantum computers with thousands of logical qubits, expected by 2030–2035",
+    "The combined threat of Shor's and Grover's drives the urgent need for post-quantum cryptography standardization and migration"
+  ],
+  mcqs: [
+    {
+      question: "What is the key mathematical reason Shor's Algorithm is exponentially faster than classical factoring?",
+      options: ["It uses more arithmetic operations", "It changes factoring from exponential complexity to polynomial complexity", "It multiplies numbers directly", "It uses classical preprocessing"],
+      correctIndex: 1,
+      justification: "Shor's transforms the problem domain from number theory to period-finding via QFT. Period-finding is solved in polynomial time O(n³), while classical factoring is exponential."
+    },
+    {
+      question: "How many Grover iterations are needed to search a database of N items?",
+      options: ["N iterations", "Approximately (π/4)√N iterations", "log(N) iterations", "2^N iterations"],
+      correctIndex: 1,
+      justification: "Grover's requires approximately (π/4)√N iterations. Each iteration includes an Oracle call and a Diffusion operation. For N = 10^6, this is about 785 iterations vs 500,000 classically."
+    },
+    {
+      question: "Why does Shor's Algorithm NOT help with AES key search?",
+      options: ["AES is too fast for Shor's", "Shor's is designed for period-finding in structured functions, not for unstructured search", "Shor's requires less qubits", "AES is not encrypted"],
+      correctIndex: 1,
+      justification: "Shor's algorithm exploits algebraic periodicity in modular exponentiation. AES has no such exploitable structure — it's a series of substitutions and permutations. Only Grover's applies to AES."
+    },
+    {
+      question: "A government uses AES-128 for classified data with 30-year confidentiality. What should they do?",
+      options: ["Continue using AES-128", "Migrate to AES-256 immediately and re-encrypt all historical data", "Nothing — quantum computers don't exist", "Switch to RSA"],
+      correctIndex: 1,
+      justification: "Grover's reduces AES-128 to 64-bit effective security, which is feasible for future quantum computers. AES-256 (reduced to 128-bit security) is safe. Historical data must be re-encrypted with AES-256."
+    },
+    {
+      question: "What is the key tradeoff in Grover's Algorithm for cryptography?",
+      options: ["It requires more memory than classical", "Each additional bit of key size doubles the quantum difficulty but quadruples the classical difficulty", "It needs less qubits than Shor's", "It works only on sorted data"],
+      correctIndex: 1,
+      justification: "Adding one bit to a symmetric key doubles the search space. Classical cost doubles; Grover's cost multiplies by √2 ≈ 1.414. The defender benefits more from each added bit than the attacker."
+    },
+    {
+      question: "What does the Oracle in Grover's Algorithm actually do to the quantum state?",
+      options: ["It measures all qubits", "It flips the phase of the target state while leaving others unchanged", "It adds random noise", "It duplicates the state"],
+      correctIndex: 1,
+      justification: "The Oracle marks the target by applying a phase flip: U_w|x⟩ = (−1)^{f(x)}|x⟩. If f(w)=1 (target), the phase flips by −1; otherwise it stays the same."
+    },
+    {
+      question: "Why is Shor's Algorithm not yet a practical threat despite being proven in 1994?",
+      options: ["It has since been disproven", "It requires fault-tolerant quantum computers with millions of physical qubits, which don't exist yet", "It was made illegal", "Classical computers are faster"],
+      correctIndex: 1,
+      justification: "Running Shor's on RSA-2048 requires ~20 million physical qubits with error correction. Current hardware has ~1000 qubits. Industry roadmaps target CRQC capability by 2030–2035."
+    },
+    {
+      question: "What is the relationship between the number of qubits and Shor's factoring capability?",
+      options: ["Linearly related to bit-length n", "Requires about 2n qubits to factor an n-bit number", "Very few qubits are needed", "Unrelated to bit-length"],
+      correctIndex: 1,
+      justification: "Shor's Algorithm needs approximately 2n logical qubits to factor an n-bit number. Factoring 2048-bit RSA requires ~4096 logical qubits, which translates to millions of physical qubits with error correction."
+    },
+    {
+      question: "Why does Grover's Algorithm have a '√' in its complexity?",
+      options: ["Because the state space is a square", "Because amplitude amplification geometrically rotates the state vector by an angle proportional to 1/√N per iteration", "Because it uses square roots in the math", "Because it searches squared databases"],
+      correctIndex: 1,
+      justification: "Grover's can be visualized as a rotation in a 2D plane (target state |w⟩ and uniform superposition |s⟩). Each iteration rotates by angle θ where sin(θ) ≈ 1/√N. After ~(π/4)√N iterations, the state aligns with |w⟩."
+    },
+    {
+      question: "What is the key insight that allows Shor's Algorithm to factor numbers?",
+      options: ["Quantum computers are simply faster processors", "Factoring can be reduced to period-finding, and quantum computers efficiently find periods using QFT", "Shor's guesses the factors randomly", "Shor's uses brute force in parallel universes"],
+      correctIndex: 1,
+      justification: "The critical insight is that factoring reduces to period-finding of the function f(x) = a^x mod N. While classical computers must compute values sequentially to find the period, QFT extracts it from a superposition in one operation."
+    }
+  ]
+};
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 export default function ShorGroverModule() {
@@ -344,7 +493,8 @@ export default function ShorGroverModule() {
         insights: [
           "Shor's converts factoring (exponential) to period-finding (polynomial)",
           "Grover's provides exactly quadratic speedup — no more, no less",
-          "Doubling symmetric key sizes mitigates Grover; nothing classical mitigates Shor's"
+          "Doubling symmetric key sizes mitigates Grover; nothing classical mitigates Shor's",
+          "Everyday: Shor's threatens every RSA/ECC login (online banking, email, VPN); Grover's halves the effective security of every AES-encrypted file and SHA-hashed password"
         ],
         advantages: ["Proven speedups with mathematical guarantees","Motivates urgency for PQC migration","Provides precise threat quantification"],
         disadvantages: ["Requires fault-tolerant quantum hardware not yet available","Grover's threat overstated — quadratic not exponential","Error rates in current QC limit practical applicability"],
@@ -352,6 +502,8 @@ export default function ShorGroverModule() {
         industrialApps: ["National security threat modeling","Financial sector quantum risk assessments","Cryptographic protocol design","NIST PQC standardization rationale"],
         careerRelevance: "Critical knowledge for Quantum Security Analysts, Cryptographic Standards Auditors, and anyone designing secure systems beyond 2030."
       }}
+      prerequisites={prerequisitesData}
+      recap={recapData}
       onNextTopic={() => { window.location.href = '/modules/4-shor-impact'; }}
     />
   );

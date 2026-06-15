@@ -157,6 +157,155 @@ function RSAECCLab() {
   );
 }
 
+const prerequisitesData = {
+  topics: [
+    "Prime numbers and coprime relationships",
+    "Euler's Totient function φ(n)",
+    "Modular arithmetic and modular inverses",
+    "Basic understanding of public-key cryptography",
+    "Properties of finite fields for elliptic curves"
+  ],
+  mcqs: [
+    {
+      question: "What does it mean for two numbers to be coprime?",
+      options: ["They are both prime", "Their greatest common divisor (gcd) is 1", "They are equal", "Their product is prime"],
+      correctIndex: 1,
+      justification: "Two numbers are coprime if their greatest common divisor is 1. For example, 8 and 15 are coprime (gcd=1) even though neither is prime individually."
+    },
+    {
+      question: "What is Euler's Totient φ(n) for n = p × q where p and q are primes?",
+      options: ["p + q", "p × q", "(p − 1)(q − 1)", "p − q"],
+      correctIndex: 2,
+      justification: "For a product of two distinct primes n = p × q, φ(n) = (p − 1)(q − 1). This counts the numbers less than n that are coprime to n."
+    },
+    {
+      question: "What is a modular inverse of a modulo m?",
+      options: ["The number b such that a × b mod m = 0", "The number b such that a × b mod m = 1", "The reciprocal a/m", "The negative of a modulo m"],
+      correctIndex: 1,
+      justification: "The modular inverse b satisfies a × b ≡ 1 mod m. It exists only when gcd(a, m) = 1. In RSA, d is the modular inverse of e mod φ(n)."
+    },
+    {
+      question: "What is the key size ratio for equivalent security between ECC and RSA?",
+      options: ["Same size", "ECC needs twice the size", "256-bit ECC ≈ 3072-bit RSA", "ECC is always smaller regardless of parameters"],
+      correctIndex: 2,
+      justification: "ECC provides equivalent classical security to RSA with much smaller keys because the ECDLP has no sub-exponential attack, unlike RSA's factoring problem."
+    },
+    {
+      question: "What is the fundamental problem that makes RSA secure?",
+      options: ["The difficulty of multiplication", "The difficulty of integer factorization", "The difficulty of addition", "The difficulty of exponentiation"],
+      correctIndex: 1,
+      justification: "RSA's security relies on the computational hardness of factoring large composite numbers into their prime factors. Multiplying is easy; factoring is hard."
+    },
+    {
+      question: "What is a trapdoor function in cryptography?",
+      options: ["A function that is hard to compute in both directions", "A function that is easy to compute but hard to reverse without secret information", "A function that cannot be computed", "A function that only works with a key"],
+      correctIndex: 1,
+      justification: "A trapdoor function is easy to compute in one direction but difficult to reverse unless you have special 'trapdoor' information. RSA's encryption is the trapdoor; the private key d provides the trapdoor."
+    },
+    {
+      question: "Compute: 5³ mod 7",
+      options: ["5", "6", "1", "2"],
+      correctIndex: 1,
+      justification: "5³ = 125. 125 ÷ 7 = 17 with remainder 6. Therefore, 5³ mod 7 = 6."
+    },
+    {
+      question: "What is the Elliptic Curve Discrete Logarithm Problem (ECDLP)?",
+      options: ["Finding the curve equation from a point", "Given points G and Q = kG on an elliptic curve, find k", "Finding the sum of two curve points", "Encrypting a message with ECC"],
+      correctIndex: 1,
+      justification: "ECDLP: given a generator point G and a point Q = kG (G added to itself k times), find the scalar k. This is computationally infeasible for large k."
+    },
+    {
+      question: "Why is RSA considered 'asymmetric' cryptography?",
+      options: ["It uses two different keys: one public and one private", "It only works with odd-length messages", "It treats numbers asymmetrically", "It requires different algorithms for encrypt and decrypt"],
+      correctIndex: 0,
+      justification: "Asymmetric cryptography uses a pair of keys: a public key for encryption (shared openly) and a private key for decryption (kept secret). This solves the key distribution problem."
+    },
+    {
+      question: "What happens to RSA's security if p and q are not chosen randomly?",
+      options: ["It becomes more secure", "It becomes predictable and factorable — security collapses", "There is no effect", "Key generation becomes faster"],
+      correctIndex: 1,
+      justification: "p and q must be random, independent primes. If predictable (e.g., derived from a weak RNG), an attacker could factor n and recover the private key."
+    }
+  ]
+};
+
+const recapData = {
+  summary: [
+    "RSA encryption: c ≡ m^e (mod n) where e is the public exponent and n = p × q is the modulus",
+    "RSA decryption: m ≡ c^d (mod n) where d is the private exponent satisfying d × e ≡ 1 mod φ(n)",
+    "Security depends entirely on the difficulty of factoring n back into its prime components p and q",
+    "ECC uses the Elliptic Curve Discrete Logarithm Problem (ECDLP): given G and kG, finding k is computationally hard",
+    "ECC provides equivalent security to RSA with significantly smaller key sizes (256-bit ECC ≈ 3072-bit RSA)",
+    "The Weierstrass equation y² = x³ + ax + b (mod p) defines points on an elliptic curve forming a group",
+    "Both RSA and ECC are vulnerable to Shor's Algorithm on sufficiently powerful quantum computers",
+    "RSA key generation steps: choose primes → compute n → compute φ(n) → choose e → compute d = e⁻¹ mod φ(n)",
+    "Digital signatures use the private key to sign; anyone with the public key can verify — the reverse of encryption",
+    "Post-quantum replacements: CRYSTALS-Kyber for key exchange (replaces RSA/ECDH) and CRYSTALS-Dilithium for signatures (replaces RSA/ECDSA)"
+  ],
+  mcqs: [
+    {
+      question: "What is the private key d in RSA derived from?",
+      options: ["It is randomly chosen", "It is the modular inverse of e modulo φ(n)", "It is half of n", "It is the square of e"],
+      correctIndex: 1,
+      justification: "The private exponent d is computed as d ≡ e⁻¹ (mod φ(n)), meaning d × e mod φ(n) = 1. This requires knowing φ(n), which requires knowing p and q."
+    },
+    {
+      question: "Given p=3, q=11, e=3, encrypt m=5 using RSA.",
+      options: ["c = 5", "c = 26", "c = 33", "c = 15"],
+      correctIndex: 1,
+      justification: "n = 33. c = 5³ mod 33 = 125 mod 33 = 26. To decrypt: d = 7 (since 3×7=21 ≡ 1 mod 20). m = 26⁷ mod 33 = 5 ✓."
+    },
+    {
+      question: "Why does ECC-NIST P-256 provide equivalent security to RSA-3072?",
+      options: ["ECC is naturally stronger", "ECDLP has no known sub-exponential attack, unlike RSA's factoring", "ECC uses better random number generators", "ECC keys are always stored securely"],
+      correctIndex: 1,
+      justification: "The best attacks against ECDLP are fully exponential in the key size, while RSA's factoring problem has sub-exponential algorithms (GNFS). This means ECC keys pack more security per bit."
+    },
+    {
+      question: "What is the purpose of the public exponent e in RSA?",
+      options: ["To factor n", "To compute the private key", "To encrypt messages", "To generate random primes"],
+      correctIndex: 2,
+      justification: "The public exponent e is used in the encryption formula c = m^e mod n. It is typically chosen as 65537 (2¹⁶ + 1) for efficiency and security."
+    },
+    {
+      question: "What validates that an RSA key pair (e, d, n) is correctly generated?",
+      options: ["e + d = n", "Encrypting and decrypting a message reproduces the original: (m^e)^d ≡ m (mod n)", "e × d = n", "p + q = n"],
+      correctIndex: 1,
+      justification: "The correctness of RSA follows from Euler's theorem: (m^e)^d mod n = m^(e×d) mod n = m. If m^e mod n ≠ m when decrypted, the key generation is wrong."
+    },
+    {
+      question: "What makes the Elliptic Curve group operation useful for cryptography?",
+      options: ["The operation is slow", "The group operation (point addition) is easy, but reversing it (finding k from kG) is hard", "The curve cannot be drawn", "The operation always produces the same result"],
+      correctIndex: 1,
+      justification: "Adding a point G to itself k times (kG) is computationally easy. But given G and kG, finding k (the ECDLP) is computationally hard — this asymmetry is what makes ECC secure."
+    },
+    {
+      question: "Why does RSA compute φ(n) = (p-1)(q-1)?",
+      options: ["It's an arbitrary convention", "φ(n) counts numbers < n that are coprime to n", "It determines the key size", "It multiplies p and q"],
+      correctIndex: 1,
+      justification: "φ(n) counts positive integers less than n that are coprime to n. For n = p×q, this is (p-1)(q-1). This value is needed to compute the private key d."
+    },
+    {
+      question: "What happens if you encrypt a message m that is larger than the modulus n?",
+      options: ["The message is automatically split", "The decryption will fail to recover the original m", "It becomes more secure", "The key is regenerated"],
+      correctIndex: 1,
+      justification: "If m ≥ n, the modular reduction m^e mod n loses information because different messages can map to the same ciphertext. Messages must always be smaller than n."
+    },
+    {
+      question: "What is the practical implication of Shor's Algorithm for TLS certificates using ECDSA?",
+      options: ["ECDSA certificates are safe", "All ECDSA certificates become forgeable once a CRQC exists", "Only RSA certificates need replacement", "TLS is unaffected"],
+      correctIndex: 1,
+      justification: "Shor's algorithm breaks the ECDLP that ECDSA relies on. Once a CRQC is available, anyone can forge ECDSA signatures. TLS certificates must migrate to PQC signatures like CRYSTALS-Dilithium."
+    },
+    {
+      question: "Why is the RSA decryption exponent d kept secret while e is public?",
+      options: ["Because d is stored on a different server", "Because computing d requires factoring n, which is hard", "Because only e can be shared", "Because d is larger than e"],
+      correctIndex: 1,
+      justification: "Computing d from e and n requires knowing φ(n), which requires factoring n into p and q. Since factoring is computationally hard, d cannot be derived from public information (e, n)."
+    }
+  ]
+};
+
 // ─── Page ─────────────────────────────────────────────────────────────────────
 export default function RSAECCModule() {
   return (
@@ -354,14 +503,17 @@ export default function RSAECCModule() {
         insights: [
           "Asymmetric crypto solves the key exchange problem with zero prior contact",
           "Both RSA and ECC rely on mathematical hardness assumptions",
-          "Both are broken by Shor's algorithm on a sufficiently powerful quantum computer"
+          "Both are broken by Shor's algorithm on a sufficiently powerful quantum computer",
+          "Everyday: RSA/ECC protect your WhatsApp messages, bank logins, SSH connections, and every HTTPS website you visit — over 90% of all internet traffic uses these algorithms today"
         ],
         advantages: ["No pre-shared secret needed","Enables digital signatures and PKI","Proven mathematical foundation"],
         disadvantages: ["100-1000× slower than symmetric crypto","Quantum-vulnerable","Growing key sizes"],
         futureScope: "Post-quantum replacements: CRYSTALS-Kyber (KEM) and CRYSTALS-Dilithium (signatures) standardized by NIST in 2024.",
         industrialApps: ["TLS/HTTPS","SSH","S/MIME email","Code signing","VPNs"],
-        careerRelevance: "Core competency for Security Engineers, Cryptographers, and any developer working with secure protocols."
+        careerRelevance: "Core competency for Security Engineers, Cryptographers, and any developer working with secure protocols. Every major tech company (Google, Meta, Apple, Microsoft) is actively hiring engineers who understand RSA/ECC migration to PQC."
       }}
+      prerequisites={prerequisitesData}
+      recap={recapData}
       onNextTopic={() => { window.location.href = '/modules/3-shor-grover'; }}
     />
   );

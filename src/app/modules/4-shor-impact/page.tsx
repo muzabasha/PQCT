@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from 'react';
-import { motion } from 'framer-motion';
 import { TopicTemplate } from '@/components/TopicTemplate';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
@@ -79,6 +78,155 @@ function ImpactLab() {
     </div>
   );
 }
+
+const prerequisitesData = {
+  topics: [
+    "Shor's Algorithm and its impact on RSA/ECC (from Module 3)",
+    "Understanding of CRQC (Cryptographically Relevant Quantum Computer)",
+    "Basic threat modeling concepts",
+    "Data classification and sensitivity lifetimes",
+    "Understanding of encryption in transit and at rest"
+  ],
+  mcqs: [
+    {
+      question: "What does CRQC stand for and what can it do?",
+      options: ["Central Research Quantum Computer — used for research only", "Cryptographically Relevant Quantum Computer — one capable of breaking RSA-2048", "Classical Reduced Quantum Computer — slower than classical", "Certified Random Quantum Circuit — generates random keys"],
+      correctIndex: 1,
+      justification: "A CRQC is a quantum computer powerful enough to run Shor's Algorithm on classically relevant key sizes (RSA-2048). Current estimates place CRQC availability between 2030–2035."
+    },
+    {
+      question: "What is the primary vulnerability that Shor's Algorithm exploits in RSA?",
+      options: ["The large key size", "The algebraic structure of modular exponentiation and its hidden periodicity", "The random number generator", "The encryption padding scheme"],
+      correctIndex: 1,
+      justification: "Shor's exploits the periodic nature of f(x) = a^x mod N. This periodic structure is inherent to RSA's mathematical foundation. No amount of key size increase or padding can prevent this attack."
+    },
+    {
+      question: "What is a 'threat model' in cybersecurity?",
+      options: ["A model of the latest cyber attacks", "A structured framework identifying assets, adversaries, attack vectors, and vulnerabilities", "A computer simulation of threats", "A list of antivirus software"],
+      correctIndex: 1,
+      justification: "A threat model identifies what you're protecting (assets), who might attack (adversaries), how they might attack (vectors), and what weaknesses exist (vulnerabilities). HNDL is a specific threat scenario."
+    },
+    {
+      question: "Why do medical records have a longer 'sensitivity lifetime' than a one-time password?",
+      options: ["Medical data is physically larger", "Medical records contain personal health information that remains sensitive for decades", "Medical records are not encrypted", "OTPs are more secure"],
+      correctIndex: 1,
+      justification: "Health records remain sensitive for 50–80 years (a person's lifetime). A one-time password expires in seconds. The longer data must stay confidential, the earlier the migration deadline."
+    },
+    {
+      question: "What is 'encryption in transit'?",
+      options: ["Storing encrypted files on a USB drive", "Protecting data as it moves across networks using protocols like TLS", "Encrypting data while it's being processed", "Moving encrypted files between folders"],
+      correctIndex: 1,
+      justification: "Encryption in transit protects data flowing over networks — HTTPS/TLS for web traffic, SSH for remote access. HNDL attackers intercept this traffic and store it for later decryption."
+    },
+    {
+      question: "What encryption does HTTPS/TLS typically use for key exchange?",
+      options: ["Only AES", "RSA or ECDH key exchange + AES for symmetric encryption", "Only SHA-256", "Plaintext"],
+      correctIndex: 1,
+      justification: "TLS uses hybrid encryption: RSA or ECDH for key exchange (vulnerable to Shor's) and AES for bulk data encryption (vulnerable to Grover's at 128-bit level)."
+    },
+    {
+      question: "What is the difference between symmetric and asymmetric encryption?",
+      options: ["They are the same", "Symmetric uses one shared key; asymmetric uses a public/private key pair", "Symmetric is always quantum-safe", "Asymmetric doesn't use keys"],
+      correctIndex: 1,
+      justification: "Symmetric encryption (AES) uses the same key for encryption and decryption. Asymmetric (RSA, ECC) uses different keys — public for encryption, private for decryption. Asymmetric is broken by Shor's; symmetric is weakened by Grover's."
+    },
+    {
+      question: "What is the approximate timeline for CRQC development according to current roadmaps?",
+      options: ["Already exists", "2030–2035 based on IBM, Google, and IonQ projections", "Never will exist", "2050+"],
+      correctIndex: 1,
+      justification: "Companies like IBM (100K qubits by 2029), Google, and IonQ project CRQC capability in the 2030–2035 timeframe. These estimates are uncertain but consistently trending earlier."
+    },
+    {
+      question: "What types of data are most vulnerable to HNDL?",
+      options: ["Data with short sensitivity (under 1 year)", "Data with long sensitivity that needs to remain confidential for decades", "Only top-secret military data", "Only encrypted emails"],
+      correctIndex: 1,
+      justification: "Data requiring decades of confidentiality (medical records, government intelligence, financial records) is most vulnerable because the collection window is wide and the data's useful life extends past Q-Day."
+    },
+    {
+      question: "Why is factoring large numbers considered a 'one-way function'?",
+      options: ["Factoring is slower than multiplying", "Multiplying primes to get n is easy; factoring n back to primes is computationally hard", "Both directions are equally hard", "Neither direction can be computed"],
+      correctIndex: 1,
+      justification: "Given p=97 and q=101, computing n = 97 × 101 = 9797 takes milliseconds. Given n = 9797, finding the factors (97, 101) requires trial division or more sophisticated algorithms — exponentially harder for large numbers."
+    }
+  ]
+};
+
+const recapData = {
+  summary: [
+    "HNDL (Harvest Now, Decrypt Later) is an active threat where adversaries collect encrypted data today for future decryption when CRQCs exist",
+    "The migration deadline formula: T_migrate < T_QDay − T_DataLifetime — migration must complete before Q-Day minus data lifetime",
+    "Medical records (80yr lifetime), government intelligence (50yr), and financial data (30yr) have ALREADY passed safe migration deadlines",
+    "HNDL is a two-phase attack: Phase 1 (collection) requires no quantum hardware, Phase 2 (decryption) happens after Q-Day",
+    "The threat is active NOW because data collection requires only conventional network interception — no quantum computer needed",
+    "Most sensitive data categories have already exceeded their safe migration window, making immediate PQC migration critical",
+    "Organizations must assess: (1) what data they have, (2) its sensitivity lifetime, (3) when it was encrypted, (4) migration priority",
+    "CRQC timeline uncertainty (2030–2035) creates risk — conservative estimates should be used for security planning",
+    "Migration involves: inventory → classify → prioritize → test hybrid deployments → full PQC replacement → re-encrypt historical data",
+    "IETF and NIST are standardizing hybrid TLS modes (X25519Kyber768) to support gradual migration from classical to PQC encryption"
+  ],
+  mcqs: [
+    {
+      question: "A hospital encrypts patient records with RSA-2048. Records must remain confidential for 70 years. Q-Day is 2032. Has the safe migration deadline passed?",
+      options: ["No, there's plenty of time", "Yes, T_migrate = 2032 − 70 = 1962 — already past by 60+ years", "The deadline is 2032", "Medical records don't need encryption"],
+      correctIndex: 1,
+      justification: "T_migrate = 2032 − 70 = 1962. Since records encrypted after 1962 will still be sensitive in 2032 when a CRQC can break RSA-2048, the safe window closed decades ago. The hospital must migrate immediately and re-encrypt historical data with PQC."
+    },
+    {
+      question: "Why is HNDL considered an 'active' threat and not just a future concern?",
+      options: ["Quantum computers already exist", "The collection phase (intercepting encrypted data) requires no quantum capability and is happening now", "RSA has already been broken", "Shor's algorithm was recently discovered"],
+      correctIndex: 1,
+      justification: "HNDL's first phase — intercepting and storing encrypted traffic — uses conventional network monitoring. Nation-state actors, intelligence agencies, and cybercriminals can collect data today. The quantum attack comes later."
+    },
+    {
+      question: "What makes the HNDL threat uniquely dangerous compared to traditional cryptographic threats?",
+      options: ["It requires less skill", "It separates the attack into time-independent phases — collection now, decryption later", "It only works on certain algorithms", "It has already happened"],
+      correctIndex: 1,
+      justification: "Unlike traditional attacks (must decrypt at time of interception), HNDL decouples collection from decryption. Data stolen today using classical means becomes decryptable years later when quantum computers mature."
+    },
+    {
+      question: "A bank uses RSA-2048 for all customer communications. What is the MOST urgent action regarding HNDL?",
+      options: ["Wait until quantum computers exist", "Begin PQC migration immediately, starting with data inventory and sensitivity classification", "Switch to AES-256", "Change RSA key sizes to 4096"],
+      correctIndex: 1,
+      justification: "Immediate migration to PQC is needed. Increasing RSA key size does not protect against Shor's (polynomial-time attack). AES-256 is quantum-safe for symmetric encryption but key exchange still needs PQC."
+    },
+    {
+      question: "What data sensitivity categories have already exceeded safe migration deadlines?",
+      options: ["None — there's still time", "One-time passwords and session tokens", "Most high-sensitivity categories: medical, government intelligence, financial archives", "Only classified military data"],
+      correctIndex: 2,
+      justification: "Medical data (80yr lifetime), government intelligence (50yr), and financial history (30yr) all have T_migrate dates already in the past. Short-lived data like session tokens (minutes) remain safe for now."
+    },
+    {
+      question: "What is the formula for calculating the safe migration deadline?",
+      options: ["T_migrate = T_QDay + T_DataLifetime", "T_migrate = T_QDay − T_DataLifetime", "T_migrate = T_DataLifetime / T_QDay", "T_migrate = T_QDay × T_DataLifetime"],
+      correctIndex: 1,
+      justification: "The latest safe migration date is T_migrate = T_QDay − T_DataLifetime. Data encrypted after this date will still be sensitive when Q-Day arrives and a CRQC can decrypt it."
+    },
+    {
+      question: "What type of encrypted data is LEAST threatened by HNDL?",
+      options: ["Medical imaging archives", "Session tokens that expire in 5 minutes", "Government intelligence databases", "Banking transaction history (30yr retention)"],
+      correctIndex: 1,
+      justification: "Session tokens have a lifetime of minutes. By the time a CRQC exists (2030–2035), the session tokens from today will long be expired and worthless. No HNDL risk exists for ultra-short-lived data."
+    },
+    {
+      question: "Why is the uncertainty in CRQC timeline itself a security risk?",
+      options: ["It makes planning impossible", "Conservative (earlier) CRQC estimates force earlier migration, while optimistic (later) estimates encourage dangerous delays", "It doesn't matter", "It makes quantum computers slower"],
+      correctIndex: 1,
+      justification: "Uncertainty is dangerous because it enables wishful thinking ('quantum is 20 years away'). Security planners must use conservative estimates. As NSA advises: 'Assume CRQC capability much sooner than public roadmaps suggest.'"
+    },
+    {
+      question: "What is the key challenge in re-encrypting historical data for PQC?",
+      options: ["Data may not be accessible for re-encryption", "PQC algorithms are not available", "Re-encryption is automatic", "Old encryption is always reversible"],
+      correctIndex: 0,
+      justification: "Re-encrypting historical archives requires access to the original data, which must first be decrypted with the old key. If the old key is lost, or the data is in cold storage, this is technically and operationally challenging."
+    },
+    {
+      question: "Which US government directive mandates federal agencies to migrate to PQC?",
+      options: ["NSA memorandum 2022", "National Security Memorandum (NSM-10) and CNSA 2.0", "FBI directive on encryption", "No directive exists"],
+      correctIndex: 1,
+      justification: "The Commercial National Security Algorithm (CNSA) 2.0 Suite, published by NSA in 2021 and mandated by NSM-10, requires US national security systems to begin PQC migration with target completion by 2035."
+    }
+  ]
+};
 
 export default function ShorImpactModule() {
   return (
@@ -251,7 +399,8 @@ export default function ShorImpactModule() {
         insights: [
           "HNDL is the most immediate quantum security threat — it's happening now",
           "Most high-sensitivity data categories are already past safe migration deadlines",
-          "The collection phase requires no quantum hardware — just standard interception"
+          "The collection phase requires no quantum hardware — just standard interception",
+          "Everyday: your medical records (50-yr confidentiality), tax filings (75 yr), and even today's WhatsApp backups intercepted now could be decrypted by adversaries a decade from now"
         ],
         advantages: ["Precise deadline quantification","Risk-based migration prioritization","Universal applicability across sectors"],
         disadvantages: ["CRQC timeline uncertainty creates false comfort","Migration is expensive and complex","Legacy system incompatibility"],
@@ -259,6 +408,8 @@ export default function ShorImpactModule() {
         industrialApps: ["Healthcare records protection","National intelligence archives","Financial transaction history","Military communications"],
         careerRelevance: "Quantum Risk Analysts, CISO advisors, and Cryptographic Auditors command premium salaries as organizations race to assess and mitigate HNDL exposure."
       }}
+      prerequisites={prerequisitesData}
+      recap={recapData}
       onNextTopic={() => { window.location.href = '/modules/5-pqc'; }}
     />
   );

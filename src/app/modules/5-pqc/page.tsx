@@ -140,6 +140,155 @@ function PQCLab() {
   );
 }
 
+const prerequisitesData = {
+  topics: [
+    "Understanding why RSA/ECC are broken by Shor's Algorithm (Modules 1–3)",
+    "HNDL threat model and migration urgency (Module 4)",
+    "Linear algebra: vectors, matrices, and dot products",
+    "Coding theory basics: error detection and correction concepts",
+    "Computational hardness: what makes a problem hard for quantum computers"
+  ],
+  mcqs: [
+    {
+      question: "Why can't we just increase RSA key sizes to make them quantum-safe?",
+      options: ["Key sizes have a maximum limit", "Shor's complexity is O(n³) — polynomial growth means any feasible key size is breakable", "Larger keys are harder to generate", "Quantum computers only work on small keys"],
+      correctIndex: 1,
+      justification: "Shor's scales polynomially (O(n³)) with bit length. Doubling RSA keys from 2048 to 4096 makes Shor's only 8× harder, while classical factoring becomes exponentially harder. No practical key size can escape Shor's."
+    },
+    {
+      question: "What is the Shortest Vector Problem (SVP) in lattice-based cryptography?",
+      options: ["Finding the shortest distance between two points", "Given a high-dimensional lattice, find the shortest non-zero vector — proven NP-hard", "Compressing a vector to its shortest form", "Encrypting a short message"],
+      correctIndex: 1,
+      justification: "SVP asks: given a lattice basis, find the shortest non-zero lattice vector. This is NP-hard in high dimensions, and no efficient quantum algorithm exists. LWE reduces to worst-case SVP."
+    },
+    {
+      question: "What is a 'lattice' in mathematics?",
+      options: ["A grid of parallel lines", "A regular arrangement of points in n-dimensional space with periodic structure", "A type of encryption algorithm", "A set of equations"],
+      correctIndex: 1,
+      justification: "A lattice is a set of points in R^n where any integer linear combination of basis vectors remains in the lattice. Think of it as an infinite, repeating grid extended to high dimensions."
+    },
+    {
+      question: "What does NP-hard mean in computational complexity?",
+      options: ["Not Possible to compute", "A problem at least as hard as every problem in NP — no known polynomial-time algorithm exists", "Not Protected — easy to break", "Nearly Polynomial time"],
+      correctIndex: 1,
+      justification: "A problem is NP-hard if it's at least as hard as the hardest problems in NP. If any NP-hard problem can be solved in polynomial time, all NP problems can. SVP is NP-hard."
+    },
+    {
+      question: "What is the Learning With Errors (LWE) problem?",
+      options: ["Training AI to recognize errors", "Given (A, b = As + e), find s — where e is small random noise", "A way to correct errors in transmission", "A method to learn from mistakes"],
+      correctIndex: 1,
+      justification: "LWE: given a random matrix A and a noisy public key b = As + e (where s is secret and e is small noise), find s. The noise e makes this computationally infeasible without the secret."
+    },
+    {
+      question: "What is the fundamental difference between classical and PQC hardness assumptions?",
+      options: ["PQC uses no math", "Classical assumptions (factoring, ECDLP) rely on algebraic structures exploitable by Shor's; PQC uses geometric/combinatorial problems with no known quantum shortcuts", "PQC is based on guesswork", "Classical problems are harder"],
+      correctIndex: 1,
+      justification: "Shor's exploits the algebraic structure of cyclic groups (used by RSA/ECC). Lattice problems are geometric — they lack the algebraic periodicity that Shor's needs. This is why they're quantum-resistant."
+    },
+    {
+      question: "What is a generator matrix G in code-based cryptography?",
+      options: ["A matrix that generates random numbers", "A k×n matrix that maps k-bit messages to n-bit codewords in a linear code", "A matrix that deletes errors", "A matrix for encryption"],
+      correctIndex: 1,
+      justification: "A generator matrix G defines a linear code. An k-bit message m is encoded as codeword c = mG (an n-bit vector). The redundancy allows error detection and correction."
+    },
+    {
+      question: "What is the Hamming weight of a binary vector?",
+      options: ["The length of the vector", "The number of non-zero entries (bits set to 1) in the vector", "The vector's position", "The vector's encryption key"],
+      correctIndex: 1,
+      justification: "Hamming weight counts the number of 1s in a binary vector. In McEliece, the error vector e has a specific Hamming weight t, ensuring the error is correctable by the trapdoor decoder."
+    },
+    {
+      question: "What is the syndrome decoding problem?",
+      options: ["Decoding a message without errors", "Given a noisy codeword and the parity-check matrix, find the error vector — NP-hard for general linear codes", "Encoding a syndrome into a message", "Verifying a digital signature"],
+      correctIndex: 1,
+      justification: "Syndrome decoding: given H and s = Hc (where c is a noisy codeword), find the most likely error vector. This is proven NP-hard for general linear codes."
+    },
+    {
+      question: "Why is AES-256 considered safe against quantum attacks while RSA-2048 is not?",
+      options: ["AES is more modern", "Grover's only provides quadratic speedup — AES-256 requires 2^128 quantum operations, which is infeasible. Shor's provides exponential speedup — RSA-2048 requires only 8.6 billion operations", "AES uses stronger math", "RSA uses weaker keys"],
+      correctIndex: 1,
+      justification: "Shor's provides exponential speedup, making RSA-2048 vulnerable. Grover's provides only quadratic speedup — AES-256 requires 2^128 quantum operations (still infeasible). Both are 'quantum-safe' in practice for AES-256, but not RSA-2048."
+    }
+  ]
+};
+
+const recapData = {
+  summary: [
+    "LWE (Learning With Errors): b = A·s + e mod q — given (A, b), finding s is hard even for quantum computers",
+    "LWE security is provably reducible to worst-case Shortest Vector Problem (SVP) in lattices — an NP-hard problem",
+    "CRYSTALS-Kyber (FIPS 203) is the NIST-standardized KEM for key exchange, based on Module-LWE",
+    "CRYSTALS-Dilithium (FIPS 204) is the NIST-standardized digital signature scheme, also based on Module-LWE",
+    "SPHINCS+ (FIPS 205) provides hash-based signatures relying only on the security of SHA-3/SHAKE — maximum conservatism",
+    "McEliece code-based encryption: c = mG + e — decoding without the private trapdoor is NP-hard",
+    "PQC algorithms have larger key/ciphertext sizes than RSA/ECC — bandwidth considerations matter",
+    "NIST finalized FIPS 203/204/205 in August 2024 — these are the official US government PQC standards",
+    "Hybrid TLS modes (X25519 + Kyber) allow gradual migration while maintaining classical security during transition",
+    "PQC replaces number-theoretic hardness (factoring, ECDLP) with geometric hardness (lattices) and combinatorial hardness (codes)"
+  ],
+  mcqs: [
+    {
+      question: "What is the LWE equation that forms the basis of CRYSTALS-Kyber?",
+      options: ["c = m^e mod n", "y² = x³ + ax + b", "b = A·s + e (mod q)", "E = mc²"],
+      correctIndex: 2,
+      justification: "LWE: b = A·s + e mod q. A is a random matrix, s is the secret key, e is small noise, and b is the public key. Finding s from (A, b) without knowing e is computationally infeasible."
+    },
+    {
+      question: "Which NIST PQC standard replaces RSA for digital signatures and what is its basis?",
+      options: ["CRYSTALS-Kyber (FIPS 203) — LWE basis", "CRYSTALS-Dilithium (FIPS 204) — Module-LWE basis", "SPHINCS+ (FIPS 205) — Hash basis", "McEliece — Code basis"],
+      correctIndex: 1,
+      justification: "CRYSTALS-Dilithium (FIPS 204) is the NIST standard for digital signatures, replacing RSA/ECDSA. It is based on Module-LWE hardness. Kyber replaces RSA/ECDH for key exchange (KEM)."
+    },
+    {
+      question: "Why is PQC key size generally LARGER than RSA/ECC for equivalent security?",
+      options: ["PQC engineers haven't optimized keys", "PQC uses different mathematical structures (lattices) that naturally produce larger keys — this is a known tradeoff for quantum resistance", "Larger keys are always more secure", "NIST mandated larger keys"],
+      correctIndex: 1,
+      justification: "Lattice-based PQC inherently produces larger keys because the security depends on high-dimensional matrices and vectors. Kyber-512 keys (800 bytes) are ~3× larger than RSA-2048 (256 bytes), but provide quantum security RSA cannot match."
+    },
+    {
+      question: "What security property does SPHINCS+ provide that makes it different from Kyber and Dilithium?",
+      options: ["It's faster", "It relies ONLY on hash function security (SHA-3/SHAKE), making it maximally conservative with the longest security track record", "It has smaller keys", "It's easier to implement"],
+      correctIndex: 1,
+      justification: "SPHINCS+ is hash-based, relying solely on the well-analyzed security of SHA-3/SHAKE. It doesn't depend on structured lattices, making it the most conservative choice. Tradeoff: larger signatures (~8KB vs Dilithium's ~2KB)."
+    },
+    {
+      question: "What is the key size comparison for RSA-2048 vs Kyber-512?",
+      options: ["RSA-2048: 2048 bytes, Kyber-512: 512 bytes", "RSA-2048: 256 bytes, Kyber-512: 800 bytes", "Same size", "RSA is always smaller regardless of security level"],
+      correctIndex: 1,
+      justification: "RSA-2048 has a 256-byte public key. Kyber-512 (128-bit PQ security) has an 800-byte public key. PQC keys are larger, but this is acceptable given the security benefit."
+    },
+    {
+      question: "What does 'KEM' stand for in Kyber?",
+      options: ["Key Establishment Module", "Key Encapsulation Mechanism — a protocol for two parties to agree on a shared secret key using public-key cryptography", "Key Elimination Method", "Knowledge Encryption Matrix"],
+      correctIndex: 1,
+      justification: "KEM allows two parties to establish a shared symmetric key using public-key operations. Kyber is a KEM replacing RSA/ECDH key exchange in TLS. FIPS 203 standardizes ML-KEM (formerly Kyber)."
+    },
+    {
+      question: "Why is McEliece considered to have the strongest security track record among PQC candidates?",
+      options: ["It was invented most recently", "McEliece was invented in 1978 and has never been broken, even by quantum cryptanalysis — 50+ years of scrutiny", "It uses the same math as RSA", "It has been standardized the longest"],
+      correctIndex: 1,
+      justification: "McEliece (1978) predates RSA (1977). Despite decades of classical and quantum cryptanalysis, no practical attack has been found. Its main drawback is large public keys (1MB+) limiting practical use."
+    },
+    {
+      question: "What is the purpose of the noise vector 'e' in LWE?",
+      options: ["It makes the math more complex unnecessarily", "It destroys the algebraic structure that Shor's algorithm exploits, creating a problem that's geometrically but not algebraically structured", "It speeds up computation", "It verifies correctness"],
+      correctIndex: 1,
+      justification: "The noise 'e' is the critical innovation. Without noise, b = As is a linear system solvable classically. The noise makes the system look random, destroying the algebraic structure that Shor's algorithm needs."
+    },
+    {
+      question: "What is a 'hybrid' TLS mode in the context of PQC migration?",
+      options: ["Using both WiFi and Ethernet", "Combining classical (X25519) and PQC (Kyber) key exchange so security is at least as strong as the stronger algorithm", "Alternating between two algorithms randomly", "Using hardware and software encryption together"],
+      correctIndex: 1,
+      justification: "Hybrid key exchange (e.g., X25519Kyber768) combines a classical and PQC algorithm. An attacker must break BOTH to compromise the connection. This allows safe migration without trusting PQC alone."
+    },
+    {
+      question: "What makes lattice problems hard for quantum computers specifically?",
+      options: ["Quantum computers can't handle lattices", "Lattice problems are geometric, not algebraic — they lack the periodic structure (cyclic groups) that Shor's algorithm exploits with QFT", "Lattices exist in imaginary space", "Lattice problems are easy classically"],
+      correctIndex: 1,
+      justification: "Shor's algorithm works by finding hidden periods in algebraic structures (cyclic groups). Lattice problems like SVP are geometric — there's no periodic function to detect with QFT. This geometric hardness is why PQC works."
+    }
+  ]
+};
+
 export default function PQCModule() {
   return (
     <TopicTemplate
@@ -348,7 +497,8 @@ export default function PQCModule() {
         insights: [
           "PQC replaces number-theory hardness with geometry-based hardness (lattices) or combinatorics (codes)",
           "NIST finalized 3 standards in 2024: Kyber (KEM), Dilithium (signatures), SPHINCS+ (hash signatures)",
-          "LWE security is provably related to worst-case SVP — one of the strongest security foundations in cryptography"
+          "LWE security is provably related to worst-case SVP — one of the strongest security foundations in cryptography",
+          "Everyday: Cloudflare already deploys Kyber+ X25519 hybrid key agreement; future browsers, messaging apps, and IoT devices will transparently upgrade to PQC without you noticing"
         ],
         advantages: ["Quantum-resistant security","Multiple diverse mathematical foundations","NIST-standardized for immediate deployment"],
         disadvantages: ["Larger key and ciphertext sizes","Higher computational cost","Immature implementations vs 40-year-old RSA codebases"],
@@ -356,6 +506,8 @@ export default function PQCModule() {
         industrialApps: ["TLS/HTTPS certificate replacement","Government secure communications","IoT device firmware signing","Cloud HSM key management"],
         careerRelevance: "Post-Quantum Implementation Engineers are among the highest-demand cybersecurity roles of the 2020s-2030s, with premium salaries at FAANG, defense contractors, and national laboratories."
       }}
+      prerequisites={prerequisitesData}
+      recap={recapData}
       onNextTopic={() => { window.location.href = '/modules/6-dashboard'; }}
     />
   );

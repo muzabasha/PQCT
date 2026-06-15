@@ -1,14 +1,159 @@
 "use client";
 
 import { TopicTemplate } from '@/components/TopicTemplate';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 
-export default function NeedPQCModule() {
-  const [activeStep, setActiveStep] = useState(0);
+const prerequisitesData = {
+  topics: [
+    "Basic number theory: prime numbers, factors, and divisibility",
+    "Modular arithmetic: modulo operation and modular equivalence",
+    "Exponential functions: understanding growth rates (linear vs exponential)",
+    "Fundamental understanding of what encryption means",
+    "Familiarity with the concept of computational hardness"
+  ],
+  mcqs: [
+    {
+      question: "What is the defining property of a prime number?",
+      options: ["It is divisible by 2", "It has exactly two distinct positive divisors: 1 and itself", "It is always odd", "It can be factored into smaller integers"],
+      correctIndex: 1,
+      justification: "A prime number is a positive integer greater than 1 that has no positive divisors other than 1 and itself. For example, 7 is prime because only 1 and 7 divide it evenly."
+    },
+    {
+      question: "What does 'a mod n' represent?",
+      options: ["The quotient when a is divided by n", "The remainder when a is divided by n", "The product of a and n", "The sum of a and n"],
+      correctIndex: 1,
+      justification: "The modulo operation 'a mod n' returns the remainder after dividing a by n. For example, 17 mod 5 = 2 because 17 ÷ 5 = 3 with remainder 2."
+    },
+    {
+      question: "Which of the following best describes exponential growth?",
+      options: ["Growth that adds a constant amount each step", "Growth that multiplies by a constant factor each step", "Growth that decreases over time", "Growth that stays the same each step"],
+      correctIndex: 1,
+      justification: "Exponential growth means the quantity multiplies by a constant factor at each step. For example, f(x) = 2^x doubles each time x increases by 1."
+    },
+    {
+      question: "What is the fundamental purpose of encryption?",
+      options: ["To delete data permanently", "To convert readable data into an unreadable form that can only be reversed with a key", "To compress data for storage", "To duplicate data for backup"],
+      correctIndex: 1,
+      justification: "Encryption transforms plaintext into ciphertext using an algorithm and key. Only someone with the correct key can decrypt it back to the original message."
+    },
+    {
+      question: "What does 'computational hardness' mean in cryptography?",
+      options: ["A problem that cannot be solved even with infinite time", "A problem that requires too much time or resources to solve in practice, even though a solution exists", "A problem with no known algorithm", "A problem that is impossible to state mathematically"],
+      correctIndex: 1,
+      justification: "A computationally hard problem has a solution, but the time/resources needed to find it exceed practical limits. RSA security relies on the hardness of factoring large numbers."
+    },
+    {
+      question: "What is the result of 23 mod 7?",
+      options: ["2", "3", "4", "5"],
+      correctIndex: 0,
+      justification: "23 ÷ 7 = 3 with remainder 2. Therefore, 23 mod 7 = 2."
+    },
+    {
+      question: "If a function has a 'period' of r, what does that mean?",
+      options: ["The function never repeats", "The function repeats its values every r steps", "The function increases by r each step", "The function decreases by r each step"],
+      correctIndex: 1,
+      justification: "A periodic function repeats its values at regular intervals. If period = r, then f(x + r) = f(x) for all x. This is the key insight Shor's algorithm exploits."
+    },
+    {
+      question: "Why is multiplication considered 'easy' but factoring considered 'hard'?",
+      options: ["Multiplication requires more steps", "Given a product, finding the original factors has no efficient algorithm for large numbers", "Factoring is taught before multiplication", "Multiplication is not used in cryptography"],
+      correctIndex: 1,
+      justification: "Multiplying two large primes (e.g., 17 × 23 = 391) is fast. But given 391, finding the two prime factors (17 and 23) becomes exponentially harder as numbers grow."
+    },
+    {
+      question: "What is a 'one-way function'?",
+      options: ["A function that can be computed in one direction but is infeasible to reverse", "A function that only works one time", "A function with no output", "A function that reverses itself automatically"],
+      correctIndex: 0,
+      justification: "A one-way function is easy to compute in the forward direction but computationally infeasible to invert. Mixing red and blue to get purple is a good analogy — easy to mix, hard to unmix."
+    },
+    {
+      question: "How does a classical computer find the period of a function?",
+      options: ["By using quantum superposition", "By computing values one at a time until the pattern repeats", "By guessing randomly", "By using a Fourier transform on analog signals"],
+      correctIndex: 1,
+      justification: "Classical computers must compute f(1), f(2), f(3), ... one by one until the pattern repeats. For large functions, this takes an enormous number of steps. Quantum computers use superposition to do this in parallel."
+    }
+  ]
+};
 
-  // Virtual Lab Simulation Component
-  const ShorSimulation = () => {
+const recapData = {
+  summary: [
+    "Classical cryptography like RSA relies on the computational hardness of factoring large composite numbers into their prime factors",
+    "Shor's Algorithm transforms the factoring problem into a period-finding problem, which quantum computers can solve efficiently",
+    "The Quantum Fourier Transform (QFT) allows quantum computers to extract the period of a function using constructive and destructive interference",
+    "A function f(x) = a^x mod N is periodic — its values repeat every 'r' steps, and finding this 'r' is the key to breaking RSA",
+    "Classical period-finding requires checking values sequentially (exponential time), while quantum period-finding uses superposition (polynomial time)",
+    "The modular exponentiation function creates a repeating pattern; the period r is found when f(x + r) = f(x) for all x",
+    "Once the period r is known, simple GCD operations can recover the prime factors p and q from N",
+    "This represents an exponential speedup: from O(e^{n^{1/3}}) classical to O(n³) quantum for factoring 2048-bit numbers",
+    "Classical cryptographic security is based on mathematical assumptions that quantum computing fundamentally breaks",
+    "RSA-2048, which would take classical computers 300 trillion years to factor, could be broken in hours on a cryptographically relevant quantum computer"
+  ],
+  mcqs: [
+    {
+      question: "What does Shor's Algorithm convert the factoring problem into?",
+      options: ["A graph traversal problem", "A period-finding problem", "A sorting problem", "An optimization problem"],
+      correctIndex: 1,
+      justification: "Shor's Algorithm cleverly transforms integer factorization into period-finding. Quantum computers excel at finding periods using the Quantum Fourier Transform, whereas classical computers struggle."
+    },
+    {
+      question: "What is the period 'r' in the context of f(x) = a^x mod N?",
+      options: ["The number of factors of N", "The smallest positive integer such that a^r ≡ 1 (mod N)", "The value of a when x = 0", "The product of p and q"],
+      correctIndex: 1,
+      justification: "The period r is the smallest positive integer where the function repeats: a^r mod N = 1. For example, with a=7, N=15, the sequence 7,4,13,1 repeats, so r=4."
+    },
+    {
+      question: "Why can't increasing RSA key sizes protect against Shor's Algorithm?",
+      options: ["Because Shor's is also exponential for larger keys", "Because Shor's complexity is O(n³), which grows only polynomially with key length", "Because key sizes cannot be increased", "Because RSA doesn't use keys"],
+      correctIndex: 1,
+      justification: "Shor's algorithm scales polynomially (O(n³)) with the bit-length of N. Doubling the key size only makes Shor's 8× harder, while classical factoring becomes exponentially harder."
+    },
+    {
+      question: "What role does the Quantum Fourier Transform (QFT) play in Shor's Algorithm?",
+      options: ["It encrypts the data", "It extracts the period from the quantum superposition", "It generates random numbers", "It verifies digital signatures"],
+      correctIndex: 1,
+      justification: "The QFT converts the quantum state from the 'time domain' (where values are distributed across all x) to the 'frequency domain,' where the period r appears as a sharp, measurable peak."
+    },
+    {
+      question: "What is the estimated time for a classical computer to factor RSA-2048?",
+      options: ["About 1 year", "About 300 trillion years", "About 1000 years", "About 1 million years"],
+      correctIndex: 1,
+      justification: "The best classical algorithm (GNFS) would take approximately 300 trillion years to factor RSA-2048, whereas Shor's algorithm on a CRQC could do it in about 8 hours."
+    },
+    {
+      question: "After finding the period r, how do we recover the prime factors of N?",
+      options: ["By multiplying r by N", "By computing GCD(a^(r/2) ± 1, N)", "By dividing N by r", "By taking the square root of N"],
+      correctIndex: 1,
+      justification: "Using the period r, we compute GCD(a^(r/2) + 1, N) and GCD(a^(r/2) − 1, N). One of these yields a non-trivial factor of N."
+    },
+    {
+      question: "Why is Shor's Algorithm considered an 'exponential speedup'?",
+      options: ["It is only slightly faster than classical methods", "It changes the complexity class from exponential to polynomial", "It requires exponential memory", "It uses exponential energy"],
+      correctIndex: 1,
+      justification: "Shor's moves factoring from the exponential complexity class (infeasible for large inputs) to polynomial class (feasible). This is the most dramatic type of speedup possible."
+    },
+    {
+      question: "What is the function used in Shor's period-finding step?",
+      options: ["f(x) = x² mod N", "f(x) = a^x mod N", "f(x) = log(x) mod N", "f(x) = √x mod N"],
+      correctIndex: 1,
+      justification: "Shor's uses the modular exponentiation function f(x) = a^x mod N, where 'a' is a randomly chosen number coprime to N. This function is periodic, and its period reveals the factors."
+    },
+    {
+      question: "What is a 'CRQC'?",
+      options: ["Central Research Quantum Computer", "Cryptographically Relevant Quantum Computer — one capable of breaking RSA-2048", "Classical Reduced Quantum Computer", "Certified Random Quantum Circuit"],
+      correctIndex: 1,
+      justification: "A CRQC is a quantum computer with enough stable qubits and low error rates to run Shor's algorithm on RSA-2048 scale numbers. Estimates place this capability at 2030-2035."
+    },
+    {
+      question: "How does quantum superposition help Shor's Algorithm?",
+      options: ["It stores the result on a classical hard drive", "It allows computing f(x) for all x simultaneously in parallel", "It encrypts the computation", "It reduces the need for error correction"],
+      correctIndex: 1,
+      justification: "Superposition allows the quantum computer to evaluate f(x) = a^x mod N for all possible values of x simultaneously using a single quantum circuit, instead of checking each x one at a time."
+    }
+  ]
+};
+
+const ShorSimulation = () => {
     const [x, setX] = useState(1);
     const [a] = useState(7);
     const [N] = useState(15);
@@ -21,27 +166,27 @@ export default function NeedPQCModule() {
     };
 
     return (
-      <div className="p-8 space-y-6">
-        <div className="flex justify-between items-center">
-          <h3 className="text-xl font-bold text-primary">Shor's Period Finding Simulator</h3>
+      <div className="p-4 md:p-8 space-y-4 md:space-y-6">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+          <h3 className="text-base md:text-xl font-bold text-primary">Shor's Period Finding Simulator</h3>
           <button 
             onClick={step}
-            className="px-6 py-2 bg-primary text-primary-foreground rounded-lg font-bold hover:scale-105 transition-all"
+            className="self-stretch sm:self-auto px-4 md:px-6 py-1.5 md:py-2 bg-primary text-primary-foreground rounded-lg font-bold text-xs md:text-sm hover:scale-105 transition-all"
           >
             Compute Next f(x)
           </button>
         </div>
         
-        <div className="grid grid-cols-2 gap-8">
-          <div className="bg-slate-900 border border-slate-800 p-6 rounded-xl">
-            <div className="text-xs font-bold text-muted-foreground uppercase mb-4">Calculation: f(x) = 7^x mod 15</div>
-            <div className="space-y-2">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 md:gap-8">
+          <div className="bg-slate-900 border border-slate-800 p-4 md:p-6 rounded-lg md:rounded-xl">
+            <div className="text-[10px] md:text-xs font-bold text-muted-foreground uppercase mb-2 md:mb-4">Calculation: f(x) = 7^x mod 15</div>
+            <div className="space-y-1 md:space-y-2">
               {history.map((h, i) => (
                 <motion.div 
                   initial={{ x: -20, opacity: 0 }}
                   animate={{ x: 0, opacity: 1 }}
                   key={i} 
-                  className="flex justify-between text-sm font-mono border-b border-slate-800 pb-1"
+                  className="flex justify-between text-[11px] md:text-sm font-mono border-b border-slate-800 pb-1"
                 >
                   <span className="text-slate-500">x={h.x}</span>
                   <span className="text-primary font-bold">{h.result}</span>
@@ -49,10 +194,10 @@ export default function NeedPQCModule() {
               ))}
             </div>
           </div>
-          <div className="flex flex-col justify-center items-center bg-slate-900 border border-slate-800 p-6 rounded-xl">
-            <div className="text-4xl font-black text-white mb-2">r = 4</div>
-            <div className="text-xs text-slate-500 uppercase font-bold tracking-widest">Detected Period</div>
-            <p className="mt-4 text-[10px] text-center text-slate-400">
+          <div className="flex flex-col justify-center items-center bg-slate-900 border border-slate-800 p-4 md:p-6 rounded-lg md:rounded-xl">
+            <div className="text-3xl md:text-4xl font-black text-white mb-1 md:mb-2">r = 4</div>
+            <div className="text-[10px] md:text-xs text-slate-500 uppercase font-bold tracking-widest">Detected Period</div>
+            <p className="mt-2 md:mt-4 text-[10px] text-center text-slate-400">
               In a Quantum Computer, the Quantum Fourier Transform (QFT) finds this '4' almost instantly. 
               Knowing '4' allows us to factor 15 into 3 and 5 easily.
             </p>
@@ -62,6 +207,7 @@ export default function NeedPQCModule() {
     );
   };
 
+export default function NeedPQCModule() {
   return (
     <TopicTemplate 
       topicId="1-1"
@@ -194,13 +340,19 @@ export default function NeedPQCModule() {
         component: <ShorSimulation />
       }}
       summary={{
-        insights: ["Classical security is a temporary island", "Physics can solve math problems"],
+        insights: [
+          "Classical security is a temporary island — today's encrypted data may be tomorrow's plaintext",
+          "Physics can solve math problems: Shor's exploits quantum mechanics, not faster transistors",
+          "Everyday: your HTTPS sessions, VPNs, and encrypted emails all depend on factoring being hard — Shor's breaks that assumption"
+        ],
         advantages: ["Provides transition path to PQC", "Standardizes threat models"],
         disadvantages: ["High computational overhead", "Hardware dependency"],
         futureScope: "Implementation of Shor's on 10,000+ logical qubits.",
-        industrialApps: ["Cryptographic Auditing", "Secure Communication Design"],
-        careerRelevance: "Essential for Quantum Security Engineers and Cryptographers."
+        industrialApps: ["Cryptographic Auditing", "Secure Communication Design", "HTTPS/TLS Infrastructure Review"],
+        careerRelevance: "Essential for Quantum Security Engineers and Cryptographers — a field projected to have 2M+ unfilled roles by 2030."
       }}
+      prerequisites={prerequisitesData}
+      recap={recapData}
       onNextTopic={() => {}}
     />
   );

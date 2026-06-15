@@ -24,7 +24,7 @@ interface PBLProps {
   teamRoles: Record<string, string>;
 }
 
-export function PBLBlock({ scope, feasibility, risks, budget, timeline, objectives, outcomes, milestones, teamRoles }: PBLProps) {
+export function PBLBlock({ scope, feasibility, risks, objectives, outcomes, milestones, teamRoles }: PBLProps) {
   return (
     <div className="space-y-12">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

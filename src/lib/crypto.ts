@@ -189,3 +189,65 @@ export function simulateCode(messageLength: number, errorWeight: number) {
     ]
   };
 }
+
+// ─── Quantum Basics: Qubit & Gate Simulation ────────────────────────────────
+
+export type QubitState = { alpha: number; beta: number }; // |ψ⟩ = α|0⟩ + β|1⟩
+
+export function createQubit(zero: boolean = true): QubitState {
+  return zero ? { alpha: 1, beta: 0 } : { alpha: 0, beta: 1 };
+}
+
+export function applyXGate(q: QubitState): QubitState {
+  return { alpha: q.beta, beta: q.alpha };
+}
+
+export function applyHGate(q: QubitState): QubitState {
+  const sqrt2 = Math.SQRT1_2;
+  return {
+    alpha: (q.alpha + q.beta) * sqrt2,
+    beta: (q.alpha - q.beta) * sqrt2
+  };
+}
+
+export function applyZGate(q: QubitState): QubitState {
+  return { alpha: q.alpha, beta: -q.beta };
+}
+
+export function applyYGate(q: QubitState): QubitState {
+  return { alpha: -q.beta, beta: q.alpha };
+}
+
+export type TwoQubitState = { alpha: number; beta: number; gamma: number; delta: number }; // |ψ⟩ = α|00⟩ + β|01⟩ + γ|10⟩ + δ|11⟩
+
+export function createTwoQubit(): TwoQubitState {
+  return { alpha: 1, beta: 0, gamma: 0, delta: 0 };
+}
+
+export function applyCNOTGate(q: TwoQubitState): TwoQubitState {
+  // CNOT: |00⟩→|00⟩, |01⟩→|01⟩, |10⟩→|11⟩, |11⟩→|10⟩
+  return { alpha: q.alpha, beta: q.beta, gamma: q.delta, delta: q.gamma };
+}
+
+export function measureQubit(q: QubitState): number {
+  const prob0 = q.alpha * q.alpha;
+  return Math.random() < prob0 ? 0 : 1;
+}
+
+export function getProbabilities(q: QubitState): { prob0: number; prob1: number } {
+  const total = q.alpha * q.alpha + q.beta * q.beta;
+  return {
+    prob0: (q.alpha * q.alpha) / total,
+    prob1: (q.beta * q.beta) / total
+  };
+}
+
+export function getTwoQubitProbabilities(q: TwoQubitState): { p00: number; p01: number; p10: number; p11: number } {
+  const total = q.alpha * q.alpha + q.beta * q.beta + q.gamma * q.gamma + q.delta * q.delta;
+  return {
+    p00: (q.alpha * q.alpha) / total,
+    p01: (q.beta * q.beta) / total,
+    p10: (q.gamma * q.gamma) / total,
+    p11: (q.delta * q.delta) / total
+  };
+}
