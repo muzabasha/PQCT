@@ -72,7 +72,7 @@ const typeColors: Record<string, string> = {
   'Lab': 'bg-success/10 text-success',
   'Application': 'bg-accent/10 text-accent',
   'Analysis': 'bg-secondary/10 text-secondary',
-  'Tool': 'bg-slate-800 text-slate-400',
+  'Tool': 'bg-slate-100 text-slate-600',
 };
 
 export default function SubjectOverview() {
@@ -114,9 +114,9 @@ export default function SubjectOverview() {
           {modules.map((mod, i) => (
             <div key={mod.id} className="flex items-center gap-3 flex-shrink-0">
               <Link href={mod.path}
-                className="px-3 md:px-4 py-2 bg-slate-900 border border-slate-700 hover:border-primary/50 rounded-xl text-[10px] md:text-sm font-bold transition-all flex items-center gap-1 md:gap-2">
+                className="px-3 md:px-4 py-2 bg-white border border-slate-200 hover:border-primary/50 rounded-xl text-[10px] md:text-sm font-bold transition-all flex items-center gap-1 md:gap-2">
                 <span className="text-base md:text-lg">{mod.icon}</span>
-                <span className="text-slate-300 whitespace-nowrap">{mod.title}</span>
+                <span className="text-slate-700 whitespace-nowrap">{mod.title}</span>
               </Link>
               {i < modules.length - 1 && <span className="text-muted-foreground text-lg md:text-xl flex-shrink-0">→</span>}
             </div>
@@ -150,20 +150,20 @@ export default function SubjectOverview() {
 
               <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-2 md:gap-3">
                 {mod.topics.map((topic, j) => (
-                  <div key={j} className="bg-slate-950/50 border border-slate-800 p-3 md:p-4 rounded-xl space-y-1 md:space-y-2">
-                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${typeColors[topic.type] ?? 'bg-slate-800 text-slate-400'}`}>
+                  <div key={j} className="bg-white/80 border border-slate-200 p-3 md:p-4 rounded-xl space-y-1 md:space-y-2">
+                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${typeColors[topic.type] ?? 'bg-slate-100 text-slate-600'}`}>
                       {topic.type}
                     </span>
-                    <div className="text-[11px] md:text-sm font-medium text-slate-300 leading-tight">{topic.name}</div>
+                    <div className="text-[11px] md:text-sm font-medium text-slate-700 leading-tight">{topic.name}</div>
                   </div>
                 ))}
               </div>
             </div>
 
             {/* Pedagogical Sections Strip */}
-            <div className="border-t border-slate-800 px-4 md:px-8 py-3 md:py-4 flex flex-wrap gap-2 md:gap-3 bg-slate-950/30">
+            <div className="border-t border-slate-200 px-4 md:px-8 py-3 md:py-4 flex flex-wrap gap-2 md:gap-3 bg-white/60">
               {['Storytelling', 'Math Modelling', 'Virtual Lab', 'ABL', 'PBL', 'Questions', 'HITL Review'].map(sec => (
-                <span key={sec} className="text-[10px] font-bold px-2 py-1 bg-slate-800 text-slate-400 rounded">
+                <span key={sec} className="text-[10px] font-bold px-2 py-1 bg-slate-100 text-slate-600 rounded">
                   ✓ {sec}
                 </span>
               ))}

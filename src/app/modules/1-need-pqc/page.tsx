@@ -132,12 +132,12 @@ const ShorSimulation = () => {
           <div className="space-y-1">
             <label className="text-[10px] font-bold text-muted-foreground uppercase">Base (a)</label>
             <input type="number" min={2} max={modN - 1} value={baseA} onChange={e => { reset(); setBaseA(Number(e.target.value)); }}
-              className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-lg font-mono text-white focus:ring-2 focus:ring-primary outline-none" />
+              className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-lg font-mono text-slate-900 focus:ring-2 focus:ring-primary outline-none" />
           </div>
           <div className="space-y-1">
             <label className="text-[10px] font-bold text-muted-foreground uppercase">Modulus (N)</label>
             <input type="number" min={3} max={999} value={modN} onChange={e => { reset(); setModN(Number(e.target.value)); }}
-              className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-lg font-mono text-white focus:ring-2 focus:ring-primary outline-none" />
+              className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-lg font-mono text-slate-900 focus:ring-2 focus:ring-primary outline-none" />
           </div>
         </div>
 
@@ -151,45 +151,45 @@ const ShorSimulation = () => {
             ▶ Auto-Run
           </button>
           <button onClick={reset}
-            className="px-5 py-2 bg-slate-800 text-slate-300 rounded-xl font-bold text-xs hover:bg-slate-700 transition-all">
+            className="px-5 py-2 bg-slate-100 text-slate-700 rounded-xl font-bold text-xs hover:bg-slate-200 transition-all">
             ↺ Reset
           </button>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 md:gap-8">
-          <div className="bg-slate-900 border border-slate-800 p-4 md:p-6 rounded-lg md:rounded-xl">
+          <div className="bg-white border border-slate-200 p-4 md:p-6 rounded-lg md:rounded-xl">
             <div className="text-[10px] md:text-xs font-bold text-muted-foreground uppercase mb-2 md:mb-4">
               Sequence: f(x) = {baseA}^x mod {modN}
             </div>
             <div className="space-y-1 md:space-y-2 max-h-[180px] overflow-y-auto">
               {history.length === 0 && (
-                <div className="text-[10px] text-slate-600 italic">Click 'Compute' to build the sequence</div>
+                <div className="text-[10px] text-slate-500 italic">Click 'Compute' to build the sequence</div>
               )}
               {history.map((h, i) => (
                 <motion.div initial={{ x: -20, opacity: 0 }} animate={{ x: 0, opacity: 1 }} key={i}
-                  className="flex justify-between text-[11px] md:text-sm font-mono border-b border-slate-800 pb-1">
-                  <span className="text-slate-500">f({h.x})</span>
+                  className="flex justify-between text-[11px] md:text-sm font-mono border-b border-slate-200 pb-1">
+                  <span className="text-slate-600">f({h.x})</span>
                   <span className="text-primary font-bold">{h.result}</span>
                 </motion.div>
               ))}
             </div>
           </div>
-          <div className="flex flex-col justify-center items-center bg-slate-900 border border-slate-800 p-4 md:p-6 rounded-lg md:rounded-xl space-y-3">
+          <div className="flex flex-col justify-center items-center bg-white border border-slate-200 p-4 md:p-6 rounded-lg md:rounded-xl space-y-3">
             {period ? (
               <>
                 <div className="text-3xl md:text-5xl font-black text-success mb-1">r = {period}</div>
                 <div className="text-[10px] md:text-xs text-success uppercase font-bold tracking-widest">✓ Period Detected</div>
                 <div className="grid grid-cols-2 gap-3 w-full mt-2">
-                  <div className="bg-slate-950 rounded-xl p-3 text-center">
+                  <div className="bg-white rounded-xl p-3 text-center">
                     <div className="text-[9px] text-muted-foreground uppercase">Classical Steps</div>
-                    <div className="text-lg font-black text-slate-300">{classicalMaxSteps}</div>
+                    <div className="text-lg font-black text-slate-700">{classicalMaxSteps}</div>
                   </div>
                   <div className="bg-success/10 rounded-xl p-3 text-center border border-success/20">
                     <div className="text-[9px] text-success uppercase">Quantum Steps (QFT)</div>
                     <div className="text-lg font-black text-success">1</div>
                   </div>
                 </div>
-                <p className="text-[10px] text-center text-slate-400 mt-1">
+                <p className="text-[10px] text-center text-slate-600 mt-1">
                   QFT finds period r = {period} in one operation. Classical needs up to {classicalMaxSteps} steps.
                   Speedup: <span className="text-success font-bold">{classicalMaxSteps}×</span>
                   {period % 2 === 0 && period > 0 && (
@@ -201,9 +201,9 @@ const ShorSimulation = () => {
               </>
             ) : (
               <>
-                <div className="text-3xl md:text-4xl font-black text-slate-600 mb-1">r = ?</div>
-                <div className="text-[10px] md:text-xs text-slate-500 uppercase font-bold tracking-widest">Awaiting Period Detection</div>
-                <p className="text-[10px] text-center text-slate-600 mt-1">
+                <div className="text-3xl md:text-4xl font-black text-slate-500 mb-1">r = ?</div>
+                <div className="text-[10px] md:text-xs text-slate-600 uppercase font-bold tracking-widest">Awaiting Period Detection</div>
+                <p className="text-[10px] text-center text-slate-500 mt-1">
                   Keep computing until the sequence repeats — that repeat distance is the period.
                 </p>
               </>
@@ -322,48 +322,48 @@ function QuantumFundamentals() {
 
         {/* Classical vs Quantum Bit */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <div className="glass p-8 rounded-3xl border-2 border-slate-800">
+          <div className="glass p-8 rounded-3xl border-2 border-slate-200">
             <div className="text-4xl mb-4">💡</div>
             <h2 className="text-2xl font-bold mb-4">Classical Bit</h2>
-            <p className="text-slate-400 leading-relaxed mb-6">
-              A classical bit is like a <strong className="text-white">light switch</strong> — it is either <strong className="text-primary">ON (1)</strong> or <strong className="text-primary">OFF (0)</strong>. 
+            <p className="text-slate-600 leading-relaxed mb-6">
+              A classical bit is like a <strong className="text-foreground">light switch</strong> — it is either <strong className="text-primary">ON (1)</strong> or <strong className="text-primary">OFF (0)</strong>. 
               There is no in-between. Every transistor in your phone, laptop, or supercomputer stores information this way.
             </p>
-            <div className="flex justify-center gap-8 p-6 bg-slate-900 rounded-2xl">
+            <div className="flex justify-center gap-8 p-6 bg-white rounded-2xl">
               <div className="text-center">
-                <div className="w-16 h-16 mx-auto rounded-full bg-slate-700 flex items-center justify-center border-2 border-slate-600">
-                  <span className="text-2xl text-slate-400">0</span>
+                <div className="w-16 h-16 mx-auto rounded-full bg-slate-200 flex items-center justify-center border-2 border-slate-300">
+                  <span className="text-2xl text-slate-600">0</span>
                 </div>
-                <div className="text-xs text-slate-500 mt-2">OFF (0)</div>
+                <div className="text-xs text-slate-600 mt-2">OFF (0)</div>
               </div>
-              <div className="text-3xl text-slate-600 flex items-center">or</div>
+              <div className="text-3xl text-slate-500 flex items-center">or</div>
               <div className="text-center">
                 <div className="w-16 h-16 mx-auto rounded-full bg-primary/20 flex items-center justify-center border-2 border-primary">
                   <span className="text-2xl text-primary">1</span>
                 </div>
-                <div className="text-xs text-slate-500 mt-2">ON (1)</div>
+                <div className="text-xs text-slate-600 mt-2">ON (1)</div>
               </div>
             </div>
-            <div className="mt-4 text-xs text-slate-500 text-center">
-              A classical bit can only be <strong className="text-slate-300">one value at a time</strong> — 0 or 1.
+            <div className="mt-4 text-xs text-slate-600 text-center">
+              A classical bit can only be <strong className="text-slate-700">one value at a time</strong> — 0 or 1.
             </div>
           </div>
 
           <div className="glass p-8 rounded-3xl border-2 border-indigo-500/20 bg-gradient-to-br from-indigo-500/5 to-transparent">
             <div className="text-4xl mb-4">⚛️</div>
             <h2 className="text-2xl font-bold mb-4 text-indigo-300">Quantum Bit (Qubit)</h2>
-            <p className="text-slate-400 leading-relaxed mb-6">
-              A qubit is like a <strong className="text-white">spinning coin</strong> — while it is spinning, it is <strong className="text-indigo-400">BOTH heads and tails simultaneously</strong>. 
+            <p className="text-slate-600 leading-relaxed mb-6">
+              A qubit is like a <strong className="text-foreground">spinning coin</strong> — while it is spinning, it is <strong className="text-indigo-400">BOTH heads and tails simultaneously</strong>. 
               Only when you catch it (measure it) does it randomly pick one. This "both-at-once" property is called <strong className="text-indigo-400">superposition</strong>.
             </p>
-            <div className="flex justify-center gap-8 p-6 bg-slate-900/80 rounded-2xl">
+            <div className="flex justify-center gap-8 p-6 bg-white/80 rounded-2xl">
               <div className="text-center">
                 <div className="w-16 h-16 mx-auto rounded-full bg-indigo-500/20 flex items-center justify-center border-2 border-indigo-500 animate-pulse">
                   <span className="text-2xl text-indigo-300">↻</span>
                 </div>
                 <div className="text-xs text-indigo-400/60 mt-2">Spinning</div>
               </div>
-              <div className="text-3xl text-slate-600 flex items-center">→</div>
+              <div className="text-3xl text-slate-500 flex items-center">→</div>
               <div className="text-center">
                 <div className="w-16 h-16 mx-auto rounded-full bg-pink-500/20 flex items-center justify-center border-2 border-pink-500">
                   <span className="text-xl text-pink-300">?%</span>
@@ -380,7 +380,7 @@ function QuantumFundamentals() {
         {/* Interactive Qubit Playground */}
         <div className="glass rounded-3xl p-8 border-2 border-indigo-500/10">
           <h2 className="text-2xl font-bold mb-2">🎮 Interactive Qubit Playground</h2>
-          <p className="text-slate-400 text-sm mb-8">Click gate buttons to manipulate a qubit. Watch how the probability changes.</p>
+          <p className="text-slate-600 text-sm mb-8">Click gate buttons to manipulate a qubit. Watch how the probability changes.</p>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
             <div className="lg:col-span-1">
@@ -390,14 +390,14 @@ function QuantumFundamentals() {
             <div className="lg:col-span-2 space-y-6">
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 <button onClick={() => apply('X')}
-                  className="bg-slate-900 border border-indigo-500/30 hover:bg-indigo-500/10 rounded-xl p-4 text-center transition-all hover:scale-[1.02] active:scale-95">
+                  className="bg-white border border-indigo-500/30 hover:bg-indigo-500/10 rounded-xl p-4 text-center transition-all hover:scale-[1.02] active:scale-95">
                   <div className="text-xl font-black text-white font-mono">X</div>
-                  <div className="text-[10px] text-slate-500">NOT (Flip)</div>
+                  <div className="text-[10px] text-slate-600">NOT (Flip)</div>
                 </button>
                 <button onClick={() => apply('H')}
-                  className="bg-slate-900 border border-pink-500/30 hover:bg-pink-500/10 rounded-xl p-4 text-center transition-all hover:scale-[1.02] active:scale-95">
+                  className="bg-white border border-pink-500/30 hover:bg-pink-500/10 rounded-xl p-4 text-center transition-all hover:scale-[1.02] active:scale-95">
                   <div className="text-xl font-black text-white font-mono">H</div>
-                  <div className="text-[10px] text-slate-500">Superpose</div>
+                  <div className="text-[10px] text-slate-600">Superpose</div>
                 </button>
                 <button onClick={() => apply('Measure')}
                   className="bg-amber-500/10 border border-amber-500/30 hover:bg-amber-500/20 rounded-xl p-4 text-center transition-all hover:scale-[1.02] active:scale-95">
@@ -405,9 +405,9 @@ function QuantumFundamentals() {
                   <div className="text-[10px] text-amber-500/60">Measure</div>
                 </button>
                 <button onClick={() => apply('Reset')}
-                  className="bg-slate-900 border border-slate-700 hover:bg-slate-800 rounded-xl p-4 text-center transition-all hover:scale-[1.02] active:scale-95">
-                  <div className="text-lg font-black text-slate-400">↺</div>
-                  <div className="text-[10px] text-slate-500">Reset</div>
+                  className="bg-white border border-slate-200 hover:bg-slate-100 rounded-xl p-4 text-center transition-all hover:scale-[1.02] active:scale-95">
+                  <div className="text-lg font-black text-slate-600">↺</div>
+                  <div className="text-[10px] text-slate-600">Reset</div>
                 </button>
               </div>
 
@@ -415,13 +415,13 @@ function QuantumFundamentals() {
                 <div className="bg-amber-500/10 border border-amber-500/30 rounded-xl p-4 text-center">
                   <div className="text-xs text-amber-400 font-bold uppercase mb-1">Measurement Collapsed to</div>
                   <div className="text-5xl font-black font-mono text-white">|{measureResult}⟩</div>
-                  <div className="text-xs text-slate-500 mt-2">
+                  <div className="text-xs text-slate-600 mt-2">
                     The superposition is gone — the qubit chose a definite state.
                   </div>
                 </div>
               )}
 
-              <div className="bg-slate-900/50 border border-slate-800 p-4 rounded-xl text-xs text-slate-400 space-y-2">
+              <div className="bg-white/80 border border-slate-200 p-4 rounded-xl text-xs text-slate-600 space-y-2">
                 <p className="font-bold text-indigo-400">Try This:</p>
                 <p>1. Click <strong className="text-white">X</strong> — flips from |0⟩ to |1⟩ (like a classical NOT)</p>
                 <p>2. Click <strong className="text-white">H</strong> — creates superposition: 50% |0⟩ + 50% |1⟩</p>
@@ -438,7 +438,7 @@ function QuantumFundamentals() {
         <div className="text-center space-y-4">
           <h2 className="text-5xl font-black font-outfit">Why Is Quantum Computing Faster?</h2>
           <p className="text-xl text-muted-foreground max-w-4xl mx-auto">
-            The key is not that qubits are "faster transistors." The key is that they can <strong className="text-white">process many possibilities simultaneously</strong>.
+            The key is not that qubits are "faster transistors." The key is that they can <strong className="text-foreground">process many possibilities simultaneously</strong>.
           </p>
         </div>
 
@@ -446,25 +446,25 @@ function QuantumFundamentals() {
           <div className="space-y-8">
             <div className="glass p-8 rounded-3xl border-2 border-destructive/20">
               <h3 className="text-xl font-bold text-destructive mb-4">❌ Classical: Serial Processing</h3>
-              <div className="space-y-3 text-slate-300 text-sm leading-relaxed">
+              <div className="space-y-3 text-slate-700 text-sm leading-relaxed">
                 <p>A classical computer checks possibilities <strong>one at a time</strong>, like trying every key on a keyring:</p>
-                <div className="flex gap-2 items-center flex-wrap p-4 bg-slate-900 rounded-xl">
+                <div className="flex gap-2 items-center flex-wrap p-4 bg-white rounded-xl">
                   {Array.from({ length: 10 }).map((_, i) => (
-                    <span key={i} className={`w-8 h-8 rounded flex items-center justify-center text-[10px] font-mono ${i < 3 ? 'bg-destructive/20 text-destructive' : 'bg-slate-800 text-slate-600'}`}>
+                    <span key={i} className={`w-8 h-8 rounded flex items-center justify-center text-[10px] font-mono ${i < 3 ? 'bg-destructive/20 text-destructive' : 'bg-slate-100 text-slate-500'}`}>
                       {i + 1}
                     </span>
                   ))}
-                  <span className="text-slate-500 text-xs"> ... N</span>
+                  <span className="text-slate-600 text-xs"> ... N</span>
                 </div>
-                <p className="text-slate-500 italic">"Check key 1… no. Check key 2… no. Check key 3… no. Check key 4…"</p>
+                <p className="text-slate-600 italic">"Check key 1… no. Check key 2… no. Check key 3… no. Check key 4…"</p>
                 <p><strong>Time complexity:</strong> O(N) — the work grows linearly with the problem size.</p>
               </div>
             </div>
             <div className="glass p-8 rounded-3xl border-2 border-success/20">
               <h3 className="text-xl font-bold text-success mb-4">✅ Quantum: Parallel Processing</h3>
-              <div className="space-y-3 text-slate-300 text-sm leading-relaxed">
+              <div className="space-y-3 text-slate-700 text-sm leading-relaxed">
                 <p>A quantum computer checks <strong>all possibilities at once</strong> using superposition, then uses <strong>interference</strong> to amplify the correct answer:</p>
-                <div className="flex gap-2 items-center flex-wrap p-4 bg-slate-900 rounded-xl">
+                <div className="flex gap-2 items-center flex-wrap p-4 bg-white rounded-xl">
                   {Array.from({ length: 10 }).map((_, i) => (
                     <span key={i} className="w-8 h-8 rounded flex items-center justify-center text-[10px] font-mono bg-indigo-500/20 text-indigo-400 border border-indigo-500/30">
                       {i + 1}
@@ -486,11 +486,11 @@ function QuantumFundamentals() {
                 { name: 'Interference', icon: '🌊', desc: 'Quantum waves can add up (constructive) or cancel out (destructive). Algorithms carefully design interference so correct answers are amplified and wrong answers cancel out.', color: 'text-pink-400' },
                 { name: 'Entanglement', icon: '🔗', desc: 'Two qubits can be linked so measuring one instantly determines the other — even if light-years apart. This enables correlations that classical systems cannot replicate.', color: 'text-emerald-400' },
               ].map(superpower => (
-                <div key={superpower.name} className="flex gap-4 p-4 bg-slate-900/50 rounded-xl border border-slate-800">
+                <div key={superpower.name} className="flex gap-4 p-4 bg-white/80 rounded-xl border border-slate-200">
                   <span className="text-3xl flex-shrink-0">{superpower.icon}</span>
                   <div>
                     <h4 className={`font-bold ${superpower.color} mb-1`}>{superpower.name}</h4>
-                    <p className="text-xs text-slate-400 leading-relaxed">{superpower.desc}</p>
+                    <p className="text-xs text-slate-600 leading-relaxed">{superpower.desc}</p>
                   </div>
                 </div>
               ))}
@@ -513,25 +513,25 @@ function QuantumFundamentals() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
             <div className="lg:col-span-1">
               <h3 className="text-lg font-bold mb-4">📊 Interactive Speed Explorer</h3>
-              <p className="text-sm text-slate-400 leading-relaxed mb-6">
+              <p className="text-sm text-slate-600 leading-relaxed mb-6">
                 Drag the slider to change the database size and see how classical and quantum search times compare.
               </p>
               <div className="space-y-2">
                 <label className="text-xs font-bold text-muted-foreground uppercase">Database Size (N): {searchSize.toLocaleString()}</label>
                 <input type="range" min={1000} max={100000000} step={1000} value={searchSize}
                   onChange={e => setSearchSize(Number(e.target.value))}
-                  className="w-full accent-secondary h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer" />
+                  className="w-full accent-secondary h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer" />
               </div>
               <div className="mt-6 space-y-4">
                 <div className="bg-destructive/10 border border-destructive/20 p-4 rounded-xl">
                   <div className="text-[10px] text-destructive uppercase font-bold mb-1">Classical</div>
                   <div className="text-2xl font-black font-mono text-destructive">{classicalSteps.toLocaleString()}</div>
-                  <div className="text-[10px] text-slate-500">steps (N/2 average)</div>
+                  <div className="text-[10px] text-slate-600">steps (N/2 average)</div>
                 </div>
                 <div className="bg-success/10 border border-success/20 p-4 rounded-xl">
                   <div className="text-[10px] text-success uppercase font-bold mb-1">Quantum (Grover's)</div>
                   <div className="text-2xl font-black font-mono text-success">{quantumSteps.toLocaleString()}</div>
-                  <div className="text-[10px] text-slate-500">steps ((π/4)√N)</div>
+                  <div className="text-[10px] text-slate-600">steps ((π/4)√N)</div>
                 </div>
                 <div className="bg-secondary/10 border border-secondary/20 p-4 rounded-xl text-center">
                   <div className="text-[10px] text-secondary uppercase font-bold">Speedup Factor</div>
@@ -545,13 +545,13 @@ function QuantumFundamentals() {
               <div className="flex flex-wrap gap-2">
                 {cases.map((c, i) => (
                   <button key={i} onClick={() => setActiveCase(i)}
-                    className={`px-4 py-2 rounded-full text-xs font-bold transition-all ${activeCase === i ? 'bg-secondary text-white' : 'bg-slate-800 text-slate-400 hover:bg-slate-700'}`}>
+                    className={`px-4 py-2 rounded-full text-xs font-bold transition-all ${activeCase === i ? 'bg-secondary text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}>
                     {c.icon} {c.title}
                   </button>
                 ))}
               </div>
 
-              <motion.div key={activeCase} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-slate-900 border border-slate-800 rounded-2xl p-8 space-y-6">
+              <motion.div key={activeCase} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-white border border-slate-200 rounded-2xl p-8 space-y-6">
                 <div className="flex items-center gap-4">
                   <span className="text-4xl">{cases[activeCase].icon}</span>
                   <h4 className="text-xl font-bold">{cases[activeCase].title}</h4>
@@ -561,18 +561,18 @@ function QuantumFundamentals() {
                   <div className="bg-destructive/5 border border-destructive/20 p-5 rounded-xl text-center">
                     <div className="text-[10px] text-destructive uppercase font-bold mb-2">Classical</div>
                     <div className="text-2xl font-black font-mono text-destructive">{cases[activeCase].classical}</div>
-                    <div className="text-[10px] text-slate-500 mt-1">{cases[activeCase].unit}</div>
+                    <div className="text-[10px] text-slate-600 mt-1">{cases[activeCase].unit}</div>
                   </div>
                   <div className="bg-success/5 border border-success/20 p-5 rounded-xl text-center">
                     <div className="text-[10px] text-success uppercase font-bold mb-2">Quantum</div>
                     <div className="text-2xl font-black font-mono text-success">{cases[activeCase].quantum}</div>
-                    <div className="text-[10px] text-slate-500 mt-1">{cases[activeCase].unit}</div>
+                    <div className="text-[10px] text-slate-600 mt-1">{cases[activeCase].unit}</div>
                   </div>
                 </div>
 
-                <p className="text-sm text-slate-300 leading-relaxed">{cases[activeCase].explanation}</p>
+                <p className="text-sm text-slate-700 leading-relaxed">{cases[activeCase].explanation}</p>
 
-                <div className={`text-xs p-3 rounded-lg ${activeCase === 1 ? 'bg-destructive/10 border border-destructive/20 text-destructive' : 'bg-slate-800/50 text-slate-400'}`}>
+                <div className={`text-xs p-3 rounded-lg ${activeCase === 1 ? 'bg-destructive/10 border border-destructive/20 text-destructive' : 'bg-slate-100/80 text-slate-600'}`}>
                   {activeCase === 1
                     ? "⚠️ This is why RSA, ECC, and Diffie-Hellman are considered broken on a quantum computer — the speedup is exponential."
                     : activeCase === 2
@@ -593,12 +593,12 @@ function QuantumFundamentals() {
               { type: 'Quadratic', icon: '🔦', algo: "Grover's Algorithm", speed: 'O(√N) vs O(N)', impact: 'Weakens AES, SHA — double key sizes', color: 'text-amber-400', border: 'border-amber-500/20' },
               { type: 'Negligible / None', icon: '🛡️', algo: 'PQC Algorithms', speed: 'No known quantum speedup', impact: 'Lattice, code, hash-based are safe', color: 'text-success', border: 'border-success/20' },
             ].map(item => (
-              <div key={item.type} className={`bg-slate-900/50 border ${item.border} p-6 rounded-2xl text-center space-y-3`}>
+              <div key={item.type} className={`bg-white/80 border ${item.border} p-6 rounded-2xl text-center space-y-3`}>
                 <div className="text-3xl">{item.icon}</div>
                 <h4 className={`font-bold ${item.color}`}>{item.type}</h4>
-                <div className="text-xs font-mono text-slate-300 bg-slate-800 rounded-lg py-2">{item.speed}</div>
-                <p className="text-xs text-slate-400">{item.algo}</p>
-                <p className="text-xs text-slate-500 italic">{item.impact}</p>
+                <div className="text-xs font-mono text-slate-700 bg-slate-100 rounded-lg py-2">{item.speed}</div>
+                <p className="text-xs text-slate-600">{item.algo}</p>
+                <p className="text-xs text-slate-600 italic">{item.impact}</p>
               </div>
             ))}
           </div>
@@ -610,7 +610,7 @@ function QuantumFundamentals() {
         <div className="text-center space-y-4">
           <h2 className="text-5xl font-black font-outfit">Impact on Modern Cryptography</h2>
           <p className="text-xl text-muted-foreground max-w-4xl mx-auto">
-            Not all cryptography is affected equally. Understanding <strong className="text-white">what breaks, what weakens, and what survives</strong> is the first step toward quantum safety.
+            Not all cryptography is affected equally. Understanding <strong className="text-foreground">what breaks, what weakens, and what survives</strong> is the first step toward quantum safety.
           </p>
         </div>
 
@@ -652,18 +652,18 @@ function QuantumFundamentals() {
 
               <div className="space-y-2">
                 {cat.algos.map(algo => (
-                  <div key={algo} className="flex items-center gap-3 bg-slate-900/50 p-3 rounded-xl border border-slate-800">
+                  <div key={algo} className="flex items-center gap-3 bg-white/80 p-3 rounded-xl border border-slate-200">
                     <span className={`w-2 h-2 rounded-full ${cat.color.split(' ')[0].replace('/10', '/50')}`} />
                     <span className="text-sm font-mono text-slate-200">{algo}</span>
                   </div>
                 ))}
               </div>
 
-              <div className={`text-xs text-slate-400 leading-relaxed p-3 rounded-lg bg-slate-900/50`}>
+              <div className={`text-xs text-slate-600 leading-relaxed p-3 rounded-lg bg-white/80`}>
                 <strong className={cat.textColor}>Why: </strong>{cat.reason}
               </div>
 
-              <div className="text-xs text-slate-500 italic p-3 bg-slate-900/30 rounded-lg">
+              <div className="text-xs text-slate-600 italic p-3 bg-slate-50/60 rounded-lg">
                 💡 {cat.analogy}
               </div>
             </div>
@@ -687,11 +687,11 @@ function QuantumFundamentals() {
                   <div className="flex items-center mb-4">
                     <div className={`h-2 flex-1 ${i === 0 ? 'rounded-l-full' : ''} ${i === 3 ? 'rounded-r-full' : ''} ${era.color}`} />
                   </div>
-                  <div className={`absolute top-0 left-1/2 -translate-x-1/2 w-4 h-4 rounded-full border-2 ${era.active ? `${era.color} border-white` : 'bg-slate-700 border-slate-600'}`} />
+                  <div className={`absolute top-0 left-1/2 -translate-x-1/2 w-4 h-4 rounded-full border-2 ${era.active ? `${era.color} border-white` : 'bg-slate-200 border-slate-300'}`} />
                   <div className="mt-6 space-y-2">
-                    <div className={`text-sm font-bold ${era.active ? 'text-white' : 'text-slate-500'}`}>{era.year}</div>
-                    <div className={`text-[10px] font-bold px-2 py-0.5 rounded-full inline-block ${era.active ? `${era.color}/20 ${era.color.replace('bg-', 'text-')}` : 'bg-slate-800 text-slate-500'}`}>{era.label}</div>
-                    <p className="text-xs text-slate-400 leading-relaxed">{era.desc}</p>
+                    <div className={`text-sm font-bold ${era.active ? 'text-white' : 'text-slate-600'}`}>{era.year}</div>
+                    <div className={`text-[10px] font-bold px-2 py-0.5 rounded-full inline-block ${era.active ? `${era.color}/20 ${era.color.replace('bg-', 'text-')}` : 'bg-slate-100 text-slate-600'}`}>{era.label}</div>
+                    <p className="text-xs text-slate-600 leading-relaxed">{era.desc}</p>
                   </div>
                 </div>
               ))}
@@ -699,7 +699,7 @@ function QuantumFundamentals() {
           </div>
           <div className="mt-8 p-4 bg-destructive/10 border border-destructive/20 rounded-xl">
             <p className="text-sm text-destructive font-bold mb-1">⚠️ Critical Takeaway</p>
-            <p className="text-xs text-slate-300 leading-relaxed">
+            <p className="text-xs text-slate-700 leading-relaxed">
               The HNDL (Harvest Now, Decrypt Later) threat is <strong className="text-white">active today</strong>. Adversaries are collecting encrypted data now, 
               knowing they can decrypt it once a CRQC exists. Data that must remain confidential for 20+ years (medical records, state secrets, 
               financial history) may <strong className="text-white">already be compromised</strong> — the decryption just hasn't happened yet.
@@ -716,7 +716,7 @@ function QuantumFundamentals() {
             pose existential threats to classical cryptography. The next section dives deep into <strong className="text-white">exactly how Shor's 
             algorithm breaks RSA</strong> — using the period-finding technique you just learned about.
           </p>
-          <div className="mt-6 flex justify-center gap-4 text-sm text-slate-500">
+          <div className="mt-6 flex justify-center gap-4 text-sm text-slate-600">
             <span>↓ Scroll down to begin Module 1</span>
           </div>
         </div>
@@ -741,11 +741,11 @@ export default function NeedPQCModule() {
           "Why did looking at the 'rhythm' (frequency) help the thief?",
           "Can we build a safe that doesn't rely on gears that vibrate in patterns?"
         ],
-        connectToTopic: "Our entire digital world (HTTPS, Banking, VPNs) is built on 'Prime Safes'. Shor's Algorithm is the 'Frequency Glasses' that finds the hidden periodicity in our encryption math, making the impossible factoring problem trivial."
+        connectToTopic: "Our entire digital world (HTTPS, Banking, VPNs) is built on 'Prime Safes'. This module measures why these safes fail against quantum computers — quantifying the exact speedup ratio (10²⁴×), validating that no key size can compensate, and measuring the risk score for every data type you encrypt today."
       }}
       mathModelling={{
-        need: "Classical RSA security relies on the fact that factoring a large number N = p*q is 'Hard'.",
-        motivation: "If we can find the 'period' of a modular function, we can factor N easily. Classical computers must check every number. Quantum computers use physics to see the whole pattern at once.",
+        need: "Measuring the quantum threat requires precise metrics: complexity class change (exponential → polynomial), gate count (2n³ for factoring n-bit numbers), and quantum advantage ratio (T_classical/T_quantum). Without these measurements, the threat remains abstract — with them, we validate the exact magnitude of PQC necessity.",
+        motivation: "Classical RSA security relies on factoring being 'Hard' (exponential). By measuring the exact gap between exponential and polynomial complexity — 10²⁴× for RSA-2048 — we validate that no key size increase can compensate. This measurement IS the proof that PQC replacement is mandatory, not optional.",
         challenges: {
           realWorld: "Trillions of dollars in global commerce rely on the 'hardness' of factoring.",
           technical: "Quantum computers use Superposition to compute f(x) for all x simultaneously, and Interference to cancel out wrong answers."
@@ -873,9 +873,9 @@ export default function NeedPQCModule() {
       }}
       summary={{
         insights: [
-          "Quantum threat impact measurement: Shor's achieves 10²⁴× speedup over classical factoring — the largest measured quantum advantage in any computational problem",
-          "Validated metric: RSA-2048 provides 0 bits quantum security because Shor's is polynomial-time; security margin is negative and cannot be fixed by increasing key sizes",
-          "Everyday impact measurement: your HTTPS sessions, VPNs, and encrypted emails have a validated risk score = (data lifetime > Q-Day horizon), meaning all long-lived data encrypted today is already measurable at-risk"
+          "Measuring the quantum threat: Shor's achieves 10²⁴× speedup over classical factoring — this validated quantum advantage ratio is the foundational measurement that proves classical public-key cryptography cannot survive the quantum era",
+          "Validating PQC necessity: RSA-2048 provides 0 bits quantum security (measured by Shor's polynomial-time complexity); security margin is negative and cannot be fixed by increasing key sizes — this validated measurement drives the global PQC migration mandate",
+          "Everyday impact measurement: your HTTPS sessions, VPNs, and encrypted emails have a validated risk score = (data lifetime > Q-Day horizon), meaning all long-lived data encrypted today is already measurable at-risk and requires PQC re-encryption"
         ],
         advantages: ["Provides transition path to PQC", "Standardizes threat models"],
         disadvantages: ["High computational overhead", "Hardware dependency"],

@@ -45,7 +45,7 @@ export default function AnalyticsPage() {
         <div className="flex gap-2">
           {(['progress', 'algorithms'] as const).map(v => (
             <button key={v} onClick={() => setView(v)}
-              className={`px-4 md:px-5 py-2 md:py-2.5 rounded-xl font-bold text-xs md:text-sm transition-all capitalize ${view === v ? 'bg-secondary text-white' : 'glass text-slate-400 hover:text-white'}`}>
+              className={`px-4 md:px-5 py-2 md:py-2.5 rounded-xl font-bold text-xs md:text-sm transition-all capitalize ${view === v ? 'bg-secondary text-white' : 'glass text-slate-600 hover:text-foreground'}`}>
               {v}
             </button>
           ))}
@@ -80,7 +80,7 @@ export default function AnalyticsPage() {
                     <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
                     <XAxis dataKey="module" tick={{ fill: '#94a3b8', fontSize: 10 }} />
                     <YAxis tick={{ fill: '#94a3b8', fontSize: 10 }} />
-                    <Tooltip contentStyle={{ backgroundColor: '#0f172a', borderColor: '#1e293b', borderRadius: '8px' }} />
+                    <Tooltip contentStyle={{ backgroundColor: '#ffffff', borderColor: '#e2e8f0', borderRadius: '8px' }} />
                     <Bar dataKey="completed" name="Completed %" fill="#38bdf8" radius={[6, 6, 0, 0]} />
                     <Bar dataKey="score" name="Score %" fill="#6366f1" radius={[6, 6, 0, 0]} />
                   </BarChart>
@@ -112,7 +112,7 @@ export default function AnalyticsPage() {
                   <span className="font-bold">{m.module}</span>
                   <span className="text-muted-foreground">{m.completed}% complete {m.score > 0 ? `· Score: ${m.score}%` : ''}</span>
                 </div>
-                <div className="h-2 bg-slate-900 rounded-full overflow-hidden">
+                <div className="h-2 bg-white rounded-full overflow-hidden">
                   <motion.div initial={{ width: 0 }} whileInView={{ width: `${m.completed}%` }}
                     transition={{ duration: 1, delay: i * 0.1 }} viewport={{ once: true }}
                     className="h-full bg-gradient-to-r from-primary to-secondary rounded-full" />
@@ -129,7 +129,7 @@ export default function AnalyticsPage() {
             <h2 className="text-base md:text-xl font-bold mb-4 md:mb-6">Algorithm Comparison Matrix</h2>
             <table className="w-full text-[10px] md:text-sm">
               <thead>
-                <tr className="border-b border-slate-800">
+                <tr className="border-b border-slate-200">
                   {['Algorithm', 'Classical Security (bits)', 'Quantum Security (bits)', 'Public Key (bytes)', 'Relative Speed'].map(h => (
                     <th key={h} className="text-left py-3 px-4 text-xs font-bold text-muted-foreground uppercase tracking-wider">{h}</th>
                   ))}
@@ -139,7 +139,7 @@ export default function AnalyticsPage() {
                 {algoComparison.map((alg, i) => (
                   <motion.tr key={i} initial={{ opacity: 0, x: -10 }} whileInView={{ opacity: 1, x: 0 }}
                     transition={{ delay: i * 0.08 }} viewport={{ once: true }}
-                    className="hover:bg-slate-900/50 transition-colors"
+                    className="hover:bg-white/80 transition-colors"
                   >
                     <td className="py-4 px-4 font-bold font-mono">{alg.name}</td>
                     <td className="py-4 px-4">
@@ -151,10 +151,10 @@ export default function AnalyticsPage() {
                         : <span className="text-success font-bold">{alg.quantum}</span>
                       }
                     </td>
-                    <td className="py-4 px-4 font-mono text-slate-300">{alg.keySize}</td>
+                    <td className="py-4 px-4 font-mono text-slate-700">{alg.keySize}</td>
                     <td className="py-4 px-4">
                       <div className="flex items-center gap-2">
-                        <div className="flex-1 h-1.5 bg-slate-800 rounded-full max-w-[100px]">
+                        <div className="flex-1 h-1.5 bg-slate-100 rounded-full max-w-[100px]">
                           <div className="h-full bg-primary rounded-full" style={{ width: `${alg.speed}%` }} />
                         </div>
                         <span className="text-[10px] text-muted-foreground">{alg.speed}%</span>
@@ -174,7 +174,7 @@ export default function AnalyticsPage() {
                   <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
                   <XAxis dataKey="name" tick={{ fill: '#94a3b8', fontSize: 10 }} />
                   <YAxis tick={{ fill: '#94a3b8', fontSize: 10 }} />
-                  <Tooltip contentStyle={{ backgroundColor: '#0f172a', borderColor: '#1e293b', borderRadius: '8px' }} />
+                  <Tooltip contentStyle={{ backgroundColor: '#ffffff', borderColor: '#e2e8f0', borderRadius: '8px' }} />
                   <Bar dataKey="keySize" name="Public Key Size (bytes)" fill="#6366f1" radius={[6, 6, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>

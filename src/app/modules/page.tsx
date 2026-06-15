@@ -56,15 +56,15 @@ export default function ModulesPage() {
                 <div className={`glass border ${colors.border} rounded-2xl md:rounded-3xl p-4 md:p-8 hover:scale-[1.01] hover:shadow-2xl ${colors.glow} transition-all`}>
                   <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-6">
                     <div className="flex items-center gap-4 md:gap-6 flex-1">
-                      <div className="w-10 h-10 md:w-16 md:h-16 rounded-xl md:rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-center text-2xl md:text-3xl flex-shrink-0 group-hover:scale-110 transition-transform">
+                      <div className="w-10 h-10 md:w-16 md:h-16 rounded-xl md:rounded-2xl bg-white border border-slate-200 flex items-center justify-center text-2xl md:text-3xl flex-shrink-0 group-hover:scale-110 transition-transform">
                         {mod.icon}
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 md:gap-3 mb-1 md:mb-2">
                           <span className={`text-[10px] md:text-xs font-black px-2 py-0.5 rounded ${colors.badge}`}>Module {mod.id}</span>
                         </div>
-                        <h2 className="text-base md:text-2xl font-bold mb-1 md:mb-2 group-hover:text-white transition-colors">{mod.title}</h2>
-                        <p className="text-slate-400 text-[11px] md:text-sm leading-relaxed max-w-2xl">{mod.desc}</p>
+                        <h2 className="text-base md:text-2xl font-bold mb-1 md:mb-2 group-hover:text-slate-900 transition-colors">{mod.title}</h2>
+                        <p className="text-slate-600 text-[11px] md:text-sm leading-relaxed max-w-2xl">{mod.desc}</p>
                       </div>
                     </div>
 
@@ -75,11 +75,11 @@ export default function ModulesPage() {
                         { label: 'ABL Levels', val: mod.abls, show: mod.abls > 0 },
                         { label: 'PBL Project', val: mod.pbl, show: mod.pbl > 0 },
                       ].filter(x => x.show).map((item, j) => (
-                        <div key={j} className="text-[10px] font-bold text-muted-foreground bg-slate-900 border border-slate-800 px-2 md:px-3 py-0.5 md:py-1 rounded-lg">
+                        <div key={j} className="text-[10px] font-bold text-muted-foreground bg-white border border-slate-200 px-2 md:px-3 py-0.5 md:py-1 rounded-lg">
                           {item.val} {item.label}
                         </div>
                       ))}
-                      <div className="text-xs md:text-sm font-bold text-slate-400 group-hover:text-white group-hover:translate-x-1 transition-all mt-1 md:mt-2 flex items-center gap-1">
+                      <div className="text-xs md:text-sm font-bold text-slate-600 group-hover:text-slate-900 group-hover:translate-x-1 transition-all mt-1 md:mt-2 flex items-center gap-1">
                         Open <span>→</span>
                       </div>
                     </div>

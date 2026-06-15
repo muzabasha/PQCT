@@ -54,7 +54,7 @@ export default function RootLayout({
           {children}
         </main>
 
-        <footer className="border-t border-border/50 bg-slate-950 py-8 md:py-12">
+        <footer className="border-t border-border/50 bg-white py-8 md:py-12">
           <div className="container mx-auto px-4 md:px-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 md:gap-12">
             <div className="col-span-1 sm:col-span-2 md:col-span-2">
               <div className="flex items-center gap-2 mb-3 md:mb-6">

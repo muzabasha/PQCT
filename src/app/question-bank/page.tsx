@@ -57,7 +57,7 @@ export default function QuestionBankPage() {
           <div className="flex gap-1.5 md:gap-2 flex-wrap">
             {(['All', 1, 2, 3, 4, 5] as const).map(m => (
               <button key={m} onClick={() => setFilter(m)}
-                className={`px-3 md:px-4 py-1.5 md:py-2 rounded-full text-[10px] md:text-xs font-bold transition-all ${filter === m ? 'bg-primary text-primary-foreground' : 'bg-slate-800 text-slate-400 hover:bg-slate-700'}`}>
+                className={`px-3 md:px-4 py-1.5 md:py-2 rounded-full text-[10px] md:text-xs font-bold transition-all ${filter === m ? 'bg-primary text-primary-foreground' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}>
                 {m === 'All' ? 'All Modules' : `Module ${m}`}
               </button>
             ))}
@@ -68,7 +68,7 @@ export default function QuestionBankPage() {
           <div className="flex gap-1.5 md:gap-2 flex-wrap">
             {['All', 'Conceptual', 'Numerical', 'Application'].map(t => (
               <button key={t} onClick={() => setTypeFilter(t)}
-                className={`px-3 md:px-4 py-1.5 md:py-2 rounded-full text-[10px] md:text-xs font-bold transition-all ${typeFilter === t ? 'bg-math text-white' : 'bg-slate-800 text-slate-400 hover:bg-slate-700'}`}>
+                className={`px-3 md:px-4 py-1.5 md:py-2 rounded-full text-[10px] md:text-xs font-bold transition-all ${typeFilter === t ? 'bg-math text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}>
                 {t}
               </button>
             ))}
@@ -88,7 +88,7 @@ export default function QuestionBankPage() {
             <div className="p-3 md:p-6 cursor-pointer" onClick={() => setExpanded(expanded === q.id ? null : q.id)}>
               <div className="flex items-start justify-between gap-3 md:gap-4">
                 <div className="flex items-start gap-2 md:gap-4 flex-1 min-w-0">
-                  <span className={`flex-shrink-0 text-[10px] font-bold px-1.5 md:px-2 py-0.5 md:py-1 rounded border ${typeColors[q.type] ?? 'bg-slate-800 text-slate-400 border-slate-700'}`}>
+                  <span className={`flex-shrink-0 text-[10px] font-bold px-1.5 md:px-2 py-0.5 md:py-1 rounded border ${typeColors[q.type] ?? 'bg-slate-100 text-slate-600 border-slate-200'}`}>
                     {q.type}
                   </span>
                   <div>
@@ -104,16 +104,16 @@ export default function QuestionBankPage() {
 
             {expanded === q.id && (
               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-                className="border-t border-slate-800 bg-slate-950/50 p-3 md:p-6 space-y-3 md:space-y-4">
+                className="border-t border-slate-200 bg-white/80 p-3 md:p-6 space-y-3 md:space-y-4">
                 <div>
                   <div className="text-[10px] md:text-xs font-bold text-success uppercase mb-1 md:mb-2">Model Answer</div>
-                  <p className="text-slate-300 text-xs md:text-sm leading-relaxed">{q.answer}</p>
+                  <p className="text-slate-700 text-xs md:text-sm leading-relaxed">{q.answer}</p>
                 </div>
                 <div>
                   <div className="text-[10px] md:text-xs font-bold text-primary uppercase mb-1 md:mb-2">Key Points</div>
                   <div className="flex flex-wrap gap-1.5 md:gap-2">
                     {q.keyPoints.map((kp, j) => (
-                      <span key={j} className="text-[10px] bg-slate-800 text-slate-300 px-2 md:px-3 py-0.5 md:py-1 rounded-full border border-slate-700">
+                      <span key={j} className="text-[10px] bg-slate-100 text-slate-700 px-2 md:px-3 py-0.5 md:py-1 rounded-full border border-slate-200">
                         {kp}
                       </span>
                     ))}

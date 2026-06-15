@@ -106,13 +106,13 @@ function ProgressSnapshot() {
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-4 md:gap-6">
             <div>
-              <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Your Progress</div>
-              <div className="text-lg md:text-2xl font-bold text-white">
-                {progress.completed} <span className="text-slate-500">/ {progress.total} modules</span>
+              <div className="text-[10px] font-bold text-slate-600 uppercase tracking-wider">Your Progress</div>
+              <div className="text-lg md:text-2xl font-bold text-foreground">
+                {progress.completed} <span className="text-slate-600">/ {progress.total} modules</span>
               </div>
             </div>
             <div className="w-24 md:w-32">
-              <div className="h-2 bg-slate-800 rounded-full overflow-hidden">
+              <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
                 <motion.div
                   initial={{ width: 0 }}
                   animate={{ width: `${(progress.completed / progress.total) * 100}%` }}
@@ -123,7 +123,7 @@ function ProgressSnapshot() {
           </div>
           <div className="flex items-center gap-4">
             <div className="text-right">
-              <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Streak</div>
+              <div className="text-[10px] font-bold text-slate-600 uppercase tracking-wider">Streak</div>
               <div className="text-lg md:text-2xl font-bold text-yellow-400">{progress.streak} days</div>
             </div>
             <Link
@@ -166,7 +166,7 @@ export default function Home() {
             </span>
           </h1>
 
-          <p className="text-base md:text-xl lg:text-2xl text-slate-400 max-w-3xl mx-auto leading-relaxed px-2">
+          <p className="text-base md:text-xl lg:text-2xl text-slate-600 max-w-3xl mx-auto leading-relaxed px-2">
             Measure and validate the impact of post-quantum cryptography techniques.
             Quantify threat levels, benchmark performance, and validate security through interactive simulations.
           </p>
@@ -177,7 +177,7 @@ export default function Home() {
               Begin Learning →
             </Link>
             <Link href="/subject-overview"
-              className="w-full sm:w-auto px-8 md:px-10 py-3 md:py-4 glass border border-slate-700 text-slate-300 rounded-2xl font-bold text-base md:text-lg hover:bg-slate-800 transition-all">
+              className="w-full sm:w-auto px-8 md:px-10 py-3 md:py-4 glass border border-slate-200 text-slate-700 rounded-2xl font-bold text-base md:text-lg hover:bg-slate-100 transition-all">
               View Curriculum
             </Link>
             <a href="https://scholar-sparkle-web.lovable.app" target="_blank" rel="noopener noreferrer"
@@ -227,7 +227,7 @@ export default function Home() {
             <h2 className="text-2xl md:text-4xl font-black font-outfit mb-1 md:mb-2">6 Core Modules</h2>
             <p className="text-sm md:text-lg text-muted-foreground">Complete syllabus coverage from classical threats to quantum-safe solutions.</p>
           </div>
-          <Link href="/modules" className="self-stretch md:self-auto text-center px-5 md:px-6 py-3 glass border border-slate-700 text-slate-300 rounded-xl font-bold text-xs md:text-sm hover:bg-slate-800 transition-all">
+          <Link href="/modules" className="self-stretch md:self-auto text-center px-5 md:px-6 py-3 glass border border-slate-200 text-slate-700 rounded-xl font-bold text-xs md:text-sm hover:bg-slate-100 transition-all">
             View All →
           </Link>
         </div>
@@ -243,22 +243,22 @@ export default function Home() {
                   <div>
                     <div className="flex items-center justify-between mb-4 md:mb-6">
                       <span className="text-2xl md:text-4xl">{mod.icon}</span>
-                      <span className={`text-[10px] md:text-xs font-black px-2 md:px-3 py-0.5 md:py-1 rounded-full bg-slate-800 ${mod.tag}`}>
+                      <span className={`text-[10px] md:text-xs font-black px-2 md:px-3 py-0.5 md:py-1 rounded-full bg-slate-100 ${mod.tag}`}>
                         Module {mod.id}
                       </span>
                     </div>
-                    <h3 className="text-lg md:text-2xl font-bold mb-2 md:mb-3 group-hover:text-white transition-colors">{mod.title}</h3>
-                    <p className="text-slate-400 text-xs md:text-sm leading-relaxed mb-4 md:mb-6">{mod.desc}</p>
+                    <h3 className="text-lg md:text-2xl font-bold mb-2 md:mb-3 group-hover:text-slate-900 transition-colors">{mod.title}</h3>
+                    <p className="text-slate-600 text-xs md:text-sm leading-relaxed mb-4 md:mb-6">{mod.desc}</p>
                     <div className="space-y-1">
                       {mod.topics.map((t, j) => (
-                        <div key={j} className="text-[10px] text-slate-500 flex items-center gap-2">
+                        <div key={j} className="text-[10px] text-slate-600 flex items-center gap-2">
                           <span className={`w-1 h-1 rounded-full ${mod.tag.replace('text-', 'bg-')}`} />
                           {t}
                         </div>
                       ))}
                     </div>
                   </div>
-                  <div className="mt-4 md:mt-8 flex items-center gap-2 text-xs md:text-sm font-bold text-slate-400 group-hover:text-white transition-colors">
+                  <div className="mt-4 md:mt-8 flex items-center gap-2 text-xs md:text-sm font-bold text-slate-600 group-hover:text-slate-900 transition-colors">
                     Start Topic
                     <span className="group-hover:translate-x-2 transition-transform">→</span>
                   </div>

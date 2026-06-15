@@ -22,7 +22,7 @@ export function QuestionsBlock({ questions }: { questions: Question[] }) {
         <div key={i} className="glass rounded-2xl overflow-hidden flex flex-col">
           <div className="p-6 flex-1">
             <div className="flex justify-between items-start mb-4">
-              <span className={`text-[10px] font-bold px-2 py-1 rounded bg-slate-800 text-slate-400 uppercase tracking-widest`}>
+              <span className={`text-[10px] font-bold px-2 py-1 rounded bg-slate-100 text-slate-600 uppercase tracking-widest`}>
                 {q.type}
               </span>
               <span className="text-xs font-bold text-muted-foreground">2 Marks</span>
@@ -34,7 +34,7 @@ export function QuestionsBlock({ questions }: { questions: Question[] }) {
           
           <button 
             onClick={() => setActiveIndex(activeIndex === i ? null : i)}
-            className="w-full py-4 px-6 bg-slate-900/50 hover:bg-slate-900 transition-colors text-sm font-bold text-primary flex items-center justify-between border-t border-border/20"
+            className="w-full py-4 px-6 bg-white/80 hover:bg-white transition-colors text-sm font-bold text-primary flex items-center justify-between border-t border-border/20"
           >
             {activeIndex === i ? 'Hide Solution' : 'View Detailed Solution'}
             <span>{activeIndex === i ? '↑' : '→'}</span>
@@ -46,20 +46,20 @@ export function QuestionsBlock({ questions }: { questions: Question[] }) {
                 initial={{ height: 0, opacity: 0 }}
                 animate={{ height: 'auto', opacity: 1 }}
                 exit={{ height: 0, opacity: 0 }}
-                className="bg-slate-950/80 border-t border-border/20"
+                className="bg-white/95 border-t border-border/20"
               >
                 <div className="p-6 space-y-6">
                   <div>
                     <h5 className="text-xs font-bold uppercase tracking-widest text-success mb-2">Model Answer</h5>
-                    <p className="text-sm text-slate-300 leading-relaxed">{q.answer}</p>
+                    <p className="text-sm text-slate-700 leading-relaxed">{q.answer}</p>
                   </div>
                   
-                  <div className="bg-slate-900/50 p-4 rounded-xl space-y-4">
+                  <div className="bg-white/80 p-4 rounded-xl space-y-4">
                     <div>
                       <h6 className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-1">Key Points for Discussion</h6>
                       <ul className="grid grid-cols-1 gap-1">
                         {q.keyPoints.map((kp, j) => (
-                          <li key={j} className="text-xs text-slate-400 flex gap-2">
+                          <li key={j} className="text-xs text-slate-600 flex gap-2">
                             <span className="text-primary">•</span> {kp}
                           </li>
                         ))}
@@ -71,7 +71,7 @@ export function QuestionsBlock({ questions }: { questions: Question[] }) {
                         <h6 className="text-[10px] font-bold uppercase tracking-widest text-destructive mb-1">Common Mistakes</h6>
                         <ul className="space-y-1">
                           {q.commonMistakes.map((cm, j) => (
-                            <li key={j} className="text-[10px] text-slate-500 italic">
+                            <li key={j} className="text-[10px] text-slate-600 italic">
                               ❌ {cm}
                             </li>
                           ))}
@@ -79,7 +79,7 @@ export function QuestionsBlock({ questions }: { questions: Question[] }) {
                       </div>
                       <div>
                         <h6 className="text-[10px] font-bold uppercase tracking-widest text-accent mb-1">Retention Tip</h6>
-                        <p className="text-[10px] text-slate-400 leading-tight">
+                        <p className="text-[10px] text-slate-600 leading-tight">
                           💡 {q.tips[0]}
                         </p>
                       </div>

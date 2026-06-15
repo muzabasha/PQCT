@@ -32,7 +32,7 @@ export function HITLFeedback({ topicName, onContinue }: HITLProps) {
           Mastery Check: {topicName}
         </h2>
         
-        <p className="text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed">
+        <p className="text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
           I have completed the content generation for this topic using the recursive pedagogical strategy. 
           Please review the sections above and provide your feedback.
         </p>
@@ -46,7 +46,7 @@ export function HITLFeedback({ topicName, onContinue }: HITLProps) {
               Approve & Proceed to Next Topic
             </button>
             <button 
-              className="px-10 py-4 glass border border-slate-700 text-slate-300 rounded-2xl font-bold text-lg hover:bg-slate-800 transition-all"
+              className="px-10 py-4 glass border border-slate-200 text-slate-700 rounded-2xl font-bold text-lg hover:bg-slate-100 transition-all"
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             >
               Review Again
@@ -69,7 +69,7 @@ export function HITLFeedback({ topicName, onContinue }: HITLProps) {
           </motion.div>
         )}
 
-        <div className="pt-12 text-sm text-slate-500 italic">
+        <div className="pt-12 text-sm text-slate-600 italic">
           Tip: You can suggest improvements in the chat, and I will regenerate the sections accordingly.
         </div>
       </motion.div>

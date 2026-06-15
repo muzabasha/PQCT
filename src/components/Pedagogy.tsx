@@ -28,7 +28,7 @@ export function Pedagogy({ story, whatLearned, topicName, topicIntroduction, act
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="bg-slate-900/40 backdrop-blur-md border border-slate-800/50 rounded-3xl p-8 lg:p-12 shadow-xl relative overflow-hidden"
+        className="bg-slate-50/80 backdrop-blur-md border border-slate-200/80 rounded-3xl p-8 lg:p-12 shadow-xl relative overflow-hidden"
       >
         <div className="absolute -top-24 -right-24 w-64 h-64 bg-amber-500/10 blur-[100px] rounded-full pointer-events-none"></div>
         
@@ -37,13 +37,13 @@ export function Pedagogy({ story, whatLearned, topicName, topicIntroduction, act
         </h2>
         
         <div className="prose prose-invert max-w-none">
-          <p className="text-xl text-slate-300 leading-relaxed italic font-serif">
+          <p className="text-xl text-slate-700 leading-relaxed italic font-serif">
             "{story}"
           </p>
         </div>
 
         <div className="mt-10 space-y-6">
-          <h3 className="text-lg font-bold text-slate-400 uppercase tracking-widest">What did we just learn?</h3>
+          <h3 className="text-lg font-bold text-slate-600 uppercase tracking-widest">What did we just learn?</h3>
           <ul className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {whatLearned.map((item, i) => (
               <motion.li 
@@ -51,7 +51,7 @@ export function Pedagogy({ story, whatLearned, topicName, topicIntroduction, act
                 initial={{ opacity: 0, x: -10 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ delay: i * 0.1 }}
-                className="bg-slate-950/50 p-4 rounded-xl border border-slate-800 text-slate-300 text-sm flex items-start gap-3"
+                className="bg-white/80 p-4 rounded-xl border border-slate-200 text-slate-700 text-sm flex items-start gap-3"
               >
                 <span className="text-amber-500 mt-1">✨</span>
                 {item}
@@ -73,12 +73,12 @@ export function Pedagogy({ story, whatLearned, topicName, topicIntroduction, act
           <motion.div 
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
-            className="mt-12 pt-12 border-t border-slate-800"
+            className="mt-12 pt-12 border-t border-slate-200"
           >
             <h3 className="text-3xl font-black mb-4 bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">
               Introducing: {topicName}
             </h3>
-            <p className="text-slate-400 text-lg leading-relaxed max-w-4xl">
+            <p className="text-slate-600 text-lg leading-relaxed max-w-4xl">
               {topicIntroduction}
             </p>
           </motion.div>
@@ -93,8 +93,8 @@ export function Pedagogy({ story, whatLearned, topicName, topicIntroduction, act
         className="space-y-8"
       >
         <div className="text-center">
-          <h2 className="text-3xl font-bold text-white mb-2">Activity Based Learning (ABL)</h2>
-          <p className="text-slate-500">Follow the steps for each phase of discovery</p>
+          <h2 className="text-3xl font-bold text-foreground mb-2">Activity Based Learning (ABL)</h2>
+          <p className="text-slate-600">Follow the steps for each phase of discovery</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -102,14 +102,14 @@ export function Pedagogy({ story, whatLearned, topicName, topicIntroduction, act
             <motion.div 
               key={i}
               whileHover={{ y: -5 }}
-              className={`bg-slate-900/60 border ${activeInstruction === i ? 'border-amber-500/50 ring-1 ring-amber-500/20' : 'border-slate-800'} p-6 rounded-2xl relative overflow-hidden group transition-all`}
+              className={`bg-white/85 border ${activeInstruction === i ? 'border-amber-500/50 ring-1 ring-amber-500/20' : 'border-slate-200'} p-6 rounded-2xl relative overflow-hidden group transition-all`}
             >
               <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                <span className="text-6xl font-black text-white">{i + 1}</span>
+                <span className="text-6xl font-black text-foreground">{i + 1}</span>
               </div>
               <h4 className="text-amber-500 font-bold text-sm uppercase tracking-wider mb-2">Level {i + 1}</h4>
-              <h5 className="text-white font-bold text-lg mb-3">{activity.title}</h5>
-              <p className="text-slate-400 text-sm leading-relaxed mb-6">
+              <h5 className="text-foreground font-bold text-lg mb-3">{activity.title}</h5>
+              <p className="text-slate-600 text-sm leading-relaxed mb-6">
                 {activity.description}
               </p>
               
@@ -127,11 +127,11 @@ export function Pedagogy({ story, whatLearned, topicName, topicIntroduction, act
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: 'auto' }}
                     exit={{ opacity: 0, height: 0 }}
-                    className="mt-4 pt-4 border-t border-slate-800"
+                    className="mt-4 pt-4 border-t border-slate-200"
                   >
                     <ul className="space-y-3">
                       {activity.instructions.map((step, si) => (
-                        <li key={si} className="text-xs text-slate-300 flex gap-2">
+                        <li key={si} className="text-xs text-slate-700 flex gap-2">
                           <span className="text-amber-500 font-bold">{si + 1}.</span>
                           {step}
                         </li>

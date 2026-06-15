@@ -43,7 +43,7 @@ export default function FeedbackPage() {
               <div className={`w-6 h-6 md:w-8 md:h-8 ${item.color} rounded-full flex-shrink-0 flex items-center justify-center font-black text-white text-[10px] md:text-sm`}>
                 {item.step}
               </div>
-              <p className="text-slate-300 pt-0.5 md:pt-1 leading-relaxed text-xs md:text-base">{item.text}</p>
+              <p className="text-slate-700 pt-0.5 md:pt-1 leading-relaxed text-xs md:text-base">{item.text}</p>
             </div>
           ))}
         </div>
@@ -57,14 +57,14 @@ export default function FeedbackPage() {
             <div className="space-y-1 md:space-y-2">
               <label className="text-[10px] md:text-xs font-bold text-muted-foreground uppercase">Module</label>
               <select value={form.module} onChange={e => setForm({...form, module: e.target.value})}
-                className="w-full bg-slate-900 border border-slate-700 rounded-lg md:rounded-xl px-3 md:px-4 py-2 md:py-3 text-sm md:text-base text-white outline-none focus:ring-2 focus:ring-primary">
+                className="w-full bg-white border border-slate-200 rounded-lg md:rounded-xl px-3 md:px-4 py-2 md:py-3 text-sm md:text-base text-slate-900 outline-none focus:ring-2 focus:ring-primary">
                 {[1,2,3,4,5,6].map(m => <option key={m} value={m}>Module {m}</option>)}
               </select>
             </div>
             <div className="space-y-1 md:space-y-2">
               <label className="text-[10px] md:text-xs font-bold text-muted-foreground uppercase">Section Reviewed</label>
               <select value={form.section} onChange={e => setForm({...form, section: e.target.value})}
-                className="w-full bg-slate-900 border border-slate-700 rounded-lg md:rounded-xl px-3 md:px-4 py-2 md:py-3 text-sm md:text-base text-white outline-none focus:ring-2 focus:ring-primary">
+                className="w-full bg-white border border-slate-200 rounded-lg md:rounded-xl px-3 md:px-4 py-2 md:py-3 text-sm md:text-base text-slate-900 outline-none focus:ring-2 focus:ring-primary">
                 {['Storytelling', 'Math Modelling', 'Virtual Lab', 'Activity Based Learning', 'Project Based Learning', 'Questions', 'Full Module'].map(s => (
                   <option key={s} value={s}>{s}</option>
                 ))}
@@ -77,7 +77,7 @@ export default function FeedbackPage() {
             <div className="flex gap-2 md:gap-3">
               {[1,2,3,4,5].map(r => (
                 <button type="button" key={r} onClick={() => setForm({...form, rating: String(r)})}
-                  className={`w-10 h-10 md:w-12 md:h-12 rounded-lg md:rounded-xl font-black text-base md:text-lg transition-all ${form.rating === String(r) ? 'bg-primary text-primary-foreground scale-110' : 'bg-slate-800 text-slate-400 hover:bg-slate-700'}`}>
+                  className={`w-10 h-10 md:w-12 md:h-12 rounded-lg md:rounded-xl font-black text-base md:text-lg transition-all ${form.rating === String(r) ? 'bg-primary text-primary-foreground scale-110' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}>
                   {r}
                 </button>
               ))}
@@ -88,14 +88,14 @@ export default function FeedbackPage() {
             <label className="text-[10px] md:text-xs font-bold text-muted-foreground uppercase">Observations & Comments</label>
             <textarea value={form.comments} onChange={e => setForm({...form, comments: e.target.value})}
               rows={3} placeholder="What worked well? What needs improvement? Were the analogies effective? Was the math depth appropriate?"
-              className="w-full bg-slate-900 border border-slate-700 rounded-lg md:rounded-xl px-3 md:px-4 py-2 md:py-3 text-sm md:text-base text-white outline-none focus:ring-2 focus:ring-primary resize-none" />
+              className="w-full bg-white border border-slate-200 rounded-lg md:rounded-xl px-3 md:px-4 py-2 md:py-3 text-sm md:text-base text-slate-900 outline-none focus:ring-2 focus:ring-primary resize-none" />
           </div>
 
           <div className="space-y-1 md:space-y-2">
             <label className="text-[10px] md:text-xs font-bold text-muted-foreground uppercase">Specific Improvement Suggestion</label>
             <textarea value={form.suggestion} onChange={e => setForm({...form, suggestion: e.target.value})}
               rows={2} placeholder="'Please add a numerical example for LWE with n=3' or 'The Grover analogy needs more humor' etc."
-              className="w-full bg-slate-900 border border-slate-700 rounded-lg md:rounded-xl px-3 md:px-4 py-2 md:py-3 text-sm md:text-base text-white outline-none focus:ring-2 focus:ring-primary resize-none" />
+              className="w-full bg-white border border-slate-200 rounded-lg md:rounded-xl px-3 md:px-4 py-2 md:py-3 text-sm md:text-base text-slate-900 outline-none focus:ring-2 focus:ring-primary resize-none" />
           </div>
 
           <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
@@ -104,7 +104,7 @@ export default function FeedbackPage() {
               ✅ Approve & Submit Review
             </button>
             <button type="button"
-              className="px-5 md:px-6 py-3 md:py-4 glass border border-slate-700 text-slate-300 rounded-xl md:rounded-2xl font-bold text-sm md:text-base hover:bg-slate-800 transition-all">
+              className="px-5 md:px-6 py-3 md:py-4 glass border border-slate-200 text-slate-700 rounded-xl md:rounded-2xl font-bold text-sm md:text-base hover:bg-slate-100 transition-all">
               Request Changes
             </button>
           </div>
@@ -114,14 +114,14 @@ export default function FeedbackPage() {
           className="glass border-2 border-success/30 rounded-2xl md:rounded-3xl p-6 md:p-12 text-center space-y-4 md:space-y-6">
           <div className="text-4xl md:text-6xl">✅</div>
           <h2 className="text-2xl md:text-3xl font-black text-success">Review Submitted!</h2>
-          <p className="text-sm md:text-lg text-slate-400">
+          <p className="text-sm md:text-lg text-slate-600">
             Thank you for your review of Module {form.module} — {form.section}. 
             Your feedback will be incorporated before the next topic is generated.
           </p>
-          <div className="bg-slate-900 border border-slate-800 p-4 md:p-6 rounded-xl md:rounded-2xl text-left space-y-1 md:space-y-2">
+          <div className="bg-white border border-slate-200 p-4 md:p-6 rounded-xl md:rounded-2xl text-left space-y-1 md:space-y-2">
             <div className="text-[10px] md:text-xs text-muted-foreground font-bold uppercase">Your Review Summary</div>
-            <div className="text-xs md:text-sm text-slate-300">Module: {form.module} | Section: {form.section} | Rating: {form.rating}/5</div>
-            {form.comments && <div className="text-xs md:text-sm text-slate-400 italic">"{form.comments}"</div>}
+            <div className="text-xs md:text-sm text-slate-700">Module: {form.module} | Section: {form.section} | Rating: {form.rating}/5</div>
+            {form.comments && <div className="text-xs md:text-sm text-slate-600 italic">"{form.comments}"</div>}
           </div>
           <button onClick={() => setStatus('idle')}
             className="px-6 md:px-8 py-2 md:py-3 bg-primary text-primary-foreground rounded-lg md:rounded-xl font-bold text-sm md:text-base hover:opacity-90 transition-all">

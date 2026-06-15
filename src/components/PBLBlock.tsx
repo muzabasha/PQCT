@@ -27,10 +27,10 @@ export function PBLBlock({ scope, feasibility, risks, objectives, outcomes, team
             <h3 className="text-2xl font-bold mb-4 flex items-center gap-3">
               <span className="text-secondary">🚀</span> Project Scope & Feasibility
             </h3>
-            <p className="text-slate-300 mb-6 leading-relaxed">{scope}</p>
-            <div className="bg-slate-950/50 p-4 rounded-xl border border-slate-800">
+            <p className="text-slate-700 mb-6 leading-relaxed">{scope}</p>
+            <div className="bg-white/80 p-4 rounded-xl border border-slate-200">
               <h4 className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-2">Feasibility Study</h4>
-              <p className="text-slate-400 text-sm italic">{feasibility}</p>
+              <p className="text-slate-600 text-sm italic">{feasibility}</p>
             </div>
           </div>
 
@@ -41,7 +41,7 @@ export function PBLBlock({ scope, feasibility, risks, objectives, outcomes, team
               </h4>
               <ul className="space-y-2">
                 {objectives.map((obj, i) => (
-                  <li key={i} className="text-sm text-slate-400 flex gap-2">
+                  <li key={i} className="text-sm text-slate-600 flex gap-2">
                     <span className="text-secondary">•</span> {obj}
                   </li>
                 ))}
@@ -53,7 +53,7 @@ export function PBLBlock({ scope, feasibility, risks, objectives, outcomes, team
               </h4>
               <ul className="space-y-2">
                 {outcomes.map((out, i) => (
-                  <li key={i} className="text-sm text-slate-400 flex gap-2">
+                  <li key={i} className="text-sm text-slate-600 flex gap-2">
                     <span className="text-success">•</span> {out}
                   </li>
                 ))}
@@ -70,8 +70,8 @@ export function PBLBlock({ scope, feasibility, risks, objectives, outcomes, team
             </h4>
             <div className="space-y-3">
               {risks.map((risk, i) => (
-                <div key={i} className="flex items-center justify-between bg-slate-950/50 p-3 rounded-lg border border-slate-800">
-                  <span className="text-xs text-slate-300">{risk.description}</span>
+                <div key={i} className="flex items-center justify-between bg-white/80 p-3 rounded-lg border border-slate-200">
+                  <span className="text-xs text-slate-700">{risk.description}</span>
                   <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
                     risk.level === 'High' ? 'bg-destructive/20 text-destructive' :
                     risk.level === 'Medium' ? 'bg-accent/20 text-accent' :
@@ -92,7 +92,7 @@ export function PBLBlock({ scope, feasibility, risks, objectives, outcomes, team
               {Object.entries(teamRoles).map(([role, task], i) => (
                 <div key={i} className="space-y-1">
                   <div className="text-xs font-bold text-secondary">{role}</div>
-                  <div className="text-xs text-slate-400">{task}</div>
+                  <div className="text-xs text-slate-600">{task}</div>
                 </div>
               ))}
             </div>

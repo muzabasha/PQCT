@@ -47,9 +47,9 @@ export function MCQBlock({ title, subtitle, icon, items, mcqs }: MCQBlockProps) 
           <h3 className="text-base md:text-xl font-bold mb-4 md:mb-6 flex items-center gap-2 text-primary">Core Topics</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3">
             {items.map((item, i) => (
-              <div key={i} className="flex items-center gap-2 md:gap-3 bg-slate-900/50 p-3 md:p-4 rounded-lg md:rounded-xl border border-slate-800">
+              <div key={i} className="flex items-center gap-2 md:gap-3 bg-white/80 p-3 md:p-4 rounded-lg md:rounded-xl border border-slate-200">
                 <span className="w-5 h-5 md:w-6 md:h-6 rounded-full bg-primary/10 text-primary flex items-center justify-center text-[10px] md:text-xs font-bold">{i + 1}</span>
-                <span className="text-[11px] md:text-sm text-slate-300">{item}</span>
+                <span className="text-[11px] md:text-sm text-slate-700">{item}</span>
               </div>
             ))}
           </div>
@@ -66,7 +66,7 @@ export function MCQBlock({ title, subtitle, icon, items, mcqs }: MCQBlockProps) 
               ? selected[qIdx] === mcq.correctIndex
                 ? 'border-success/30'
                 : 'border-destructive/30'
-              : 'border-slate-800'
+              : 'border-slate-200'
           }`}>
             <div className="p-4 md:p-6 space-y-3 md:space-y-4">
               <div className="flex items-start gap-3 md:gap-4">
@@ -92,7 +92,7 @@ export function MCQBlock({ title, subtitle, icon, items, mcqs }: MCQBlockProps) 
                             ? 'bg-destructive/20 text-destructive border border-destructive/40'
                             : isSelected
                               ? 'bg-primary/10 text-primary border border-primary/30'
-                              : 'bg-slate-900/50 text-slate-300 border border-slate-800 hover:border-primary/30'
+                              : 'bg-white/80 text-slate-700 border border-slate-200 hover:border-primary/30'
                       }`}
                     >
                       <span className="font-mono mr-2 md:mr-3 opacity-60">{String.fromCharCode(65 + optIdx)}.</span>
@@ -128,7 +128,7 @@ export function MCQBlock({ title, subtitle, icon, items, mcqs }: MCQBlockProps) 
                       {selected[qIdx] === mcq.correctIndex ? 'Correct!' : 'Incorrect'}
                     </span>
                   </div>
-                  <div className="text-xs md:text-sm text-slate-300 leading-relaxed">
+                  <div className="text-xs md:text-sm text-slate-700 leading-relaxed">
                     <span className="font-bold text-primary">Justification: </span>
                     {mcq.justification}
                   </div>

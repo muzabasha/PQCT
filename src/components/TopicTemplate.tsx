@@ -146,11 +146,11 @@ export function TopicTemplate(props: TopicTemplateProps) {
   return (
     <div className="max-w-7xl mx-auto px-4 md:px-6 pb-16 md:pb-24 space-y-12 md:space-y-24">
       {/* Sticky Section Navigation */}
-      <div className="sticky top-20 z-40 -mx-4 md:-mx-6 px-4 md:px-6 py-2 md:py-3 bg-slate-950/90 backdrop-blur-xl border-b border-border/50 overflow-x-auto">
+      <div className="sticky top-20 z-40 -mx-4 md:-mx-6 px-4 md:px-6 py-2 md:py-3 bg-white/95 backdrop-blur-xl border-b border-border/50 overflow-x-auto">
         <div className="flex gap-1 min-w-max">
           {sections.filter(s => !s.condition || s.condition(props)).map(s => (
             <a key={s.id} href={`#${s.id}`}
-              className="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-primary hover:bg-primary/10 transition-all whitespace-nowrap flex items-center gap-1.5">
+              className="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 hover:text-primary hover:bg-primary/10 transition-all whitespace-nowrap flex items-center gap-1.5">
               <span>{s.icon}</span> {s.label}
             </a>
           ))}
@@ -184,17 +184,17 @@ export function TopicTemplate(props: TopicTemplateProps) {
             <div className="space-y-6 md:space-y-8">
               <div className="story-card p-6 md:p-10 rounded-2xl md:rounded-[3rem] glass relative">
                 <span className="absolute -top-4 md:-top-6 -left-4 md:-left-6 text-3xl md:text-6xl">🎭</span>
-                <p className="text-base md:text-2xl font-serif italic text-slate-300 leading-relaxed mt-4 md:mt-0">
+                <p className="text-base md:text-2xl font-serif italic text-slate-700 leading-relaxed mt-4 md:mt-0">
                   "{props.story.content}"
                 </p>
               </div>
               
-              <div className="bg-slate-900/40 border border-slate-800 p-4 md:p-8 rounded-2xl md:rounded-3xl">
+              <div className="bg-slate-50/80 border border-slate-200 p-4 md:p-8 rounded-2xl md:rounded-3xl">
                 <h4 className="text-accent font-bold mb-3 md:mb-4 uppercase tracking-widest text-[10px] md:text-sm">Reflective Questions</h4>
                 <div className="space-y-3 md:space-y-4">
                   {props.story.reflectiveQuestions.map((q, i) => (
                     <div key={i} className="space-y-1.5">
-                      <p className="text-sm md:text-lg text-slate-400 flex gap-3 md:gap-4">
+                      <p className="text-sm md:text-lg text-slate-600 flex gap-3 md:gap-4">
                         <span className="text-accent font-bold shrink-0">?</span> {q}
                       </p>
                       <textarea
@@ -202,7 +202,7 @@ export function TopicTemplate(props: TopicTemplateProps) {
                         onChange={e => setStoryReflections(prev => ({ ...prev, [i]: e.target.value }))}
                         placeholder="Type your reflection here..."
                         rows={2}
-                        className="w-full text-xs md:text-sm bg-slate-950/70 border border-slate-700 rounded-lg p-2 md:p-3 text-slate-200 placeholder-slate-600 focus:border-accent focus:ring-1 focus:ring-accent outline-none resize-none transition"
+                        className="w-full text-xs md:text-sm bg-white/90 border border-slate-200 rounded-lg p-2 md:p-3 text-slate-200 placeholder-slate-400 focus:border-accent focus:ring-1 focus:ring-accent outline-none resize-none transition"
                       />
                     </div>
                   ))}
@@ -213,14 +213,14 @@ export function TopicTemplate(props: TopicTemplateProps) {
             <div className="space-y-6 md:space-y-8">
               <div className="bg-primary/5 border border-primary/20 p-6 md:p-10 rounded-2xl md:rounded-[3rem]">
                 <h3 className="text-lg md:text-2xl font-bold text-primary mb-4 md:mb-6">Connecting to the Concept</h3>
-                <p className="text-base md:text-xl text-slate-300 leading-relaxed mb-6 md:mb-8">
+                <p className="text-base md:text-xl text-slate-700 leading-relaxed mb-6 md:mb-8">
                   {props.story.connectToTopic}
                 </p>
-                <div className="flex items-center gap-3 md:gap-4 p-4 md:p-6 bg-slate-950/50 rounded-xl md:rounded-2xl border border-slate-800">
+                <div className="flex items-center gap-3 md:gap-4 p-4 md:p-6 bg-white/80 rounded-xl md:rounded-2xl border border-slate-200">
                   <div className="w-8 h-8 md:w-12 md:h-12 bg-primary rounded-xl flex items-center justify-center text-lg md:text-2xl">💡</div>
                   <div>
                     <div className="text-[10px] md:text-xs font-bold text-muted-foreground uppercase">Actual Topic</div>
-                    <div className="text-base md:text-xl font-bold text-white">{props.topicName}</div>
+                    <div className="text-base md:text-xl font-bold text-foreground">{props.topicName}</div>
                   </div>
                 </div>
               </div>
@@ -248,11 +248,11 @@ export function TopicTemplate(props: TopicTemplateProps) {
               <div className="space-y-4 md:space-y-6">
                 <div>
                   <h4 className="text-[10px] md:text-xs font-bold uppercase tracking-widest text-muted-foreground mb-1 md:mb-2">The Challenge</h4>
-                  <p className="text-slate-300 text-xs md:text-sm leading-relaxed">{props.mathModelling.challenges.realWorld}</p>
+                  <p className="text-slate-700 text-xs md:text-sm leading-relaxed">{props.mathModelling.challenges.realWorld}</p>
                 </div>
                 <div>
                   <h4 className="text-[10px] md:text-xs font-bold uppercase tracking-widest text-muted-foreground mb-1 md:mb-2">Technical Barrier</h4>
-                  <p className="text-slate-300 text-xs md:text-sm leading-relaxed">{props.mathModelling.challenges.technical}</p>
+                  <p className="text-slate-700 text-xs md:text-sm leading-relaxed">{props.mathModelling.challenges.technical}</p>
                 </div>
                 <div className="pt-2 md:pt-4 flex flex-wrap gap-1 md:gap-2">
                   {props.mathModelling.advantages.map((adv, i) => (
@@ -282,14 +282,14 @@ export function TopicTemplate(props: TopicTemplateProps) {
         
         <div className="glass rounded-2xl md:rounded-[3rem] overflow-hidden border-2 border-primary/20">
           <div className="grid grid-cols-1 lg:grid-cols-4 min-h-[400px] md:min-h-[600px]">
-            <div className="lg:col-span-3 bg-slate-950 p-4 md:p-8 flex flex-col">
-              <div className="flex-1 rounded-xl md:rounded-2xl border border-slate-800 bg-slate-900/20 relative overflow-hidden">
+            <div className="lg:col-span-3 bg-white p-4 md:p-8 flex flex-col">
+              <div className="flex-1 rounded-xl md:rounded-2xl border border-slate-200 bg-slate-50/40 relative overflow-hidden">
                 {props.virtualLab.component}
               </div>
-              <div className="mt-4 md:mt-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 md:gap-4 p-3 md:p-4 bg-slate-900/40 rounded-lg md:rounded-xl">
+              <div className="mt-4 md:mt-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 md:gap-4 p-3 md:p-4 bg-slate-50/80 rounded-lg md:rounded-xl">
                  <div className="flex gap-2 md:gap-4">
                    {props.virtualLab.controls.map((c, i) => (
-                     <button key={i} className="px-3 md:px-4 py-1.5 md:py-2 bg-slate-800 hover:bg-slate-700 rounded-lg text-[10px] md:text-xs font-bold transition-colors">
+                     <button key={i} className="px-3 md:px-4 py-1.5 md:py-2 bg-slate-100 hover:bg-slate-200 rounded-lg text-[10px] md:text-xs font-bold transition-colors">
                        {c}
                      </button>
                    ))}
@@ -299,14 +299,14 @@ export function TopicTemplate(props: TopicTemplateProps) {
                  </div>
               </div>
             </div>
-            <div className="p-4 md:p-8 border-t md:border-t-0 md:border-l border-border/50 space-y-4 md:space-y-8 bg-slate-900/20 overflow-y-auto">
+            <div className="p-4 md:p-8 border-t md:border-t-0 md:border-l border-border/50 space-y-4 md:space-y-8 bg-slate-50/40 overflow-y-auto">
               <div>
                 <h4 className="font-bold mb-2 md:mb-3 text-primary text-sm md:text-base flex items-center gap-2">
                   <span>📋</span> Guided Procedure
                 </h4>
                 <ol className="space-y-2 md:space-y-3">
                   {props.virtualLab.procedure.map((step, i) => (
-                    <li key={i} className="text-[10px] md:text-xs text-slate-300 leading-relaxed flex gap-2">
+                    <li key={i} className="text-[10px] md:text-xs text-slate-700 leading-relaxed flex gap-2">
                       <span className="font-bold text-primary shrink-0">{i + 1}.</span>
                       <span>{step}</span>
                     </li>
@@ -319,16 +319,16 @@ export function TopicTemplate(props: TopicTemplateProps) {
                 </h4>
                 <div className="space-y-3 md:space-y-4">
                   {props.virtualLab.observations.map((obs, i) => (
-                    <div key={i} className="bg-slate-800/50 border border-slate-700/50 rounded-lg p-3">
+                    <div key={i} className="bg-slate-100/80 border border-slate-200/80 rounded-lg p-3">
                       <p className="text-[10px] md:text-xs text-slate-200 mb-1">{obs.prompt}</p>
-                      <p className="text-[9px] md:text-[10px] text-slate-500 italic">{obs.hint}</p>
+                      <p className="text-[9px] md:text-[10px] text-slate-600 italic">{obs.hint}</p>
                     </div>
                   ))}
                 </div>
               </div>
               <div className="bg-success/10 border border-success/20 p-3 md:p-4 rounded-lg md:rounded-xl">
                 <h4 className="text-[10px] font-bold text-success uppercase mb-2">💡 What Did You Learn?</h4>
-                <p className="text-[10px] md:text-xs text-slate-300 leading-relaxed">{props.virtualLab.conclusion}</p>
+                <p className="text-[10px] md:text-xs text-slate-700 leading-relaxed">{props.virtualLab.conclusion}</p>
               </div>
             </div>
           </div>
@@ -366,7 +366,7 @@ export function TopicTemplate(props: TopicTemplateProps) {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
           <div className="glass p-4 md:p-6 rounded-xl md:rounded-2xl insight-card">
             <h4 className="font-bold text-success mb-2 md:mb-3 flex items-center gap-2 text-sm md:text-base"><span>💎</span> Key Insights</h4>
-            <ul className="text-[10px] md:text-xs text-slate-400 space-y-1 md:space-y-2">
+            <ul className="text-[10px] md:text-xs text-slate-600 space-y-1 md:space-y-2">
               {props.summary.insights.map((s, i) => (
                 <li key={i} className="flex items-start gap-2">
                   <span className="shrink-0 mt-0.5">•</span>
@@ -376,7 +376,7 @@ export function TopicTemplate(props: TopicTemplateProps) {
                     className={`shrink-0 ml-auto text-[9px] font-bold px-1.5 py-0.5 rounded transition ${
                       savedInsights.includes(s)
                         ? 'bg-success/20 text-success'
-                        : 'bg-slate-800 text-slate-500 hover:text-success'
+                        : 'bg-slate-100 text-slate-600 hover:text-success'
                     }`}
                   >
                     {savedInsights.includes(s) ? 'Saved' : 'Save'}
@@ -387,17 +387,17 @@ export function TopicTemplate(props: TopicTemplateProps) {
           </div>
           <div className="glass p-4 md:p-6 rounded-xl md:rounded-2xl project-card">
             <h4 className="font-bold text-secondary mb-2 md:mb-3 flex items-center gap-2 text-sm md:text-base"><span>🔭</span> Future Scope</h4>
-            <p className="text-[10px] md:text-xs text-slate-400 leading-relaxed">{props.summary.futureScope}</p>
+            <p className="text-[10px] md:text-xs text-slate-600 leading-relaxed">{props.summary.futureScope}</p>
           </div>
           <div className="glass p-4 md:p-6 rounded-xl md:rounded-2xl concept-card">
             <h4 className="font-bold text-primary mb-2 md:mb-3 flex items-center gap-2 text-sm md:text-base"><span>🏢</span> Industrial Apps</h4>
-            <ul className="text-[10px] md:text-xs text-slate-400 space-y-1 md:space-y-2">
+            <ul className="text-[10px] md:text-xs text-slate-600 space-y-1 md:space-y-2">
               {props.summary.industrialApps.map((s, i) => <li key={i}>• {s}</li>)}
             </ul>
           </div>
           <div className="glass p-4 md:p-6 rounded-xl md:rounded-2xl story-card">
             <h4 className="font-bold text-accent mb-2 md:mb-3 flex items-center gap-2 text-sm md:text-base"><span>💼</span> Career Relevance</h4>
-            <p className="text-[10px] md:text-xs text-slate-400 leading-relaxed">{props.summary.careerRelevance}</p>
+            <p className="text-[10px] md:text-xs text-slate-600 leading-relaxed">{props.summary.careerRelevance}</p>
           </div>
         </div>
 
@@ -412,7 +412,7 @@ export function TopicTemplate(props: TopicTemplateProps) {
               onChange={e => setSummaryInsight(e.target.value)}
               placeholder="Write your personal insight or takeaway from this module..."
               rows={2}
-              className="flex-1 text-xs md:text-sm bg-slate-950/70 border border-slate-700 rounded-lg p-2 md:p-3 text-slate-200 placeholder-slate-600 focus:border-primary focus:ring-1 focus:ring-primary outline-none resize-none transition"
+              className="flex-1 text-xs md:text-sm bg-white/90 border border-slate-200 rounded-lg p-2 md:p-3 text-slate-200 placeholder-slate-400 focus:border-primary focus:ring-1 focus:ring-primary outline-none resize-none transition"
             />
             <button
               onClick={() => {
@@ -428,14 +428,14 @@ export function TopicTemplate(props: TopicTemplateProps) {
           </div>
           {savedInsights.filter(i => !i.startsWith('NEP:')).length > 0 && (
             <div className="mt-4 space-y-1">
-              <h5 className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Saved Journal Entries</h5>
+              <h5 className="text-[10px] font-bold text-slate-600 uppercase tracking-wider">Saved Journal Entries</h5>
               {savedInsights.filter(i => !i.startsWith('NEP:')).reverse().map((entry, i) => (
-                <div key={i} className="flex items-start gap-2 text-[10px] md:text-xs text-slate-400 p-2 bg-slate-900/40 rounded-lg">
+                <div key={i} className="flex items-start gap-2 text-[10px] md:text-xs text-slate-600 p-2 bg-slate-50/80 rounded-lg">
                   <span className="text-primary shrink-0">📌</span>
                   <span>{entry}</span>
                   <button
                     onClick={() => setSavedInsights(prev => prev.filter((_, j) => j !== prev.indexOf(entry) || prev.indexOf(entry) !== prev.lastIndexOf(entry) ? j !== prev.indexOf(entry) : j !== prev.length - 1 - i))}
-                    className="ml-auto text-slate-600 hover:text-red-400 text-[9px] font-bold"
+                    className="ml-auto text-slate-500 hover:text-red-400 text-[9px] font-bold"
                   >
                     ✕
                   </button>
@@ -458,14 +458,14 @@ export function TopicTemplate(props: TopicTemplateProps) {
           </div>
           <div className="glass p-6 md:p-10 rounded-2xl md:rounded-3xl border-2 border-secondary/20">
             <h3 className="text-xl md:text-2xl font-bold mb-2">{props.miniActivity.title}</h3>
-            <p className="text-sm md:text-base text-slate-400 mb-6">{props.miniActivity.instructions}</p>
+            <p className="text-sm md:text-base text-slate-600 mb-6">{props.miniActivity.instructions}</p>
             {Object.keys(miniCheckpoints).length > 0 && (
               <div className="mb-6">
-                <div className="flex justify-between text-xs text-slate-500 mb-1">
+                <div className="flex justify-between text-xs text-slate-600 mb-1">
                   <span>Progress</span>
                   <span>{Object.values(miniCheckpoints).filter(Boolean).length} / {props.miniActivity.checkpoints.length}</span>
                 </div>
-                <div className="h-2 bg-slate-800 rounded-full overflow-hidden">
+                <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
                   <div
                     className="h-full bg-secondary rounded-full transition-all duration-500"
                     style={{ width: `${(Object.values(miniCheckpoints).filter(Boolean).length / props.miniActivity.checkpoints.length) * 100}%` }}
@@ -482,13 +482,13 @@ export function TopicTemplate(props: TopicTemplateProps) {
                       <button
                         onClick={() => setMiniCheckpoints(prev => ({ ...prev, [i]: !prev[i] }))}
                         className={`w-full flex gap-3 text-sm text-left items-start p-2 rounded-lg transition ${
-                          miniCheckpoints[i] ? 'bg-secondary/10 text-secondary' : 'text-slate-300 hover:bg-slate-800/50'
+                          miniCheckpoints[i] ? 'bg-secondary/10 text-secondary' : 'text-slate-700 hover:bg-slate-100/80'
                         }`}
                       >
                         <span className={`flex-shrink-0 w-5 h-5 rounded-full border-2 flex items-center justify-center text-[10px] font-bold mt-0.5 transition ${
                           miniCheckpoints[i]
                             ? 'bg-secondary border-secondary text-white'
-                            : 'border-slate-600 text-transparent'
+                            : 'border-slate-300 text-transparent'
                         }`}>
                           {miniCheckpoints[i] ? '✓' : i + 1}
                         </span>
@@ -498,14 +498,14 @@ export function TopicTemplate(props: TopicTemplateProps) {
                   ))}
                 </ul>
               </div>
-              <div className="bg-slate-900/50 border border-slate-800 p-5 md:p-6 rounded-xl md:rounded-2xl">
+              <div className="bg-white/80 border border-slate-200 p-5 md:p-6 rounded-xl md:rounded-2xl">
                 <h4 className="text-xs font-bold uppercase text-accent tracking-widest mb-3">Reflection</h4>
                 <textarea
                   value={miniReflection}
                   onChange={e => setMiniReflection(e.target.value)}
                   placeholder="Write your reflection on this activity..."
                   rows={4}
-                  className="w-full text-xs md:text-sm bg-slate-950/70 border border-slate-700 rounded-lg p-2 md:p-3 text-slate-200 placeholder-slate-600 focus:border-accent focus:ring-1 focus:ring-accent outline-none resize-none transition mb-3"
+                  className="w-full text-xs md:text-sm bg-white/90 border border-slate-200 rounded-lg p-2 md:p-3 text-slate-200 placeholder-slate-400 focus:border-accent focus:ring-1 focus:ring-accent outline-none resize-none transition mb-3"
                 />
                 {miniReflection.trim() && (
                   <p className="text-[10px] text-accent italic">Reflection saved ✓</p>
@@ -531,7 +531,7 @@ export function TopicTemplate(props: TopicTemplateProps) {
               <div key={i} className="glass p-5 md:p-6 rounded-xl md:rounded-2xl border border-primary/10 hover:border-primary/30 transition-all hover:translate-y-[-2px]">
                 <div className="text-2xl md:text-3xl mb-3">{skill.icon}</div>
                 <h4 className="font-bold text-sm md:text-base mb-2 text-primary">{skill.name}</h4>
-                <p className="text-xs md:text-sm text-slate-400 leading-relaxed mb-4">{skill.description}</p>
+                <p className="text-xs md:text-sm text-slate-600 leading-relaxed mb-4">{skill.description}</p>
                 <div className="flex items-center gap-1">
                   {[1, 2, 3, 4, 5].map(star => (
                     <button
@@ -545,7 +545,7 @@ export function TopicTemplate(props: TopicTemplateProps) {
                       ★
                     </button>
                   ))}
-                  <span className="text-[10px] text-slate-600 ml-2">
+                  <span className="text-[10px] text-slate-500 ml-2">
                     {skillRatings[i] ? `${skillRatings[i]}/5` : 'Self-assess'}
                   </span>
                 </div>
@@ -567,12 +567,12 @@ export function TopicTemplate(props: TopicTemplateProps) {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
             {props.nepAlignment.map((item, i) => (
-              <div key={i} className="bg-slate-900/60 border border-slate-800 rounded-xl md:rounded-2xl p-4 md:p-5 hover:border-accent/30 transition-all">
+              <div key={i} className="bg-white/85 border border-slate-200 rounded-xl md:rounded-2xl p-4 md:p-5 hover:border-accent/30 transition-all">
                 <div className="flex items-center gap-3 mb-2">
                   <span className="text-xl md:text-2xl">{item.icon}</span>
                   <h4 className="font-bold text-xs md:text-sm text-accent uppercase tracking-wider">{item.policy}</h4>
                 </div>
-                <p className="text-[10px] md:text-xs text-slate-400 leading-relaxed">{item.description}</p>
+                <p className="text-[10px] md:text-xs text-slate-600 leading-relaxed">{item.description}</p>
                 <button
                   onClick={() => {
                     const newSaved = [...savedInsights, `NEP: ${item.policy} — ${item.description}`];
@@ -590,7 +590,7 @@ export function TopicTemplate(props: TopicTemplateProps) {
               <h4 className="text-xs font-bold text-accent uppercase mb-2">Your Logged Alignments</h4>
               <ul className="space-y-1">
                 {savedInsights.filter(i => i.startsWith('NEP:')).map((insight, i) => (
-                  <li key={i} className="text-[10px] text-slate-400 flex gap-2">
+                  <li key={i} className="text-[10px] text-slate-600 flex gap-2">
                     <span className="text-accent">✓</span> {insight.replace('NEP: ', '')}
                   </li>
                 ))}
@@ -615,7 +615,7 @@ export function TopicTemplate(props: TopicTemplateProps) {
               <h3 className="text-base md:text-xl font-bold mb-4 md:mb-6 flex items-center gap-2 text-accent">Point-to-Point Summary</h3>
               <ul className="space-y-2 md:space-y-3">
                 {props.recap.summary.map((point, i) => (
-                  <li key={i} className="flex gap-2 md:gap-3 text-slate-300 text-xs md:text-sm leading-relaxed">
+                  <li key={i} className="flex gap-2 md:gap-3 text-slate-700 text-xs md:text-sm leading-relaxed">
                     <span className="flex-shrink-0 w-5 h-5 md:w-6 md:h-6 rounded-full bg-accent/10 text-accent flex items-center justify-center text-[10px] md:text-xs font-bold mt-0.5">{i + 1}</span>
                     {point}
                   </li>

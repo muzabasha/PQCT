@@ -61,14 +61,14 @@ export function ActivityBlock({ level, title, objective, instructions, materials
             exit={{ height: 0, opacity: 0 }}
             className="border-t border-border/50"
           >
-            <div className="p-8 space-y-8 bg-slate-950/30">
+            <div className="p-8 space-y-8 bg-white/60">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="space-y-6">
                   <div>
                     <h4 className="text-primary font-bold mb-3 flex items-center gap-2">
                       <span>🎯</span> Objective
                     </h4>
-                    <p className="text-slate-300 leading-relaxed">{objective}</p>
+                    <p className="text-slate-700 leading-relaxed">{objective}</p>
                   </div>
                   <div>
                     <h4 className="text-primary font-bold mb-3 flex items-center gap-2">
@@ -76,7 +76,7 @@ export function ActivityBlock({ level, title, objective, instructions, materials
                     </h4>
                     <ul className="flex flex-wrap gap-2">
                       {materials.map((m, i) => (
-                        <li key={i} className="bg-slate-800 px-3 py-1 rounded-full text-xs text-slate-300 border border-slate-700">
+                        <li key={i} className="bg-slate-100 px-3 py-1 rounded-full text-xs text-slate-700 border border-slate-200">
                           {m}
                         </li>
                       ))}
@@ -94,7 +94,7 @@ export function ActivityBlock({ level, title, objective, instructions, materials
                         <span className="flex-shrink-0 w-6 h-6 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs font-bold group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
                           {i + 1}
                         </span>
-                        <span className="text-slate-400 text-sm leading-relaxed group-hover:text-slate-200 transition-colors">
+                        <span className="text-slate-600 text-sm leading-relaxed group-hover:text-slate-200 transition-colors">
                           {step}
                         </span>
                       </li>
@@ -108,7 +108,7 @@ export function ActivityBlock({ level, title, objective, instructions, materials
                   <h4 className="text-success font-bold mb-3 flex items-center gap-2">
                     <span>✨</span> Expected Output
                   </h4>
-                  <p className="text-slate-400 text-sm italic">{expectedOutput}</p>
+                  <p className="text-slate-600 text-sm italic">{expectedOutput}</p>
                 </div>
                 <div>
                   <h4 className="text-accent font-bold mb-3 flex items-center gap-2">
@@ -116,7 +116,7 @@ export function ActivityBlock({ level, title, objective, instructions, materials
                   </h4>
                   <ul className="space-y-1">
                     {assessmentRubrics.map((r, i) => (
-                      <li key={i} className="text-xs text-slate-400 flex gap-2">
+                      <li key={i} className="text-xs text-slate-600 flex gap-2">
                         <span className="text-accent">•</span> {r}
                       </li>
                     ))}

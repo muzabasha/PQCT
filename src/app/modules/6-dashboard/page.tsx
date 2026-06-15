@@ -84,7 +84,7 @@ export default function DashboardModule() {
         <h1 className="text-5xl font-extrabold bg-gradient-to-r from-blue-400 via-indigo-500 to-cyan-500 bg-clip-text text-transparent drop-shadow-sm">
           Module 6: Comparative Dashboard
         </h1>
-        <p className="text-xl text-slate-400 max-w-2xl mx-auto">
+        <p className="text-xl text-slate-600 max-w-2xl mx-auto">
           Evaluating the migration path from vulnerable classical systems to Post-Quantum cryptographic standards.
         </p>
       </div>
@@ -93,17 +93,17 @@ export default function DashboardModule() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-slate-900/60 backdrop-blur-xl border border-slate-800 rounded-3xl p-6 md:p-10 shadow-2xl"
+        className="bg-white/85 backdrop-blur-xl border border-slate-200 rounded-3xl p-6 md:p-10 shadow-2xl"
       >
         <h2 className="text-2xl font-bold flex items-center gap-3 mb-6">
           <span className="text-3xl">📈</span> Your Learning Progress
         </h2>
         <div className="mb-8">
-          <div className="flex justify-between text-sm text-slate-400 mb-2">
+          <div className="flex justify-between text-sm text-slate-600 mb-2">
             <span className="font-bold">Overall Progress</span>
             <span className="font-bold text-cyan-400">{overallProgress}%</span>
           </div>
-          <div className="h-4 bg-slate-800 rounded-full overflow-hidden">
+          <div className="h-4 bg-slate-100 rounded-full overflow-hidden">
             <motion.div
               initial={{ width: 0 }}
               animate={{ width: `${overallProgress}%` }}
@@ -123,15 +123,15 @@ export default function DashboardModule() {
                 )
               : 0;
             return (
-              <div key={i} className="bg-slate-800/40 border border-slate-700/50 rounded-xl p-4 hover:border-cyan-500/30 transition-all">
+              <div key={i} className="bg-slate-100/60 border border-slate-200/80 rounded-xl p-4 hover:border-cyan-500/30 transition-all">
                 <div className="flex items-center gap-2 mb-2">
                   <span className="text-xl">{m.icon}</span>
-                  <h3 className="font-bold text-sm text-white">{m.name}</h3>
+                  <h3 className="font-bold text-sm text-foreground">{m.name}</h3>
                 </div>
-                <div className="h-2 bg-slate-700 rounded-full mb-2">
+                <div className="h-2 bg-slate-200 rounded-full mb-2">
                   <div className="h-full bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full" style={{ width: `${moduleScore}%` }} />
                 </div>
-                <div className="text-[10px] text-slate-500 space-y-0.5">
+                <div className="text-[10px] text-slate-600 space-y-0.5">
                   <span>Reflections: {m.storyReflections} · </span>
                   <span>Checkpoints: {m.checkpointsDone}/{m.checkpointsTotal} · </span>
                   <span>Insights: {m.insightsSaved} · </span>
@@ -146,18 +146,18 @@ export default function DashboardModule() {
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-slate-900/60 backdrop-blur-xl border border-slate-800 rounded-3xl overflow-hidden shadow-2xl relative"
+        className="bg-white/85 backdrop-blur-xl border border-slate-200 rounded-3xl overflow-hidden shadow-2xl relative"
       >
         <div className="absolute top-0 right-0 p-32 bg-cyan-500/5 blur-[120px] rounded-full pointer-events-none"></div>
 
-        <div className="p-8 lg:p-10 border-b border-slate-800 flex flex-col sm:flex-row justify-between items-center bg-slate-950/50 gap-6 relative z-10">
+        <div className="p-8 lg:p-10 border-b border-slate-200 flex flex-col sm:flex-row justify-between items-center bg-white/80 gap-6 relative z-10">
           <h2 className="text-2xl font-bold flex items-center gap-3">
             <span className="text-3xl">🎛️</span> Algorithm Comparison Matrix
           </h2>
           <select 
             value={filter} 
             onChange={(e) => setFilter(e.target.value)}
-            className="bg-slate-900 border border-slate-700 rounded-xl px-5 py-3 font-semibold focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all shadow-inner cursor-pointer"
+            className="bg-white border border-slate-200 rounded-xl px-5 py-3 font-semibold focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all shadow-inner cursor-pointer"
           >
             <option value="All">All Algorithms</option>
             <option value="Classical">Classical</option>
@@ -169,7 +169,7 @@ export default function DashboardModule() {
         <div className="overflow-x-auto relative z-10 p-2">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="border-b border-slate-800 text-sm uppercase tracking-wider text-slate-400">
+              <tr className="border-b border-slate-200 text-sm uppercase tracking-wider text-slate-600">
                 <th className="p-6 font-bold">Algorithm</th>
                 <th className="p-6 font-bold">Family</th>
                 <th className="p-6 font-bold">Quantum Security</th>
@@ -186,10 +186,10 @@ export default function DashboardModule() {
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: 20 }}
                     transition={{ duration: 0.2, delay: i * 0.05 }}
-                    className="hover:bg-slate-800/40 transition-colors group"
+                    className="hover:bg-slate-100/60 transition-colors group"
                   >
-                    <td className="p-6 font-bold text-lg text-white group-hover:text-cyan-400 transition-colors">{algo.name}</td>
-                    <td className="p-6 text-slate-400 font-medium">{algo.type}</td>
+                    <td className="p-6 font-bold text-lg text-foreground group-hover:text-cyan-400 transition-colors">{algo.name}</td>
+                    <td className="p-6 text-slate-600 font-medium">{algo.type}</td>
                     <td className="p-6">
                       <span className={`inline-flex items-center px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider shadow-sm ${
                         algo.security.includes('Safe') ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 shadow-emerald-500/20' : 
@@ -198,12 +198,12 @@ export default function DashboardModule() {
                         {algo.security}
                       </span>
                     </td>
-                    <td className="p-6 font-mono text-sm text-slate-300 bg-slate-950/30">{algo.keySize}</td>
+                    <td className="p-6 font-mono text-sm text-slate-700 bg-white/60">{algo.keySize}</td>
                     <td className="p-6">
                       <span className={`inline-flex items-center px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider shadow-sm ${
                         algo.status === 'NIST Standard' ? 'bg-blue-500/10 text-blue-400 border border-blue-500/30 shadow-blue-500/20' : 
                         algo.status === 'Deprecating' ? 'bg-orange-500/10 text-orange-400 border border-orange-500/30 shadow-orange-500/20' :
-                        'bg-slate-500/10 text-slate-400 border border-slate-500/30'
+                        'bg-slate-500/10 text-slate-600 border border-slate-500/30'
                       }`}>
                         {algo.status}
                       </span>
