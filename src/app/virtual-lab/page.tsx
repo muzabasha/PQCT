@@ -36,7 +36,7 @@ function RSALab() {
                     <div key={label} className="space-y-1">
                         <label className="text-xs font-bold text-muted-foreground uppercase">{label}</label>
                         <input type="number" value={val} onChange={e => setter(e.target.value)}
-                            className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-lg font-mono text-white focus:ring-2 focus:ring-primary outline-none" />
+                            className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-lg font-mono text-slate-900 focus:ring-2 focus:ring-primary outline-none" />
                     </div>
                 ))}
             </div>
@@ -46,7 +46,7 @@ function RSALab() {
             {keys && (
                 <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
                     <div className="grid grid-cols-3 gap-3">
-                        {[['n', keys.public_key.n, 'text-emerald-400'], ['e (pub)', keys.public_key.e, 'text-primary'], ['d (priv)', keys.private_key.d, 'text-math']].map(([k, v, c]: any) => (
+                        {[['n', keys.public_key.n, 'text-emerald-600'], ['e (pub)', keys.public_key.e, 'text-primary'], ['d (priv)', keys.private_key.d, 'text-math']].map(([k, v, c]: any) => (
                             <div key={k} className="bg-white border border-slate-200 p-4 rounded-xl text-center">
                                 <div className="text-xs text-muted-foreground mb-1">{k}</div>
                                 <div className={`text-2xl font-black font-mono ${c}`}>{v}</div>
@@ -55,7 +55,7 @@ function RSALab() {
                     </div>
                     <div className="flex gap-3">
                         <input type="number" value={msg} onChange={e => setMsg(Number(e.target.value))}
-                            className="flex-1 bg-white border border-slate-200 rounded-xl px-4 py-3 font-mono text-white outline-none" placeholder="Message" />
+                            className="flex-1 bg-white border border-slate-200 rounded-xl px-4 py-3 font-mono text-slate-900 outline-none" placeholder="Message" />
                         <button onClick={encrypt} className="bg-secondary text-white px-6 py-3 rounded-xl font-bold hover:opacity-90 transition-all">Encrypt</button>
                         <button onClick={() => cipher && setDecrypted(msg)} disabled={!cipher}
                             className="bg-success text-white px-6 py-3 rounded-xl font-bold disabled:opacity-30 hover:opacity-90 transition-all">Decrypt</button>
@@ -92,7 +92,7 @@ function ShorLab() {
             <div className="space-y-1">
                 <label className="text-xs font-bold text-muted-foreground uppercase">Number to Factor (N)</label>
                 <input type="number" value={n} onChange={e => setN(e.target.value)}
-                    className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-xl font-mono text-white focus:ring-2 focus:ring-secondary outline-none" />
+                    className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-xl font-mono text-slate-900 focus:ring-2 focus:ring-secondary outline-none" />
             </div>
             <button onClick={run} className="w-full bg-secondary text-white py-3 rounded-xl font-bold hover:opacity-90 active:scale-95 transition-all">
                 ⚛️ Run Shor's Algorithm
@@ -178,12 +178,12 @@ function LWELab() {
                 <div className="space-y-1">
                     <label className="text-xs font-bold text-muted-foreground uppercase">Lattice Dimension (n)</label>
                     <input type="number" value={dim} onChange={e => setDim(Number(e.target.value))}
-                        className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-lg font-mono text-white focus:ring-2 focus:ring-success outline-none" />
+                        className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-lg font-mono text-slate-900 focus:ring-2 focus:ring-success outline-none" />
                 </div>
                 <div className="space-y-1">
                     <label className="text-xs font-bold text-muted-foreground uppercase">Noise Level (σ)</label>
                     <input type="number" step="0.1" value={noise} onChange={e => setNoise(Number(e.target.value))}
-                        className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-lg font-mono text-white focus:ring-2 focus:ring-success outline-none" />
+                        className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-lg font-mono text-slate-900 focus:ring-2 focus:ring-success outline-none" />
                 </div>
             </div>
             <button onClick={run} className="w-full bg-success text-success-foreground py-3 rounded-xl font-bold hover:opacity-90 active:scale-95 transition-all">
@@ -220,13 +220,13 @@ function McElieceLab() {
                 <div className="space-y-1">
                     <label className="text-xs font-bold text-muted-foreground uppercase">Message Length</label>
                     <input type="number" value={msgLen} onChange={e => setMsgLen(Number(e.target.value))}
-                        className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-lg font-mono text-white focus:ring-2 focus:ring-success outline-none" />
+                        className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-lg font-mono text-slate-900 focus:ring-2 focus:ring-success outline-none" />
                 </div>
                 <div className="space-y-1">
                     <label className="text-xs font-bold text-muted-foreground uppercase">Error Weight (t)</label>
                     <input type="number" value={errWeight} onChange={e => setErrWeight(Number(e.target.value))}
-                        className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-lg font-mono text-white focus:ring-2 focus:ring-success outline-none" />
-                </div>
+className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-lg font-mono text-slate-900 focus:ring-2 focus:ring-success outline-none" />
+            </div>
             </div>
             <button onClick={run} className="w-full bg-success text-success-foreground py-3 rounded-xl font-bold hover:opacity-90 active:scale-95 transition-all">
                 Encode Message (McEliece)
@@ -272,8 +272,8 @@ function QubitCircle({ prob0, prob1, size = 220 }: { prob0: number; prob1: numbe
       <line x1={cx - r} y1={cy} x2={cx + r} y2={cy} stroke="currentColor" strokeWidth={1} opacity={0.2} />
       <text x={cx} y={cy - 28} textAnchor="middle" fill="rgb(129,140,248)" fontSize={14} fontWeight="bold">|0⟩</text>
       <text x={cx} y={cy + 40} textAnchor="middle" fill="rgb(244,114,182)" fontSize={14} fontWeight="bold">|1⟩</text>
-      <text x={cx - 40} y={cy + 4} textAnchor="middle" fill="rgb(148,163,184)" fontSize={22} fontWeight="black">{pct0}%</text>
-      <text x={cx + 40} y={cy + 4} textAnchor="middle" fill="rgb(148,163,184)" fontSize={22} fontWeight="black">{pct1}%</text>
+      <text x={cx - 40} y={cy + 4} textAnchor="middle" fill="rgb(71,85,105)" fontSize={22} fontWeight="black">{pct0}%</text>
+      <text x={cx + 40} y={cy + 4} textAnchor="middle" fill="rgb(71,85,105)" fontSize={22} fontWeight="black">{pct1}%</text>
     </svg>
   );
 }
@@ -290,10 +290,10 @@ function DiracState({ alpha, beta, label = "|ψ⟩" }: { alpha: number; beta: nu
   return (
     <div className="font-mono text-lg text-center tracking-wider">
       <span className="text-slate-600">{label} = </span>
-      <span className="text-indigo-400">{fmt(alpha)}</span>
+      <span className="text-indigo-600">{fmt(alpha)}</span>
       <span className="text-slate-600">|0⟩</span>
       <span className="text-slate-600"> + </span>
-      <span className="text-pink-400">{fmt(beta >= 0 ? beta : beta)}</span>
+      <span className="text-pink-600">{fmt(beta >= 0 ? beta : beta)}</span>
       <span className="text-slate-600">|1⟩</span>
     </div>
   );
@@ -370,20 +370,20 @@ function QuantumLab() {
               ].map(g => (
                 <button key={g.gate} onClick={g.action}
                   className={`bg-white border ${g.color} rounded-lg md:rounded-xl p-3 md:p-4 text-center hover:scale-[1.02] active:scale-95 transition-all`}>
-                  <div className="text-base md:text-xl font-black text-white font-mono">{g.gate}</div>
+                  <div className="text-base md:text-xl font-black text-slate-900 font-mono">{g.gate}</div>
                   <div className="text-[10px] text-slate-600 mt-1">{g.desc}</div>
                 </button>
               ))}
               <button onClick={doMeasure}
                 className="bg-amber-500/10 border border-amber-500/30 rounded-lg md:rounded-xl p-3 md:p-4 text-center hover:scale-[1.02] active:scale-95 transition-all">
-                <div className="text-base md:text-lg font-black text-amber-400">Measure</div>
+                <div className="text-base md:text-lg font-black text-amber-600">Measure</div>
                 <div className="text-[10px] text-amber-500/60">Collapse</div>
               </button>
             </div>
             {measurement !== null && (
               <div className="bg-amber-500/10 border border-amber-500/30 rounded-lg md:rounded-xl p-3 md:p-4 text-center">
-                <div className="text-[10px] md:text-xs text-amber-400 font-bold uppercase mb-1">Measurement Result</div>
-                <div className="text-3xl md:text-5xl font-black font-mono text-white">|{measurement}⟩</div>
+                <div className="text-[10px] md:text-xs text-amber-600 font-bold uppercase mb-1">Measurement Result</div>
+                <div className="text-3xl md:text-5xl font-black font-mono text-amber-900">|{measurement}⟩</div>
               </div>
             )}
           </div>
@@ -396,7 +396,7 @@ function QuantumLab() {
               {twoQubitProbs.map(({ label, value, color }) => (
                 <div key={label} className="bg-white border border-slate-200 rounded-lg md:rounded-xl p-2 md:p-3 text-center">
                   <div className="font-mono font-bold text-[10px] md:text-sm" style={{ color }}>{label}</div>
-                  <div className="text-lg md:text-2xl font-black text-white mt-1">{(value * 100).toFixed(0)}%</div>
+                  <div className="text-lg md:text-2xl font-black text-slate-900 mt-1">{(value * 100).toFixed(0)}%</div>
                   <div className="w-full bg-slate-100 rounded-full h-1 md:h-1.5 mt-1 md:mt-2 overflow-hidden">
                     <div className="h-full rounded-full transition-all duration-300" style={{ width: `${value * 100}%`, backgroundColor: color }} />
                   </div>
@@ -417,7 +417,7 @@ function QuantumLab() {
             <div className="grid grid-cols-2 gap-2 md:gap-3">
               <button onClick={() => apply('CNOT', () => setTwoQubit(q => applyCNOTGate(q)))}
                 className="bg-emerald-500/10 border border-emerald-500/30 rounded-lg md:rounded-xl p-3 md:p-5 text-center hover:scale-[1.02] active:scale-95 transition-all">
-                <div className="text-base md:text-lg font-black text-emerald-400">CNOT</div>
+                <div className="text-base md:text-lg font-black text-emerald-600">CNOT</div>
                 <div className="text-[10px] text-emerald-500/60">Controlled NOT</div>
                 <div className="text-[10px] text-slate-600 mt-1 hidden md:block">Control | Target</div>
               </button>
@@ -431,12 +431,12 @@ function QuantumLab() {
                 };
               }))}
                 className="bg-pink-500/10 border border-pink-500/30 rounded-lg md:rounded-xl p-3 md:p-5 text-center hover:scale-[1.02] active:scale-95 transition-all">
-                <div className="text-base md:text-lg font-black text-pink-400">H₁</div>
+                <div className="text-base md:text-lg font-black text-pink-600">H₁</div>
                 <div className="text-[10px] text-pink-500/60">Hadamard on Qubit 1</div>
               </button>
             </div>
             <div className="bg-white/80 border border-slate-200 p-2 md:p-3 rounded-lg md:rounded-xl text-[10px] md:text-xs text-slate-600 space-y-1">
-              <p className="font-bold text-emerald-400">🔗 Create a Bell State (|Φ⁺⟩)</p>
+              <p className="font-bold text-emerald-600">🔗 Create a Bell State (|Φ⁺⟩)</p>
               <p>1. X₁ (set first qubit to |1⟩)</p>
               <p>2. H₁ (create superposition on first qubit)</p>
               <p>3. CNOT (entangle both qubits)</p>
@@ -452,7 +452,7 @@ function QuantumLab() {
           <div className="text-[10px] md:text-xs text-slate-600 font-bold uppercase mb-1 md:mb-2">Operation History</div>
           <div className="flex flex-wrap gap-1 md:gap-2">
             {history.map((op, i) => (
-              <span key={i} className={`text-[10px] font-mono px-1.5 md:px-2 py-0.5 md:py-1 rounded ${op.startsWith('Measure') ? 'bg-amber-500/20 text-amber-400' : 'bg-slate-100 text-slate-600'}`}>
+              <span key={i} className={`text-[10px] font-mono px-1.5 md:px-2 py-0.5 md:py-1 rounded ${op.startsWith('Measure') ? 'bg-amber-500/20 text-amber-600' : 'bg-slate-100 text-slate-600'}`}>
                 {op}
               </span>
             ))}
@@ -561,7 +561,7 @@ const labs = [
         icon: '⚛️',
         module: 'Module 3',
         color: 'border-indigo-500/30',
-        badge: 'bg-indigo-500/10 text-indigo-400',
+        badge: 'bg-indigo-500/10 text-indigo-600',
         desc: 'Explore qubits, superposition, X/H/Z gates, measurement, and CNOT entanglement.',
         component: <QuantumLab />,
     },

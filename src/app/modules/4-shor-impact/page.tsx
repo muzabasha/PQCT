@@ -20,8 +20,8 @@ function ImpactLab() {
   const dataPresets: Record<string, { label: string; lifetime: number; color: string }> = {
     medical: { label: 'Medical Records', lifetime: 50, color: 'text-destructive' },
     govt: { label: 'Government Intel', lifetime: 80, color: 'text-destructive' },
-    financial: { label: 'Banking Data', lifetime: 30, color: 'text-orange-400' },
-    employment: { label: 'Employment Records', lifetime: 10, color: 'text-yellow-400' },
+    financial: { label: 'Banking Data', lifetime: 30, color: 'text-orange-600' },
+    employment: { label: 'Employment Records', lifetime: 10, color: 'text-yellow-600' },
     email: { label: 'Personal Email', lifetime: 5, color: 'text-success' },
     custom: { label: 'Custom', lifetime: dataLifetime, color: 'text-primary' },
   };
@@ -81,7 +81,7 @@ function ImpactLab() {
 
       {/* Security Decay Chart */}
       <div className="h-44 bg-white rounded-2xl border border-slate-200 p-3">
-        <ResponsiveContainer width="100%" height="100%">
+        <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
           <AreaChart data={data} margin={{ top: 5, right: 10, left: -20, bottom: 0 }}>
             <defs>
               <linearGradient id="rsaGrad" x1="0" y1="0" x2="0" y2="1">
@@ -117,7 +117,7 @@ function ImpactLab() {
               ? 'bg-destructive/20 text-destructive border border-destructive/30' 
               : deadline > currentYear + 5 
                 ? 'bg-success/20 text-success border border-success/30'
-                : 'bg-orange-400/20 text-orange-400 border border-orange-400/30'
+                : 'bg-orange-400/20 text-orange-600 border border-orange-400/30'
           }`}>
             {isPastDeadline ? `⚠ OVERDUE by ${yrsOverdue}yr` : `Migrate by ${deadline} (${deadline - currentYear}yr left)`}
           </span>

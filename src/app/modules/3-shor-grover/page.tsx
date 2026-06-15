@@ -291,7 +291,7 @@ function ShorGroverLab() {
                     { name: "Lattice SVP vs Classical", classical: "O(2^{0.292n})", quantum: "O(2^{0.297n})", speedup: "None (≈1×)" },
                   ].map((item, i) => (
                     <div key={i} className="bg-white border border-slate-200/80 rounded-lg p-3 text-[9px]">
-                      <div className="font-bold text-slate-200 mb-1">{item.name}</div>
+                      <div className="font-bold text-slate-600 mb-1">{item.name}</div>
                       <div className="grid grid-cols-3 gap-2 text-center">
                         <div><span className="text-muted-foreground">Classical: </span><span className="text-slate-600">{item.classical}</span></div>
                         <div><span className="text-muted-foreground">Quantum: </span><span className="text-primary">{item.quantum}</span></div>

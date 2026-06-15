@@ -124,7 +124,7 @@ function ProgressSnapshot() {
           <div className="flex items-center gap-4">
             <div className="text-right">
               <div className="text-[10px] font-bold text-slate-600 uppercase tracking-wider">Streak</div>
-              <div className="text-lg md:text-2xl font-bold text-yellow-400">{progress.streak} days</div>
+              <div className="text-lg md:text-2xl font-bold text-yellow-600">{progress.streak} days</div>
             </div>
             <Link
               href="/modules/6-dashboard"

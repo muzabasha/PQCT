@@ -571,7 +571,7 @@ export default function QuantumLabModule() {
                               className="w-4 h-4 rounded border-slate-300 accent-primary"
                             />
                             <div className="flex-1 min-w-0">
-                              <div className="text-xs md:text-sm text-slate-200 flex items-center gap-2">
+                              <div className="text-xs md:text-sm text-slate-600 flex items-center gap-2">
                                 {item.name}
                                 {item.essential && <span className="text-[9px] text-accent font-bold">(essential)</span>}
                               </div>

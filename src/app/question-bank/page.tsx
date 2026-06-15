@@ -93,7 +93,7 @@ export default function QuestionBankPage() {
                   </span>
                   <div>
                     <div className="text-[10px] text-muted-foreground mb-0.5">Module {q.module}</div>
-                    <h3 className="font-bold text-slate-200 leading-snug text-sm md:text-base">{q.text}</h3>
+                    <h3 className="font-bold text-slate-600 leading-snug text-sm md:text-base">{q.text}</h3>
                   </div>
                 </div>
                 <button className={`text-muted-foreground flex-shrink-0 transition-transform duration-300 ${expanded === q.id ? 'rotate-180' : ''}`}>

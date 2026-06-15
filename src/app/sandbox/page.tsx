@@ -9,7 +9,7 @@ export default function EquationSandbox() {
   return (
     <div className="space-y-12 max-w-4xl mx-auto">
       <div className="text-center space-y-4">
-        <h1 className="text-4xl font-bold text-white">Equation Sandbox</h1>
+        <h1 className="text-4xl font-bold text-foreground">Equation Sandbox</h1>
         <p className="text-xl text-slate-600">Type LaTeX to render instantly</p>
       </div>
 

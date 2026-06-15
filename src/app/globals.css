@@ -19,16 +19,16 @@
     --secondary: #6366f1;
     --secondary-foreground: #ffffff;
     
-    --accent: #d97706;
+    --accent: #b45309;
     --accent-foreground: #ffffff;
     
     --muted: #f1f5f9;
-    --muted-foreground: #64748b;
+    --muted-foreground: #475569;
     
     --destructive: #dc2626;
     --destructive-foreground: #ffffff;
 
-    --success: #10b981;
+    --success: #059669;
     --success-foreground: #ffffff;
 
     --math: #db2777;

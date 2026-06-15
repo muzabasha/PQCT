@@ -109,7 +109,7 @@ function RSAECCLab() {
           {rsaState && (
             <motion.div initial={{opacity:0,y:10}} animate={{opacity:1,y:0}} className="space-y-4">
               <div className="grid grid-cols-3 gap-3">
-                {[['n (Modulus)',rsaState.public_key.n,'text-emerald-400'],['e (Public)',rsaState.public_key.e,'text-primary'],['d (Private)',rsaState.private_key.d,'text-math']].map(([k,v,c]:any)=>(
+                {[['n (Modulus)',rsaState.public_key.n,'text-emerald-600'],['e (Public)',rsaState.public_key.e,'text-primary'],['d (Private)',rsaState.private_key.d,'text-math']].map(([k,v,c]:any)=>(
                   <div key={k} className="bg-white border border-slate-200 p-4 rounded-xl text-center">
                     <div className="text-xs text-muted-foreground mb-1">{k}</div>
                     <div className={`text-2xl font-black font-mono ${c}`}>{v}</div>

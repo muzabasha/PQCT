@@ -347,7 +347,7 @@ function QuantumFundamentals() {
       {/* ── SECTION 0A: QUBIT BASICS ── */}
       <section className="pt-20 space-y-12">
         <div className="text-center space-y-4">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-sm font-bold uppercase tracking-widest mb-4">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-600 text-sm font-bold uppercase tracking-widest mb-4">
             ⚛️ Quantum Computing Fundamentals
           </div>
           <h1 className="text-6xl font-black font-outfit tracking-tighter">What Makes a Quantum Computer Different?</h1>
@@ -389,28 +389,28 @@ function QuantumFundamentals() {
 
           <div className="glass p-8 rounded-3xl border-2 border-indigo-500/20 bg-gradient-to-br from-indigo-500/5 to-transparent">
             <div className="text-4xl mb-4">⚛️</div>
-            <h2 className="text-2xl font-bold mb-4 text-indigo-300">Quantum Bit (Qubit)</h2>
+            <h2 className="text-2xl font-bold mb-4 text-indigo-600">Quantum Bit (Qubit)</h2>
             <p className="text-slate-600 leading-relaxed mb-6">
-              A qubit is like a <strong className="text-foreground">spinning coin</strong> — while it is spinning, it is <strong className="text-indigo-400">BOTH heads and tails simultaneously</strong>. 
-              Only when you catch it (measure it) does it randomly pick one. This "both-at-once" property is called <strong className="text-indigo-400">superposition</strong>.
+              A qubit is like a <strong className="text-foreground">spinning coin</strong> — while it is spinning, it is <strong className="text-indigo-600">BOTH heads and tails simultaneously</strong>. 
+              Only when you catch it (measure it) does it randomly pick one. This "both-at-once" property is called <strong className="text-indigo-600">superposition</strong>.
             </p>
             <div className="flex justify-center gap-8 p-6 bg-white/80 rounded-2xl">
               <div className="text-center">
                 <div className="w-16 h-16 mx-auto rounded-full bg-indigo-500/20 flex items-center justify-center border-2 border-indigo-500 animate-pulse">
-                  <span className="text-2xl text-indigo-300">↻</span>
+                  <span className="text-2xl text-indigo-600">↻</span>
                 </div>
-                <div className="text-xs text-indigo-400/60 mt-2">Spinning</div>
+                <div className="text-xs text-indigo-600/60 mt-2">Spinning</div>
               </div>
               <div className="text-3xl text-slate-500 flex items-center">→</div>
               <div className="text-center">
                 <div className="w-16 h-16 mx-auto rounded-full bg-pink-500/20 flex items-center justify-center border-2 border-pink-500">
-                  <span className="text-xl text-pink-300">?%</span>
+                  <span className="text-xl text-pink-600">?%</span>
                 </div>
-                <div className="text-xs text-pink-400/60 mt-2">Measured</div>
+                <div className="text-xs text-pink-600/60 mt-2">Measured</div>
               </div>
             </div>
-            <div className="mt-4 text-xs text-indigo-300/60 text-center">
-              A qubit can be <strong className="text-indigo-300">both 0 and 1 at once</strong> — until you measure it.
+            <div className="mt-4 text-xs text-indigo-600/60 text-center">
+              A qubit can be <strong className="text-indigo-600">both 0 and 1 at once</strong> — until you measure it.
             </div>
           </div>
         </div>
@@ -429,27 +429,27 @@ function QuantumFundamentals() {
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                 <button onClick={() => apply('X')}
                   className="bg-white border border-indigo-500/30 hover:bg-indigo-500/10 rounded-xl p-3 text-center transition-all hover:scale-[1.02] active:scale-95">
-                  <div className="text-lg font-black text-white font-mono">X</div>
+                  <div className="text-lg font-black text-indigo-600 font-mono">X</div>
                   <div className="text-[8px] text-slate-600">NOT (Flip)</div>
                 </button>
                 <button onClick={() => apply('Z')}
                   className="bg-white border border-purple-500/30 hover:bg-purple-500/10 rounded-xl p-3 text-center transition-all hover:scale-[1.02] active:scale-95">
-                  <div className="text-lg font-black text-purple-400 font-mono">Z</div>
+                  <div className="text-lg font-black text-purple-600 font-mono">Z</div>
                   <div className="text-[8px] text-slate-600">Phase Flip</div>
                 </button>
                 <button onClick={() => apply('H')}
                   className="bg-white border border-pink-500/30 hover:bg-pink-500/10 rounded-xl p-3 text-center transition-all hover:scale-[1.02] active:scale-95">
-                  <div className="text-lg font-black text-pink-400 font-mono">H</div>
+                  <div className="text-lg font-black text-pink-600 font-mono">H</div>
                   <div className="text-[8px] text-slate-600">Superpose</div>
                 </button>
                 <button onClick={() => apply('S')}
                   className="bg-white border border-emerald-500/30 hover:bg-emerald-500/10 rounded-xl p-3 text-center transition-all hover:scale-[1.02] active:scale-95">
-                  <div className="text-lg font-black text-emerald-400 font-mono">S</div>
+                  <div className="text-lg font-black text-emerald-600 font-mono">S</div>
                   <div className="text-[8px] text-slate-600">90° Phase</div>
                 </button>
                 <button onClick={() => apply('Measure')}
                   className="bg-amber-500/10 border border-amber-500/30 hover:bg-amber-500/20 rounded-xl p-3 text-center transition-all hover:scale-[1.02] active:scale-95">
-                  <div className="text-base font-black text-amber-400">🎲</div>
+                  <div className="text-base font-black text-amber-600">🎲</div>
                   <div className="text-[8px] text-amber-500/60">Measure</div>
                 </button>
                 <button onClick={() => apply('Reset')}
@@ -535,13 +535,13 @@ function QuantumFundamentals() {
                 <p>A quantum computer checks <strong>all possibilities at once</strong> using superposition, then uses <strong>interference</strong> to amplify the correct answer:</p>
                 <div className="flex gap-2 items-center flex-wrap p-4 bg-white rounded-xl">
                   {Array.from({ length: 10 }).map((_, i) => (
-                    <span key={i} className="w-8 h-8 rounded flex items-center justify-center text-[10px] font-mono bg-indigo-500/20 text-indigo-400 border border-indigo-500/30">
+                    <span key={i} className="w-8 h-8 rounded flex items-center justify-center text-[10px] font-mono bg-indigo-500/20 text-indigo-600 border border-indigo-500/30">
                       {i + 1}
                     </span>
                   ))}
-                  <span className="text-indigo-400/60 text-xs"> ... ALL</span>
+                  <span className="text-indigo-600/60 text-xs"> ... ALL</span>
                 </div>
-                <p className="text-indigo-400/60 italic">"Evaluate all inputs simultaneously. The QFT extracts just the period we need."</p>
+                <p className="text-indigo-600/60 italic">"Evaluate all inputs simultaneously. The QFT extracts just the period we need."</p>
                 <p><strong>Time complexity:</strong> O(poly(log N)) or O(√N) — exponentially or quadratically faster.</p>
               </div>
             </div>
@@ -551,9 +551,9 @@ function QuantumFundamentals() {
             <h3 className="text-2xl font-bold">🔬 The Three Quantum Superpowers</h3>
             <div className="space-y-6">
               {[
-                { name: 'Superposition', icon: '🌀', desc: 'A qubit exists in multiple states simultaneously (like a spinning coin). With n qubits, you can represent 2ⁿ values at once. A 300-qubit computer holds more values than atoms in the universe.', color: 'text-indigo-400' },
-                { name: 'Interference', icon: '🌊', desc: 'Quantum waves can add up (constructive) or cancel out (destructive). Algorithms carefully design interference so correct answers are amplified and wrong answers cancel out.', color: 'text-pink-400' },
-                { name: 'Entanglement', icon: '🔗', desc: 'Two qubits can be linked so measuring one instantly determines the other — even if light-years apart. This enables correlations that classical systems cannot replicate.', color: 'text-emerald-400' },
+                { name: 'Superposition', icon: '🌀', desc: 'A qubit exists in multiple states simultaneously (like a spinning coin). With n qubits, you can represent 2ⁿ values at once. A 300-qubit computer holds more values than atoms in the universe.', color: 'text-indigo-600' },
+                { name: 'Interference', icon: '🌊', desc: 'Quantum waves can add up (constructive) or cancel out (destructive). Algorithms carefully design interference so correct answers are amplified and wrong answers cancel out.', color: 'text-pink-600' },
+                { name: 'Entanglement', icon: '🔗', desc: 'Two qubits can be linked so measuring one instantly determines the other — even if light-years apart. This enables correlations that classical systems cannot replicate.', color: 'text-emerald-600' },
               ].map(superpower => (
                 <div key={superpower.name} className="flex gap-4 p-4 bg-white/80 rounded-xl border border-slate-200">
                   <span className="text-3xl flex-shrink-0">{superpower.icon}</span>
@@ -659,7 +659,7 @@ function QuantumFundamentals() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
               { type: 'Exponential', icon: '🚀', algo: "Shor's Algorithm", speed: 'O(n³) vs O(exp)', impact: 'Breaks RSA, ECC, DH completely', color: 'text-destructive', border: 'border-destructive/20' },
-              { type: 'Quadratic', icon: '🔦', algo: "Grover's Algorithm", speed: 'O(√N) vs O(N)', impact: 'Weakens AES, SHA — double key sizes', color: 'text-amber-400', border: 'border-amber-500/20' },
+              { type: 'Quadratic', icon: '🔦', algo: "Grover's Algorithm", speed: 'O(√N) vs O(N)', impact: 'Weakens AES, SHA — double key sizes', color: 'text-amber-600', border: 'border-amber-500/20' },
               { type: 'Negligible / None', icon: '🛡️', algo: 'PQC Algorithms', speed: 'No known quantum speedup', impact: 'Lattice, code, hash-based are safe', color: 'text-success', border: 'border-success/20' },
             ].map(item => (
               <div key={item.type} className={`bg-white/80 border ${item.border} p-6 rounded-2xl text-center space-y-3`}>
@@ -698,7 +698,7 @@ function QuantumFundamentals() {
               status: 'Weakened',
               icon: '⚠️',
               color: 'bg-amber-500/10 border-amber-500/20',
-              textColor: 'text-amber-400',
+              textColor: 'text-amber-600',
               algos: ['AES-128', 'SHA-256 (collisions)', 'Password hashing'],
               reason: "Grover's algorithm provides quadratic speedup — key strength is halved. AES-256 remains secure; AES-128 is borderline.",
               analogy: 'Like cutting a password from 10 characters to 5 — still secure for now, but much weaker.'
@@ -723,7 +723,7 @@ function QuantumFundamentals() {
                 {cat.algos.map(algo => (
                   <div key={algo} className="flex items-center gap-3 bg-white/80 p-3 rounded-xl border border-slate-200">
                     <span className={`w-2 h-2 rounded-full ${cat.color.split(' ')[0].replace('/10', '/50')}`} />
-                    <span className="text-sm font-mono text-slate-200">{algo}</span>
+                    <span className="text-sm font-mono text-slate-600">{algo}</span>
                   </div>
                 ))}
               </div>
@@ -756,9 +756,9 @@ function QuantumFundamentals() {
                   <div className="flex items-center mb-4">
                     <div className={`h-2 flex-1 ${i === 0 ? 'rounded-l-full' : ''} ${i === 3 ? 'rounded-r-full' : ''} ${era.color}`} />
                   </div>
-                  <div className={`absolute top-0 left-1/2 -translate-x-1/2 w-4 h-4 rounded-full border-2 ${era.active ? `${era.color} border-white` : 'bg-slate-200 border-slate-300'}`} />
+                  <div className={`absolute top-0 left-1/2 -translate-x-1/2 w-4 h-4 rounded-full border-2 ${era.active ? `${era.color} border-foreground` : 'bg-slate-200 border-slate-300'}`} />
                   <div className="mt-6 space-y-2">
-                    <div className={`text-sm font-bold ${era.active ? 'text-white' : 'text-slate-600'}`}>{era.year}</div>
+                    <div className={`text-sm font-bold ${era.active ? 'text-foreground' : 'text-slate-600'}`}>{era.year}</div>
                     <div className={`text-[10px] font-bold px-2 py-0.5 rounded-full inline-block ${era.active ? `${era.color}/20 ${era.color.replace('bg-', 'text-')}` : 'bg-slate-100 text-slate-600'}`}>{era.label}</div>
                     <p className="text-xs text-slate-600 leading-relaxed">{era.desc}</p>
                   </div>
@@ -769,9 +769,9 @@ function QuantumFundamentals() {
           <div className="mt-8 p-4 bg-destructive/10 border border-destructive/20 rounded-xl">
             <p className="text-sm text-destructive font-bold mb-1">⚠️ Critical Takeaway</p>
             <p className="text-xs text-slate-700 leading-relaxed">
-              The HNDL (Harvest Now, Decrypt Later) threat is <strong className="text-white">active today</strong>. Adversaries are collecting encrypted data now, 
+              The HNDL (Harvest Now, Decrypt Later) threat is <strong className="text-destructive">active today</strong>. Adversaries are collecting encrypted data now, 
               knowing they can decrypt it once a CRQC exists. Data that must remain confidential for 20+ years (medical records, state secrets, 
-              financial history) may <strong className="text-white">already be compromised</strong> — the decryption just hasn't happened yet.
+              financial history) may <strong className="text-destructive">already be compromised</strong> — the decryption just hasn't happened yet.
             </p>
           </div>
         </div>
@@ -782,7 +782,7 @@ function QuantumFundamentals() {
           <h3 className="text-2xl font-bold mb-4">Now You Understand the Machine — Let's See the Threat</h3>
           <p className="text-muted-foreground max-w-3xl mx-auto leading-relaxed">
             You now know what a qubit is, how superposition enables parallelism, and why Shor's and Grover's algorithms 
-            pose existential threats to classical cryptography. The next section dives deep into <strong className="text-white">exactly how Shor's 
+            pose existential threats to classical cryptography. The next section dives deep into <strong className="text-primary">exactly how Shor's 
             algorithm breaks RSA</strong> — using the period-finding technique you just learned about.
           </p>
           <div className="mt-6 flex justify-center gap-4 text-sm text-slate-600">

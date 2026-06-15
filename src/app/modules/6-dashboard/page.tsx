@@ -101,7 +101,7 @@ export default function DashboardModule() {
         <div className="mb-8">
           <div className="flex justify-between text-sm text-slate-600 mb-2">
             <span className="font-bold">Overall Progress</span>
-            <span className="font-bold text-cyan-400">{overallProgress}%</span>
+            <span className="font-bold text-cyan-600">{overallProgress}%</span>
           </div>
           <div className="h-4 bg-slate-100 rounded-full overflow-hidden">
             <motion.div
@@ -188,12 +188,12 @@ export default function DashboardModule() {
                     transition={{ duration: 0.2, delay: i * 0.05 }}
                     className="hover:bg-slate-100/60 transition-colors group"
                   >
-                    <td className="p-6 font-bold text-lg text-foreground group-hover:text-cyan-400 transition-colors">{algo.name}</td>
+                    <td className="p-6 font-bold text-lg text-foreground group-hover:text-cyan-600 transition-colors">{algo.name}</td>
                     <td className="p-6 text-slate-600 font-medium">{algo.type}</td>
                     <td className="p-6">
                       <span className={`inline-flex items-center px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider shadow-sm ${
-                        algo.security.includes('Safe') ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 shadow-emerald-500/20' : 
-                        'bg-red-500/10 text-red-400 border border-red-500/30 shadow-red-500/20'
+                        algo.security.includes('Safe') ? 'bg-emerald-500/10 text-emerald-600 border border-emerald-500/30 shadow-emerald-500/20' : 
+                        'bg-red-500/10 text-red-600 border border-red-500/30 shadow-red-500/20'
                       }`}>
                         {algo.security}
                       </span>
@@ -201,8 +201,8 @@ export default function DashboardModule() {
                     <td className="p-6 font-mono text-sm text-slate-700 bg-white/60">{algo.keySize}</td>
                     <td className="p-6">
                       <span className={`inline-flex items-center px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider shadow-sm ${
-                        algo.status === 'NIST Standard' ? 'bg-blue-500/10 text-blue-400 border border-blue-500/30 shadow-blue-500/20' : 
-                        algo.status === 'Deprecating' ? 'bg-orange-500/10 text-orange-400 border border-orange-500/30 shadow-orange-500/20' :
+                        algo.status === 'NIST Standard' ? 'bg-blue-500/10 text-blue-600 border border-blue-500/30 shadow-blue-500/20' : 
+                        algo.status === 'Deprecating' ? 'bg-orange-500/10 text-orange-600 border border-orange-500/30 shadow-orange-500/20' :
                         'bg-slate-500/10 text-slate-600 border border-slate-500/30'
                       }`}>
                         {algo.status}

@@ -78,7 +78,7 @@ export default function BreakCrypto() {
               animate={{ opacity: 1, x: 0 }}
               className="bg-white/95 p-8 rounded-3xl border-2 border-blue-500/30 shadow-inner space-y-6"
             >
-              <h3 className="font-bold text-2xl text-blue-400 flex items-center gap-3">
+              <h3 className="font-bold text-2xl text-blue-600 flex items-center gap-3">
                 <span className="text-3xl">🛡️</span> 1. Classical Target
               </h3>
               <p className="text-slate-600 text-sm">We generated a vulnerable RSA public key.</p>
@@ -86,7 +86,7 @@ export default function BreakCrypto() {
               <div className="space-y-4">
                 <div className="bg-white p-4 rounded-xl border border-slate-200">
                   <div className="text-xs uppercase tracking-wider text-slate-600 font-bold mb-1">Public Modulus (N)</div>
-                  <div className="font-mono text-2xl text-blue-300 break-all">{result.rsa.public_key.n}</div>
+                  <div className="font-mono text-2xl text-blue-600 break-all">{result.rsa.public_key.n}</div>
                 </div>
                 <div className="bg-white p-4 rounded-xl border border-slate-200">
                   <div className="text-xs uppercase tracking-wider text-slate-600 font-bold mb-1">Hidden Primes (p, q)</div>
@@ -103,7 +103,7 @@ export default function BreakCrypto() {
             >
               <div className="absolute inset-0 bg-red-500/5 animate-pulse pointer-events-none"></div>
 
-              <h3 className="font-bold text-2xl text-red-400 flex items-center gap-3 relative z-10">
+              <h3 className="font-bold text-2xl text-red-600 flex items-center gap-3 relative z-10">
                 <span className="text-3xl">💥</span> 2. Quantum Attack
               </h3>
               <p className="text-slate-600 text-sm relative z-10">Shor's algorithm intercepted and factored N.</p>
@@ -114,7 +114,7 @@ export default function BreakCrypto() {
                     initial={{ scale: 0.9 }} animate={{ scale: 1 }}
                     className="bg-red-900/40 border border-red-500 p-6 rounded-xl text-center h-full flex flex-col justify-center"
                   >
-                    <div className="text-sm uppercase tracking-wider text-red-300 font-bold mb-3">Target Compromised. Factors Found:</div>
+                    <div className="text-sm uppercase tracking-wider text-red-600 font-bold mb-3">Target Compromised. Factors Found:</div>
                     <div className="font-mono text-4xl font-black text-transparent bg-clip-text bg-gradient-to-br from-red-400 to-orange-400">
                       {result.shor.result[0]} &times; {result.shor.result[1]}
                     </div>

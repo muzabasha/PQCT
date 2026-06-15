@@ -75,7 +75,7 @@ export default function AnalyticsPage() {
             <div className="glass rounded-2xl md:rounded-3xl p-4 md:p-8">
               <h2 className="text-base md:text-xl font-bold mb-4 md:mb-6">Module Completion</h2>
               <div className="h-48 md:h-64">
-                <ResponsiveContainer width="100%" height="100%">
+                <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
                   <BarChart data={progressData} margin={{ top: 5, right: 10, left: -20, bottom: 5 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
                     <XAxis dataKey="module" tick={{ fill: '#94a3b8', fontSize: 10 }} />
@@ -92,7 +92,7 @@ export default function AnalyticsPage() {
             <div className="glass rounded-2xl md:rounded-3xl p-4 md:p-8">
               <h2 className="text-base md:text-xl font-bold mb-4 md:mb-6">Learning Dimension Mastery</h2>
               <div className="h-48 md:h-64">
-                <ResponsiveContainer width="100%" height="100%">
+                <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
                   <RadarChart data={radarData}>
                     <PolarGrid stroke="#1e293b" />
                     <PolarAngleAxis dataKey="subject" tick={{ fill: '#94a3b8', fontSize: 10 }} />
@@ -169,7 +169,7 @@ export default function AnalyticsPage() {
           <div className="glass rounded-2xl md:rounded-3xl p-4 md:p-8">
             <h2 className="text-base md:text-xl font-bold mb-4 md:mb-6">Key Size Comparison</h2>
             <div className="h-48 md:h-64">
-              <ResponsiveContainer width="100%" height="100%">
+              <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
                 <BarChart data={algoComparison} margin={{ top: 5, right: 10, left: -10, bottom: 5 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
                   <XAxis dataKey="name" tick={{ fill: '#94a3b8', fontSize: 10 }} />
