@@ -10,6 +10,7 @@ const modules = [
   { id: 4, path: '/modules/4-shor-impact', title: 'Measuring HNDL Risk & Migration Urgency', desc: 'Validate HNDL exposure using the T_migrate formula. Quantify migration urgency with financial impact and risk scoring frameworks.', icon: '⏳', accent: 'destructive', topics: 4, labs: 1, abls: 4, pbl: 1 },
   { id: 5, path: '/modules/5-pqc', title: 'Validating Post-Quantum Cryptography', desc: 'Measure PQC security margins, benchmark performance tradeoffs, and validate quantum resistance through NIST\'s proven evaluation framework.', icon: '🛡️', accent: 'success', topics: 4, labs: 1, abls: 4, pbl: 1 },
   { id: 6, path: '/modules/6-dashboard', title: 'Comparative Dashboard', desc: 'Side-by-side algorithm comparison, learning progress tracker, and topic dependency graph.', icon: '📊', accent: 'accent', topics: 4, labs: 0, abls: 0, pbl: 0 },
+  { id: 7, path: '/modules/7-quantum-lab', title: 'Quantum Lab Establishment Guide', desc: 'Comprehensive guide to establishing quantum labs in Indian institutions — budgets, funding agencies, existing lab directory, and expected outcomes.', icon: '🔬', accent: 'success', topics: 4, labs: 0, abls: 0, pbl: 0 },
 ];
 
 const accentMap: Record<string, { border: string; badge: string; glow: string }> = {

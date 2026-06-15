@@ -27,6 +27,7 @@ const moduleMeta: Omit<ModuleProgress, 'storyReflections' | 'checkpointsDone' | 
   { name: "Shor's & Grover's", icon: '🌊' },
   { name: 'Harvest Now, Decrypt Later', icon: '⏳' },
   { name: 'Post-Quantum Cryptography', icon: '🛡️' },
+  { name: 'Quantum Lab Setup', icon: '🔬' },
 ];
 
 export default function DashboardModule() {

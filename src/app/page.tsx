@@ -47,6 +47,13 @@ const modules = [
     icon: '📊', color: 'from-accent/20 to-yellow-500/10', border: 'border-accent/30', tag: 'text-accent',
     topics: ['Algorithm Comparison', 'Progress Tracker', 'Learning Analytics'],
   },
+  {
+    id: 7, path: '/modules/7-quantum-lab',
+    title: 'Quantum Lab Setup',
+    desc: 'Complete guide to establishing a quantum lab with budget, funding agencies, and India lab directory.',
+    icon: '🔬', color: 'from-success/20 to-emerald-500/10', border: 'border-success/30', tag: 'text-success',
+    topics: ['Lab Plan & Budget', 'Funding Agencies', 'Quantum Labs in India', 'Expected Outcomes'],
+  },
 ];
 
 const pillars = [
@@ -59,7 +66,7 @@ const pillars = [
 ];
 
 function ProgressSnapshot() {
-  const [progress, setProgress] = useState({ completed: 0, total: 5, streak: 0 });
+  const [progress, setProgress] = useState({ completed: 0, total: 6, streak: 0 });
 
   useEffect(() => {
     const modKeys = [
@@ -68,6 +75,7 @@ function ProgressSnapshot() {
       "shor's--grover's",
       'harvest-now-decrypt-later',
       'post-quantum-cryptography',
+      'quantum-lab-setup',
     ];
     let completedCount = 0;
     modKeys.forEach(key => {
