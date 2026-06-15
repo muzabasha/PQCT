@@ -4,7 +4,7 @@ import { MathEquation } from './MathEquation';
 import { ActivityBlock } from './ActivityBlock';
 import { PBLBlock } from './PBLBlock';
 import { QuestionsBlock } from './QuestionsBlock';
-import { HITLFeedback } from './HITLFeedback';
+
 import { MCQBlock } from './MCQBlock';
 
 interface MCQ {
@@ -43,6 +43,9 @@ interface TopicTemplateProps {
     dataFlow: string;
     processExplanation: string;
     component: React.ReactNode;
+    procedure: string[];
+    observations: { prompt: string; hint: string }[];
+    conclusion: string;
   };
   summary: {
     insights: string[];
@@ -209,11 +212,11 @@ export function TopicTemplate(props: TopicTemplateProps) {
         </div>
       </section>
 
-      {/* SECTION 6: VIRTUAL LAB (Placed here for better flow) */}
+      {/* SECTION 6: VIRTUAL LAB — STEM Learn by Doing */}
       <section id="lab" className="space-y-8 md:space-y-16">
         <div className="text-center space-y-2 md:space-y-4">
           <h2 className="text-3xl md:text-5xl font-black font-outfit">Virtual Interactive Lab</h2>
-          <p className="text-sm md:text-xl text-muted-foreground">Learn by Doing (NEP 2020 Standard)</p>
+          <p className="text-sm md:text-xl text-muted-foreground">STEM Approach — Learn by Doing (NEP 2020)</p>
         </div>
         
         <div className="glass rounded-2xl md:rounded-[3rem] overflow-hidden border-2 border-primary/20">
@@ -231,31 +234,40 @@ export function TopicTemplate(props: TopicTemplateProps) {
                    ))}
                  </div>
                  <div className="text-[10px] md:text-xs text-muted-foreground italic">
-                   Real-time Visualization Engine Active
+                   Interactive Simulation Active — Follow the procedure below
                  </div>
               </div>
             </div>
-            <div className="p-4 md:p-8 border-t md:border-t-0 md:border-l border-border/50 space-y-4 md:space-y-8 bg-slate-900/20">
+            <div className="p-4 md:p-8 border-t md:border-t-0 md:border-l border-border/50 space-y-4 md:space-y-8 bg-slate-900/20 overflow-y-auto">
               <div>
-                <h4 className="font-bold mb-2 md:mb-3 text-primary text-sm md:text-base">Process Visualization</h4>
-                <p className="text-[10px] md:text-xs text-slate-400 leading-relaxed">{props.virtualLab.dataFlow}</p>
+                <h4 className="font-bold mb-2 md:mb-3 text-primary text-sm md:text-base flex items-center gap-2">
+                  <span>📋</span> Guided Procedure
+                </h4>
+                <ol className="space-y-2 md:space-y-3">
+                  {props.virtualLab.procedure.map((step, i) => (
+                    <li key={i} className="text-[10px] md:text-xs text-slate-300 leading-relaxed flex gap-2">
+                      <span className="font-bold text-primary shrink-0">{i + 1}.</span>
+                      <span>{step}</span>
+                    </li>
+                  ))}
+                </ol>
               </div>
               <div>
-                <h4 className="font-bold mb-2 md:mb-3 text-primary text-sm md:text-base">Execution Logic</h4>
-                <p className="text-[10px] md:text-xs text-slate-400 leading-relaxed">{props.virtualLab.processExplanation}</p>
-              </div>
-              <div className="bg-primary/10 border border-primary/20 p-3 md:p-4 rounded-lg md:rounded-xl">
-                <h4 className="text-[10px] font-bold text-primary uppercase mb-2">Performance Metrics</h4>
-                <div className="space-y-1 md:space-y-2">
-                  <div className="flex justify-between text-[10px]">
-                    <span className="text-slate-500">Latency</span>
-                    <span className="text-slate-200">1.2ms</span>
-                  </div>
-                  <div className="flex justify-between text-[10px]">
-                    <span className="text-slate-500">Throughput</span>
-                    <span className="text-slate-200">98%</span>
-                  </div>
+                <h4 className="font-bold mb-2 md:mb-3 text-primary text-sm md:text-base flex items-center gap-2">
+                  <span>🔍</span> Record Your Observations
+                </h4>
+                <div className="space-y-3 md:space-y-4">
+                  {props.virtualLab.observations.map((obs, i) => (
+                    <div key={i} className="bg-slate-800/50 border border-slate-700/50 rounded-lg p-3">
+                      <p className="text-[10px] md:text-xs text-slate-200 mb-1">{obs.prompt}</p>
+                      <p className="text-[9px] md:text-[10px] text-slate-500 italic">{obs.hint}</p>
+                    </div>
+                  ))}
                 </div>
+              </div>
+              <div className="bg-success/10 border border-success/20 p-3 md:p-4 rounded-lg md:rounded-xl">
+                <h4 className="text-[10px] font-bold text-success uppercase mb-2">💡 What Did You Learn?</h4>
+                <p className="text-[10px] md:text-xs text-slate-300 leading-relaxed">{props.virtualLab.conclusion}</p>
               </div>
             </div>
           </div>
@@ -430,8 +442,6 @@ export function TopicTemplate(props: TopicTemplateProps) {
         </section>
       )}
 
-      {/* HITL FEEDBACK */}
-      <HITLFeedback topicName={props.topicName} onContinue={props.onNextTopic} />
     </div>
   );
 }

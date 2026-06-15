@@ -101,52 +101,10 @@ const prerequisitesData = {
       justification: "Validated measurement: T_migrate = QDay - DataLifetime. This is the last date when data could be safely encrypted with classical algorithms. If T_migrate < current year, the organization is already past the safe window. Government intelligence (50yr lifetime): 2032-50 = 1982 — past by 44 years. This calculation IS the urgency measurement."
     },
     {
-      question: "How is CRQC readiness measured and validated?",
-      options: ["By media announcements", "Validated CRQC metrics: (1) logical qubits ≥ 4096 (for RSA-2048), (2) physical qubits with error correction ≥ 40M, (3) gate fidelity > 99.9999%, (4) runtime < 24 hours. Current best: IBM 1121 phys qubits, 99.9% fidelity — 10⁴× short. Validated by extrapolating IBM's 2×/year qubit growth → 2030-2035 CRQC", "By algorithm design", "By quantum computer price"],
-      correctIndex: 1,
-      justification: "Validated CRQC measurement: qubit_shortfall = target_qubits / current_qubits = 40×10⁶ / 10³ = 40,000×. IBM roadmap shows ~2× qubit growth/year. Years needed = log₂(40,000) ≈ 15 years from 2024 → 2039. But faster progress in error correction (surface codes improving 10×/year) pulls this to 2032-2035. This validated measurement is the basis for industry CRQC timelines."
-    },
-    {
       question: "What metric measures the financial impact of HNDL on an organization?",
       options: ["Stock price", "Validated formula: Financial_Impact = (Data_Volume) × (Data_Sensitivity_Score) × (Regulatory_Fine_per_Record) × (HNDL_Probability). For a hospital: 1M records × health data (score=10) × $100/record HIPAA fine × 0.8 probability = $800M estimated exposure. This measurement validates PQC migration ROI", "Number of servers", "IT budget"],
       correctIndex: 1,
       justification: "Validated risk measurement: Expected Loss = Exposure × Probability. Healthcare breach average: $10M per incident (IBM 2024 report). Multiply by ~80% HNDL probability (conservative CRQC timeline) → $8M expected loss. PQC migration cost: ~$200K for mid-sized hospital. ROI = $8M / $200K = 40×. This validated financial measurement justifies immediate PQC investment."
-    },
-    {
-      question: "How is 'data sensitivity lifetime' measured and classified?",
-      options: ["By the data creator's preference", "Validated classification framework: (1) Short-term <1yr (session tokens, cache), (2) Medium 1-10yr (financial statements, licenses), (3) Long-term 10-50yr (biometrics, criminal records), (4) Permanent 50-100yr (medical records, genetic data, national security). Each class has a validated T_migrate = 2032 - lifetime", "By file extension", "By storage location"],
-      correctIndex: 1,
-      justification: "Validated data classification: Medical/genetic data: lifetime = 80 years → T_migrate = 1952 (OVERDUE). Government intel: 50 years → T_migrate = 1982 (OVERDUE). Banking history: 30 years → T_migrate = 2002 (OVERDUE). Employment records: 10 years → T_migrate = 2022 (OVERDUE). Cookies/sessions: minutes → SAFE. This measured classification shows that most sensitive data is already past the migration deadline."
-    },
-    {
-      question: "What validated benchmark determines if a TLS connection is HNDL-safe?",
-      options: ["Using HTTPS", "A TLS connection is HNDL-safe IF and ONLY IF it uses PQC key exchange (Kyber) OR data sensitivity lifetime expires before CRQC. Current TLS 1.3 with X25519: NOT safe for long-lived data. Validated benchmark: TLS 1.3 + X25519Kyber768 hybrid = HNDL-safe (validated by Cloudflare production deployment)", "Using VPN", "Using AES-256"],
-      correctIndex: 1,
-      justification: "Validated HNDL-safe measurement: TLS connection today with RSA key exchange produces ciphertext interceptable and storable by adversaries. That ciphertext will be decryptable post-CRQC. Only PQC or hybrid key exchange (X25519Kyber) prevents this. Cloudflare's validated benchmark: hybrid TLS adds <0.5ms latency while guaranteeing HNDL-safety."
-    },
-    {
-      question: "How is the 'urgency score' for PQC migration measured?",
-      options: ["By the organization's revenue", "Validated Urgency Score = (Data_Sensitivity_Weight) × (Data_Volume_Multiplier) × (years_past_T_migrate_factor). Healthcare: weight=10 (highest), volume multiplier=1.5, years past deadline=40 (if T_migrate=1982 in 2026) → Score = 10 × 1.5 × 40 = 600 (CRITICAL). IoT tokens: weight=1, volume=0.5, years past=0 → Score=0.5 (LOW)", "By employee count", "By industry"],
-      correctIndex: 1,
-      justification: "Validated urgency framework: Score = Weight × Volume × PastDeadline. Healthcare (weight=10, past deadline by 40 years, high volume): score 600 → immediate migration needed. E-commerce session data (weight=1, no deadline passed, moderate volume): score ~1 → can wait for standardized implementations. This validated scoring system optimizes PQC resource allocation."
-    },
-    {
-      question: "What validated metric shows that PQC migration is URGENT and not optional?",
-      options: ["Government regulations", "Validated measurement: total global encrypted traffic in 2024 ≈ 250 exabytes/day. At 80% RSA/ECC usage = 200 exabytes/day at HNDL risk. CRQC by 2032 gives 8 years of interception. Total at-risk data by 2032 = 200 EB/day × 365 × 8 ≈ 584 zettabytes — equivalent to 10,000× all written works in human history. This measured scope validates migration urgency", "Quantum computers exist", "NIST recommends it"],
-      correctIndex: 1,
-      justification: "Validated scale measurement: Current internet traffic: ~250 EB/day ≈ 250 × 10^18 bytes. ~80% uses quantum-vulnerable RSA/ECC = 200 EB/day. Over 8 years (2024-2032): 200 × 365 × 8 = 584,000 EB = 584 ZB. For perspective: all words ever spoken by humans ≈ 5 EB. This validation shows the staggering scale of HNDL exposure and the urgency of PQC migration."
-    },
-    {
-      question: "How do we measure the 'quantum-safe' status of an existing encrypted archive?",
-      options: ["By the encryption program used", "Validated measurement: Check (a) encryption algorithm — if RSA/ECC → not quantum-safe; (b) encryption date — if after T_migrate for data lifetime → at HNDL risk; (c) key size — irrelevant for RSA quantum safety. For PQC: verify Kyber/Dilithium parameters per NIST FIPS standards. This validated protocol confirms quantum-safety status", "By archive size", "By password strength"],
-      correctIndex: 1,
-      justification: "Validated quantum-safe checklist: (1) Algorithm: RSA/ECC? → NOT safe, needs PQC re-encryption. (2) Date: if after 1952 for medical records → at HNDL risk. (3) Key size: no RSA key size is quantum-safe. (4) PQC check: verify FIPS 203/204 compliance. This validated measurement framework gives organizations a clear protocol for auditing existing encrypted data."
-    },
-    {
-      question: "What is the 'critical window' measurement for PQC migration?",
-      options: ["10 years from quantum computer availability", "Validated critical window = current_year_until_QDay-MaxMigrationTime. With QDay ~2032 and MaxMigrationTime for a large enterprise = 5-7 years: critical window = 2032 - 7 = 2025 - current(2026) = already past. Organizations STARTING migration in 2026 with a 7-year timeline will finish in 2033 — AFTER QDay. This measured window proves migration must start immediately", "When quantum computers are available", "5 years before data expires"],
-      correctIndex: 1,
-      justification: "Validated timeline measurement: Large enterprise migration takes 5-7 years (Google's estimate). If QDay ≈ 2032, migration must START by 2025-2027 at latest. Organizations not already planning in 2026 face a validated risk: their migration will complete AFTER CRQC arrival. This measured timeline is the strongest quantitative argument for immediate PQC action."
     }
   ]
 };
@@ -182,48 +140,6 @@ const recapData = {
       options: ["PQC is cheaper than classical crypto", "Validated ROI: Healthcare breach avg cost = $10M (IBM 2024). HNDL probability (conservative) = 80%. Expected loss = $8M. PQC migration cost for mid-sized hospital ≈ $200K (audit + implementation + testing). ROI = $8M / $200K = 40×. Even at 10% HNDL probability: ROI = 5×. This validated financial case proves immediate PQC investment is economically rational", "PQC investment has no ROI", "Migration costs exceed breach costs"],
       correctIndex: 1,
       justification: "Validated financial measurement: IBM Cost of Data Breach 2024 reports healthcare avg = $10.93M. HNDL probability given CRQC timeline of 2030-2035: estimated 80% (conservative). Expected loss = $10.93M × 0.8 = $8.74M. PQC migration: assessment ($50K) + implementation ($100K) + testing ($50K) = $200K. ROI = $8.74M / $200K = 43.7×. This validated calculation is the strongest argument for PQC investment."
-    },
-    {
-      question: "What validates that hybrid TLS (X25519Kyber768) is an effective HNDL mitigation?",
-      options: ["It's faster than classical TLS", "Validated by Cloudflare production data: (1) 0.5ms average latency increase (<5% overhead), (2) security = min(X25519 security, Kyber security) — attacker must break BOTH algorithms, (3) compatible with existing TLS 1.3 infrastructure, (4) measured in production since 2023 serving millions of requests. This validated deployment proves hybrid TLS is a practical HNDL mitigation today", "It's the default in Chrome", "It uses less bandwidth"],
-      correctIndex: 1,
-      justification: "Validated deployment metrics: Cloudflare (2024) reports hybrid X25519Kyber768: +0.5ms median latency, <1% CPU overhead, 100% compatibility with TLS 1.3. Google Chrome reports similar metrics across 2M+ domains. Security property: hybrid = any algorithm can be broken independently, but breaking both simultaneously is required — this validated property makes hybrid TLS the recommended short-term HNDL mitigation."
-    },
-    {
-      question: "What validated benchmark determines if an organization's encrypted data can be safely left in classical form?",
-      options: ["Encryption algorithm", "Validated condition: data is safe if (CurrentYear + RemainingDataLifetime) < QDay. Example: 5-year license expiring 2029 → 2026+3 = 2029 < 2032 → SAFE — no PQC re-encryption needed, will naturally expire before CRQC. Contrast: 80-year medical record → 2026+80 = 2106 > 2032 → MUST re-encrypt with PQC", "Data size", "Storage medium"],
-      correctIndex: 1,
-      justification: "Validated condition: if data's sensitivity expires before QDay, HNDL risk is zero. Condition: CurrentYear + RemainingLifetime < QDay. License valid until 2029 (3yr remaining): 2026 + 3 = 2029 < 2032 → SAFE. Tax records (7yr retention): 2026 + 7 = 2033 > 2032 → AT RISK (need PQC). This simple validated test guides which data needs immediate action vs which can be left."
-    },
-    {
-      question: "What measurement validates the 2030-2035 CRQC timeline used for HNDL assessment?",
-      options: ["Industry consensus", "Validated via multiple independent datasets: (1) IBM roadmap: 100K physical qubits by 2029 (public), (2) Google's error correction advances: surface code thresholds achieved 2024, (3) exponential growth trend: qubit count doubling every ~2 years since 2018, (4) gate fidelity improving ~10×/year. Extrapolating: 40M qubits needed → 2024 (10³) → 2027 (10⁴) → 2030 (10⁵) → 2033 (10⁶) → 2036 (10⁷) → 2039 (10⁸). Conservative estimate: 2030-2035 with breakthroughs", "Wikipedia timeline", "Academic papers"],
-      correctIndex: 1,
-      justification: "Validated by cross-referencing multiple roadmaps: IBM (1121 qubits 2024, target 100K by 2029), Google (error correction milestone: below surface code threshold 2023), IonQ (industry-leading gate fidelity). Extrapolate: current ~10³ physical qubits → need ~40×10⁶. At 2×/year: log₂(40000) ≈ 15 years → 2039. But error correction efficiency improving 10×/year → pulls to 2032-2035. The validated range of 2030-2035 is a consensus estimate based on converging data points."
-    },
-    {
-      question: "A startup encrypts all customer data with AES-256-GCM. Is their data HNDL-safe?",
-      options: ["Yes, AES is quantum-safe", "Partially — AES-256 is quantum-safe for confidentiality (Grover's reduces to 128-bit, still infeasible), but the KEY EXCHANGE method matters. If using RSA/ECDH for key exchange (common in TLS), the AES key itself is intercepted and will be recoverable via Shor's. Validated: data is safe ONLY if key exchange also uses PQC (Kyber). Pure AES-256 with classical key exchange is NOT HNDL-safe", "No, AES is broken", "Data is always safe"],
-      correctIndex: 1,
-      justification: "Validated hybrid threat model: (1) AES-256-GCM ciphertext alone: SAFE (Grover's → 2^128 cost, infeasible). (2) But the AES KEY is wrapped using RSA or ECDH during TLS handshake: the key exchange IS vulnerable to Shor's. (3) Adversary stores the encrypted TLS session (AES ciphertext + RSA-wrapped key) → post-CRQC, recovers AES key via Shor's → decrypts session. Validated conclusion: AES-256 alone is insufficient without PQC key exchange."
-    },
-    {
-      question: "What validated metric determines the 'priority score' for migrating different data systems to PQC?",
-      options: ["System age", "Validated Priority Score = (DataSensitivityWeight) × (HNDLExposureYears) × (SystemCriticality). Patient records: weight=10, exposure=68 years (2106-2032), criticality=5 (life-critical) → Score = 3400 → MIGRATE IMMEDIATELY. Employee directory: weight=2, exposure=0 (public data), criticality=1 → Score = 2 → LOW priority. This validated scoring optimizes migration sequencing", "Number of users", "System cost"],
-      correctIndex: 1,
-      justification: "Validated prioritization framework: Score = Weight × Exposure × Criticality. Weight: health/genetic=10, financial=8, government=9, personal=5, public=1. Exposure: years data remains sensitive past QDay. Criticality: patient safety=5, revenue=4, operations=3, convenience=2, admin=1. Patient records: 10 × 68 × 5 = 3400 (IMMEDIATE). Employee photos: 1 × 0 × 1 = 0 (SAFE). This validated formula provides objective migration sequencing."
-    },
-    {
-      question: "What is the validated measurement for 'how much of an organization's data is HNDL-vulnerable'?",
-      options: ["All encrypted data", "Validated percentage = (Data_with_Lifetime_>_QDay_Gap) / (Total_Data) × 100. QDayGap = QDay - CurrentYear = 2032 - 2026 = 6 years. Any data with lifetime > 6 years and encrypted with RSA/ECC is at risk. For a typical enterprise: 15% public data (0yr lifetime) = SAFE, 25% sessions (hours-days) = SAFE, 60% sensitive (months-decades) = AT RISK. Validated estimate: ~60% of enterprise data is HNDL-vulnerable", "50% of data", "Only top-secret data"],
-      correctIndex: 1,
-      justification: "Validated enterprise data audit results (based on IBM/Verizon 2024): ~15% public (no sensitivity), ~25% operational/sessions (lifetime hours-days, T_migrate > 2026), ~35% internal sensitive (lifetime 1-10yr, some past T_migrate), ~25% regulated sensitive (lifetime 10-80yr, T_migrate = 1952-2016, all past deadline). Total with HNDL risk: ~60% of enterprise data. This validated measurement drives the scope of PQC migration projects."
-    },
-    {
-      question: "What validates that CNSA 2.0's 2035 deadline is appropriate for PQC migration?",
-      options: ["It was arbitrarily chosen", "Validated by: (1) US National Security Memorandum (NSM-10) requires quantum-resistant cryptography by 2035. (2) NSA's assessment: CRQC capability likely 2030-2035, (3) Adding 2-3 years buffer for migration completion. (4) Industry feedback: 5-7 years sufficient for large federal systems. (5) NIST standards finalized 2024 → 11 years to implement. This validated timeline aligns CRQC projections (2030-2035) with practical migration timelines (2024-2035) and regulatory mandate", "2035 is the CRQC date", "2035 is the QDay"],
-      correctIndex: 1,
-      justification: "Validated timeline: NIST PQC standards published August 2024. NSM-10 (January 2022) requires CNSA 2.0 implementation by 2035. This gives 11 years from NIST finalization for full government-wide migration. CRQC estimates (2030-2035) suggest quantum threat arrives during this window. The validated gap: migration starts before CRQC (2024-2030) and completes before or concurrently (2030-2035). This is the validated rationale for the 2035 CNSA 2.0 deadline."
     }
   ]
 };
@@ -393,7 +309,20 @@ export default function ShorImpactModule() {
         controls: ["Select Algorithm", "Adjust Data Lifetime"],
         dataFlow: "Data Lifetime → T_migrate = Q-Day − Lifetime → Status: SAFE / URGENT / OVERDUE",
         processExplanation: "The chart shows the projected security resilience of the selected algorithm over time. The slider calculates whether your data's migration deadline has already passed based on its required confidentiality duration.",
-        component: <ImpactLab />
+        component: <ImpactLab />,
+        procedure: [
+          "Select a cryptographic algorithm (RSA-2048, ECC-256, AES-256) from the dropdown",
+          "Use the slider to set the data sensitivity lifetime (how many years the data must remain secret)",
+          "Observe the T_migrate calculation: T_migrate = Q-Day (2032) − Data Lifetime",
+          "Check the status indicator: SAFE (T_migrate > current year), URGENT (T_migrate < current year), or OVERDUE (T_migrate < current year by a large margin)",
+          "Repeat for different data types: medical records (50yr), financial (30yr), government intel (80yr), session cookies (1hr)"
+        ],
+        observations: [
+          { prompt: "For medical records with 50-year lifetime, what is T_migrate? Is it already overdue?", hint: "T_migrate = 2032 − 50 = 1982. Current year is 2026. Status = OVERDUE by 44 years." },
+          { prompt: "What is the maximum data lifetime that still has a SAFE status today (2026)?", hint: "Solve: 2026 < 2032 − Lifetime → Lifetime < 6 years. Only data with lifetime < 6 years is safe." },
+          { prompt: "What percentage of your organization's data has a validated HNDL risk?", hint: "Consider: medical (50yr), financial (30yr), employment records (10yr), emails (5yr). Which exceed 6 years?" }
+        ],
+        conclusion: "You just performed the HNDL risk assessment that every organization needs today. The validated measurement is simple: if data lifetime > Q-Day gap (6 years from 2026), the data encrypted now is already at HNDL risk. Medical records (50yr), government intel (80yr), and financial records (30yr) are all OVERDUE. The financial justification: expected breach loss ($8-10M) ÷ PQC migration cost ($200K) = 40× ROI — a validated business case for immediate action."
       }}
       summary={{
         insights: [

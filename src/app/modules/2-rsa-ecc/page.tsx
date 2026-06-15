@@ -179,52 +179,10 @@ const prerequisitesData = {
       justification: "Forward: RSA encrypt m^e mod n (microseconds). Reverse without d: factor n (300 trillion years — ~10^34 ops). Asymmetry ratio = 10^34 / 10^3 ≈ 10^31. This validated ratio is why RSA was trusted for decades. Quantum computing collapses this ratio to near-zero."
     },
     {
-      question: "What is the standard benchmark for comparing RSA and ECC performance?",
-      options: ["Run time on a supercomputer", "Key generation time, signing/encryption time, verification/decryption time, and key sizes at equivalent classical security levels — measured in microseconds and bytes", "Memory usage only", "Power consumption"],
-      correctIndex: 1,
-      justification: "Fair comparison requires: same classical security level (e.g., 128-bit). RSA-3072 vs ECC-256: ECC keygen ~100× faster, keys ~10× smaller. This validated benchmark data drives the industry preference for ECC in mobile and IoT where resources are constrained."
-    },
-    {
-      question: "How do we measure the 'impact' of Shor's on RSA vs ECC?",
-      options: ["Both are equally affected", "Shor's breaks both completely — the impact metric is identical (100% security loss) because both rely on algebraic structures with hidden periods that QFT detects", "ECC is more affected", "RSA is more affected"],
-      correctIndex: 1,
-      justification: "Impact measurement: % security loss = 100% for both. Shor's solves the hidden subgroup problem for both integer factorization (RSA) and discrete log (ECC). The gate complexity is similar: O(n³) for both. Validated fact: both provide 0 bits quantum security."
-    },
-    {
-      question: "What validates that a given RSA key pair was generated correctly?",
-      options: ["The key size matches expectations", "Round-trip validation: encrypt a random message with the public key and verify decryption with the private key reproduces the original", "The file format is correct", "The key is stored in a secure location"],
-      correctIndex: 1,
-      justification: "Correctness validation: pick random m < n, compute c = m^e mod n, verify m = c^d mod n. This confirms: (1) p and q are actually prime, (2) e and d are modular inverses, (3) the implementation has no arithmetic bugs. NIST CAVP requires this test for all validated implementations."
-    },
-    {
       question: "What is the 'security strength' of 256-bit ECC (secp256r1) according to NIST SP 800-57?",
       options: ["256 bits", "128 bits — because the best attack (Pollard's rho) requires ~2^128 operations for a 256-bit curve", "192 bits", "64 bits"],
       correctIndex: 1,
       justification: "Security strength ≠ key size. For ECC, security = half the key size because Pollard's rho (~√n) is the best attack. secp256r1 provides 128-bit classical security. This validated measurement is why ECC-256 is the most widely deployed curve — it matches AES-128's security level."
-    },
-    {
-      question: "What metric measures the practical impact of RSA's larger key sizes on system performance?",
-      options: ["Algorithm complexity", "Bandwidth and computational overhead: RSA-3072 requires 384 bytes per key vs ECC-256's 32 bytes — a 12× difference validated in TLS handshake benchmarks", "Power consumption only", "Code size"],
-      correctIndex: 1,
-      justification: "Measured TLS handshake impact: RSA-3072 adds ~1.5ms server time vs ECC-256's ~0.3ms. RSA keys add ~350 bytes to certificates. For high-traffic servers (Cloudflare: 25M req/s), this 12× size difference translates to measurable bandwidth costs and latency."
-    },
-    {
-      question: "Why is factoring considered 'one-way' and how is this validated?",
-      options: ["Mathematicians have proven factoring is impossible", "Decades of empirical validation: despite 50+ years of research, no polynomial-time classical factoring algorithm exists — the asymmetry between multiplication (O(n²)) and factoring (O(exp)) is a validated empirical fact", "Factoring is taught after multiplication", "Quantum computers can't factor"],
-      correctIndex: 1,
-      justification: "Empirical validation: multiply two 1024-bit primes = 0.001ms. Factor the result = ~1,000 years with best classical algorithm. This 10^20× asymmetry has been validated consistently for 50+ years. It's the foundation of RSA's trust and the precise metric Shor's collapses."
-    },
-    {
-      question: "How do we validate ECC's security against quantum attacks?",
-      options: ["ECC is naturally quantum-resistant", "Validation result: Shor's algorithm solves the ECDLP in O(n³) quantum gates — same complexity as RSA factoring. ECC provides 0 bits quantum security. Validated by the same hidden subgroup problem framework", "Only RSA is broken by Shor's", "ECC doubles its key size for quantum safety"],
-      correctIndex: 1,
-      justification: "ECDLP is an instance of the hidden subgroup problem — exactly the structure Shor's exploits. Validated quantum gate count for breaking ECC-256: ~2n³ = ~33 million gates. This is LESS than RSA-2048 (~8.6B gates), making ECC technically easier to break than RSA on a quantum computer."
-    },
-    {
-      question: "What is the validated metric for comparing RSA key sizes to equivalent PQC key sizes?",
-      options: ["PQC keys are always smaller", "RSA-2048 = 256-byte public key; Kyber-512 (same NIST Level 1) = 800-byte public key — PQC keys are ~3× larger, validated by NIST's official parameter sets", "They are the same size", "PQC keys are 10× smaller"],
-      correctIndex: 1,
-      justification: "Measured comparison at NIST Level 1: RSA-2048 (256B public, 256B private) vs Kyber-512 (800B public, 1632B private). Validated key sizes show PQC is 3-6× larger — a measurable cost of quantum resistance that protocol designers must account for."
     }
   ]
 };
@@ -260,48 +218,6 @@ const recapData = {
       options: ["ECC keys are too small", "Shor's solves ECDLP in O(n³) quantum gates — validated gate count for ECC-256 is ~33 million gates, which is LESS than RSA-2048's ~8.6 billion gates", "ECC uses different math", "ECC is quantum-resistant"],
       correctIndex: 1,
       justification: "Validated quantum impact: ECDLP is an instance of the hidden subgroup problem — exactly the structure Shor's targets. ECC-256 requires ~33M quantum gates to break vs RSA-2048's ~8.6B. Counter-intuitively, ECC is easier quantum target than RSA."
-    },
-    {
-      question: "How do we validate that a given PQC algorithm provides the claimed security level?",
-      options: ["By trusting the vendor", "Through NIST's multi-year public evaluation process including: known-answer test vectors, third-party cryptanalysis, side-channel resistance testing, and comparison against security level benchmarks", "By running it once", "By checking key sizes"],
-      correctIndex: 1,
-      justification: "NIST validation: (1) test vectors confirm mathematical correctness, (2) public cryptanalysis papers measure attack complexity against claimed levels, (3) benchmarking confirms performance claims. Kyber's validated journey: submitted 2017 → 3 rounds of analysis → standardized in FIPS 203 (2024)."
-    },
-    {
-      question: "What is the 'bandwidth overhead' metric for PQC compared to RSA/ECC?",
-      options: ["PQC has no overhead", "Measured at NIST Level 1: RSA-2048 public key = 256B vs Kyber-512 public key = 800B (3.1× larger). Kyber ciphertext = 768B vs RSA-2048 ciphertext = 256B (3×). This validated overhead is the cost of quantum resistance", "PQC bandwidth is lower", "Overhead is the same"],
-      correctIndex: 1,
-      justification: "Validated bandwidth impact at equivalent 128-bit security: Kyber-512 public key = 800B (vs RSA-2048 = 256B), ciphertext = 768B. Total protocol overhead increase for TLS: ~1KB per session. Measured and documented in NIST's official parameter specification tables."
-    },
-    {
-      question: "What validated metric drives the industry's preference for ECC over RSA in mobile applications?",
-      options: ["ECC is more secure", "Power consumption benchmark: ECC-256 signature uses ~0.3mJ of energy while RSA-3072 uses ~5mJ — a 16× advantage validated in embedded system benchmarks", "ECC is easier to implement", "RSA is deprecated"],
-      correctIndex: 1,
-      justification: "Validated energy measurement: ECC-256 key generation consumes ~0.3mJ on ARM Cortex-M4 vs RSA-3072 consuming ~5mJ. For battery-powered IoT devices that perform daily key exchanges, this 16× difference translates to measurable battery life impact."
-    },
-    {
-      question: "What is the validated formula for determining RSA's security strength at a given key size?",
-      options: ["Security = key_size / 2", "NIST SP 800-57 validated equivalence: RSA-2048 → 112-bit, RSA-3072 → 128-bit, RSA-7680 → 192-bit, RSA-15360 → 256-bit — measured by the GNFS complexity for each key size", "Security = key_size × 2", "Security = key_size"],
-      correctIndex: 1,
-      justification: "Validated measurement: RSA security strength grows sub-linearly with key size due to GNFS algorithm. RSA-2048 provides only 112-bit classical security despite having 2048 bits. Doubling key size to 4096 yields only ~20% security increase. This validated table in NIST SP 800-57 guides key size selection."
-    },
-    {
-      question: "How does the T_migrate formula measure the HNDL impact on RSA/ECC encrypted data?",
-      options: ["It only applies to symmetric crypto", "T_migrate = T_QDay - T_DataLifetime. If T_migrate < current year, RSA/ECC encrypted data is at risk. Validated example: medical records encrypted in 2020 with RSA (80yr lifetime): 2032 - 80 = 1952 — ALREADY OVERDUE", "It measures encryption speed", "It calculates key sizes"],
-      correctIndex: 1,
-      justification: "Validated HNDL risk measurement: data encrypted with RSA/ECC today will be decryptable when CRQC exists (~2032). Apply formula: if encryption_year + data_lifetime > 2032, data is at risk. Medical records (80yr) encrypted anytime after 1952 fail this test. This metric drives organizational migration priority."
-    },
-    {
-      question: "What validated benchmark shows the performance difference between RSA-2048 and Kyber-512?",
-      options: ["Kyber is slower in all metrics", "Kyber-512 key generation: ~50,000 ops/s vs RSA-2048: ~15,000 ops/s (3× faster). Kyber encapsulation: ~60,000 ops/s vs RSA encryption: ~30,000 ops/s (2× faster). Validated by SUPERCOP benchmarking framework", "RSA is always faster", "Performance is identical"],
-      correctIndex: 1,
-      justification: "Validated SUPERCOP benchmarks: Kyber-512 keygen ~3× faster than RSA-2048, encapsulation ~2× faster. However, Kyber ciphertexts are 3× larger. The complete measurement profile: speed improves, bandwidth increases — the validated tradeoff of PQC deployment."
-    },
-    {
-      question: "What validates that hybrid TLS (X25519 + Kyber) provides adequate security?",
-      options: ["It has been tested once", "Validated by: (1) TLS handshake completes with both classical and PQC key exchange, (2) security is at least max(X25519 security, Kyber security), (3) measured latency impact <5% in Cloudflare's production deployment serving millions of requests", "It's the default in browsers", "It uses less bandwidth"],
-      correctIndex: 1,
-      justification: "Cloudflare's validated production deployment: hybrid X25519Kyber768 handshake adds ~0.5ms latency (<5% increase) while providing security against both classical and quantum attackers. Google's Chrome rollout confirmed similar metrics. This validated measurement makes hybrid the recommended short-term PQC migration strategy."
     }
   ]
 };
@@ -497,7 +413,20 @@ export default function RSAECCModule() {
         controls: ["Switch RSA/ECC","Generate Keys","Encrypt","Decrypt","Jump (+G)"],
         dataFlow: "Primes p,q → Modulus n → φ(n) → Public Key (e,n) → Encrypt m → Ciphertext c → Decrypt with d → Recover m",
         processExplanation: "Every number transformation in the RSA lab corresponds to a real mathematical operation. The ECC visualizer shows how points 'jump' across the curve — the final position is the public key; the jump count is the private key.",
-        component: <RSAECCLab />
+        component: <RSAECCLab />,
+        procedure: [
+          "Click 'Generate Keys' to create RSA primes p, q and compute n = p × q — this multiplication is the one-way function",
+          "Note the public key (e, n) and verify that only someone knowing p and q can compute the private key d",
+          "Type a message m (as a number < n) and click 'Encrypt' to compute c = m^e mod n",
+          "Click 'Decrypt' to recover m = c^d mod n — observe that this is impossible without the private key d",
+          "Switch to ECC mode and click 'Jump (+G)' to trace point additions on the curve"
+        ],
+        observations: [
+          { prompt: "How does the value of n = p × q grow compared to p and q individually?", hint: "For p=11, q=13, what is n? How does this compare to p+q?" },
+          { prompt: "After encryption, can you manually reverse c to recover m without the private key?", hint: "Try factoring n and computing d to verify why this is the 'trapdoor'" },
+          { prompt: "In ECC mode, what happens to the point after each 'Jump (+G)'? Does it follow a predictable pattern?", hint: "The final position = k × G where k is the jump count (the private key)" }
+        ],
+        conclusion: "You just experienced the one-way function that secures the internet. RSA: multiplying primes is fast (p × q), factoring them is astronomically hard without quantum computers. ECC: adding points is fast, finding the jump count (ECDLP) is hard. Both trapdoors collapse under Shor's algorithm — which is why PQC replaces them with lattice-based problems that remain hard even for quantum computers."
       }}
       summary={{
         insights: [

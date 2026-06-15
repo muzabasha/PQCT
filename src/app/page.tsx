@@ -98,6 +98,10 @@ export default function Home() {
               className="w-full sm:w-auto px-8 md:px-10 py-3 md:py-4 glass border border-slate-700 text-slate-300 rounded-2xl font-bold text-base md:text-lg hover:bg-slate-800 transition-all">
               View Curriculum
             </Link>
+            <a href="https://scholar-sparkle-web.lovable.app" target="_blank" rel="noopener noreferrer"
+              className="w-full sm:w-auto px-8 md:px-10 py-3 md:py-4 glass border border-secondary/40 text-secondary rounded-2xl font-bold text-base md:text-lg hover:bg-secondary/10 hover:border-secondary/60 transition-all">
+              👤 Resource Person
+            </a>
           </div>
         </motion.div>
 

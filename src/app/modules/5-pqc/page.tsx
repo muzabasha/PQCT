@@ -156,58 +156,16 @@ const prerequisitesData = {
       justification: "Validated measurement: SVP's best quantum algorithm (Lattice Sieving with Grover's) achieves O(2^{0.297n}) vs classical O(2^{0.292n}) — essentially NO quantum advantage. Contrast with RSA factoring: Shor's O(n³) vs classical O(exp). The measured difference = exponential collapse for RSA vs essentially zero improvement for lattices. This validated measurement IS the proven quantum-resistance of PQC."
     },
     {
-      question: "What is the NIST validation framework for measuring PQC algorithm security?",
-      options: ["NIST trusts the developers", "NIST's validated framework: (1) Public competition with 82 initial submissions (2016), (2) 3 rounds of public cryptanalysis over 7 years, (3) Security proofs against classical AND quantum attacks, (4) Benchmarked performance at 3 security levels. Only algorithms surviving this validated gauntlet are standardized. Kyber, Dilithium, SPHINCS+ passed; 79 failed", "NIST tests once internally", "NIST only checks key sizes"],
-      correctIndex: 1,
-      justification: "Validated NIST process: (2016) 82 submissions → Round 1 (2019) 26 survive → Round 2 (2020) 15 survive → Round 3 (2022) 7 finalists → Standardization (2024) 3 FIPS. Each round includes: public cryptanalysis papers, known-answer test vectors, performance benchmarks on multiple platforms, side-channel analysis. This 7-year validated competition framework provides strong confidence in the selected algorithms."
-    },
-    {
       question: "How is the 'security margin' of a PQC algorithm measured and validated?",
       options: ["By the algorithm's age", "Security margin = log₂(best_known_attack_cost) - claimed_security_bits. Kyber-512: best attack (BKZ lattice reduction) costs ~2^180 operations, claimed security = 128 bits (NIST Level 1). Margin = 180 - 128 = 52 bits. This means breaking Kyber-512 is 2^52 ≈ 4.5×10¹⁵× harder than claimed. This validated positive margin provides confidence against future attack improvements", "By key size", "By encryption speed"],
       correctIndex: 1,
       justification: "Validated measurement: Kyber-512 claimed NIST Level 1 (128-bit security). Best known attack = lattice sieving with cost ≈ 2^{180}. Security margin = 52 bits (extremely conservative). Dilithium-2: margin ≈ 48 bits. SPHINCS+-128s: margin depends entirely on SHA-256 security (well-analyzed). In contrast, RSA-2048: claimed 112-bit classical but 0-bit quantum security — negative margin. These validated margins are why NIST selected these algorithms."
     },
     {
-      question: "What validated benchmarks compare PQC and classical algorithm performance?",
-      options: ["PQC is always slower", "Validated SUPERCOP/eBASH benchmarks (Intel Xeon): Kyber-512 keygen = 52,000 ops/s vs RSA-2048 = 15,000 ops/s (3.5× faster). Kyber encapsulation = 60,000 vs RSA encrypt = 32,000 (1.9× faster). However, Kyber ciphertext = 768 bytes vs RSA = 256 bytes (3× larger). Validated tradeoff: PQC is faster computationally but consumes more bandwidth", "PQC is always faster", "PQC has identical performance"],
-      correctIndex: 1,
-      justification: "Validated benchmarks at NIST Level 1 (AES-128 equivalent): (1) Key generation: Kyber ~4µs vs RSA ~66µs (16× faster). (2) Encapsulation: Kyber ~3µs vs RSA ~31µs (10× faster). (3) Public key size: Kyber 800B vs RSA 256B (3.1× larger). (4) Ciphertext size: Kyber 768B vs RSA 256B (3× larger). The validated result: PQC is computationally faster but has larger message sizes — a measured tradeoff."
-    },
-    {
-      question: "How do we validate that the noise vector 'e' in LWE provides quantum resistance?",
-      options: ["Noise makes the math complex", "Validated validation: Without noise (e=0), b = A·s is a linear system solvable classically in O(n³) via Gaussian elimination. The noise 'e' transforms it into a BOUNDED DISTANCE DECODING problem — proven NP-hard. Quantum algorithms can solve linear systems (HHL algorithm) but CANNOT remove the noise without knowing its distribution. This validated transformation from 'easy linear' to 'hard geometric' IS the quantum resistance mechanism", "Noise is irrelevant", "Noise only affects classical computers"],
-      correctIndex: 1,
-      justification: "Validated structural insight: Without noise: b = As → solve for s = A⁻¹b (classical Gaussian elimination, polynomial time). With noise: b = As + e → finding s requires solving BDD (Bounded Distance Decoding) which is NP-hard. Quantum computers CANNOT cancel the noise because its distribution is unknown to the attacker. Grover's can speed up lattice sieving but only polynomially. This validated transformation from algebraic (quantum-vulnerable) to geometric (quantum-resistant) is LWE's fundamental innovation."
-    },
-    {
       question: "What measurement validates that NIST's PQC selection process was thorough and correct?",
       options: ["NIST is a trusted authority", "Validated by: (1) 7-year public competition (2016-2023), (2) 82 submissions from 25+ countries, (3) 400+ published cryptanalysis papers examining the candidates, (4) 3 rounds of elimination with transparent criteria, (5) Multiple independent implementations tested, (6) Side-channel resistance evaluated, (7) Backward compatibility with existing protocols measured. No other cryptographic standardization process has been this thoroughly validated", "The algorithms work correctly", "Industry adoption proves it"],
       correctIndex: 1,
       justification: "Validated process metrics: 82 initial submissions → 26 survived Round 1 → 15 survived Round 2 → 7 finalists → 3 standardized. ~400 cryptanalysis papers published. 50+ independent implementation teams. Tested across 20+ hardware platforms. NIST's own validation testing (CAVP) verifies every implementation. This is the most thoroughly validated cryptographic standardization in history — providing strong confidence in the selected PQC algorithms."
-    },
-    {
-      question: "How is the 'tradeoff measurement' between Kyber-512, Kyber-768, and Kyber-1024 quantified?",
-      options: ["Higher numbers are always better", "Validated measurement: Kyber-512: pk=800B, ct=768B, NIST Level 1 (128-bit). Kyber-768: pk=1184B, ct=1088B, Level 3 (192-bit). Kyber-1024: pk=1568B, ct=1568B, Level 5 (256-bit). Bandwidth increases ~50% per level while security increases 64 bits per level. Validation: the tradeoff is 1.5× bandwidth for 64-bit additional security — each level costs ~0.5-1KB overhead", "They have identical performance", "Only key size matters"],
-      correctIndex: 1,
-      justification: "Validated Kyber family measurement: Key sizes: 800B (Level 1) → 1184B (Level 3) → 1568B (Level 5) — ~50% increase per level. Ciphertext sizes: 768B → 1088B → 1568B — similar scaling. Security increase: 128 → 192 → 256 bits. Performance: keygen ~3µs (Level 1) → ~5µs (Level 5). The validated normalized metric: ~2.5 bytes/bit of security for Level 1 vs ~6.1 bytes/bit for Level 5 — higher levels are less bandwidth-efficient."
-    },
-    {
-      question: "What validated methodology measures McEliece's 50+ year security track record?",
-      options: ["It has never been attacked", "Validated metric: McEliece (1978) has survived 47 years of continuous cryptanalysis. No attack has reduced the security below exponential in the code parameters. For classic McEliece with n=6960, t=119: best attack (information set decoding) costs ~2^260 operations — well above NIST Level 5 (2^256). Survival time = 47 years WITHOUT a break is the strongest validated track record in post-quantum cryptography", "It's widely used", "It's mathematically proven"],
-      correctIndex: 1,
-      justification: "Validated measurement: McEliece's parameters (n=6960, k=5413, t=119) provide NIST Level 5 security. Best attack: Stern's information set decoding with cost ~2^260. Track record: 1978-2025 = 47 years without a successful practical attack. Even quantum speedups for ISD are only polynomial (Grover's provides √speedup for subset search). This validated combination of conservative parameters + long track record makes McEliece the most trusted PQC fallback."
-    },
-    {
-      question: "How do we measure the 'real-world impact' of PQC algorithm adoption?",
-      options: ["By counting code downloads", "Validated impact measurement: (1) Bandwidth increase: TLS with Kyber-768 adds ~1.1KB per handshake vs X25519 — at Cloudflare scale (25M req/s) = 27.5 GB/s extra bandwidth. (2) Latency impact: +0.5ms per connection = $1.2M/year additional CDN cost (validated by Cloudflare). (3) Security gain: from 0-bit quantum (RSA) to 128+ bit quantum (Kyber). The cost-benefit ratio measures PQC's real-world impact", "By adoption rate", "By academic citations"],
-      correctIndex: 1,
-      justification: "Validated real-world metrics: Cloudflare (2024) reported: (1) Hybrid X25519Kyber768 adds ~0.5ms median latency, (2) ~1KB extra per handshake, (3) zero compatibility issues with TLS 1.3, (4) deployed on millions of websites. Google Chrome reported: (1) ~0.3ms additional latency, (2) 5% increase in TLS handshake size. The validated impact: minimal performance cost for significant security gain — positive cost-benefit validated at internet scale."
-    },
-    {
-      question: "What validates that SPHINCS+ is the 'most conservative' PQC choice despite larger signatures?",
-      options: ["It was developed by NIST", "Validated measurement: SPHINCS+ security depends ONLY on the hash function (SHA-256/SHAKE). Hash function security is the most well-analyzed assumption in cryptography (40+ years). No quantum algorithm provides more than quadratic speedup for hash preimage search. Validated tradeoff: signatures = 8KB vs Dilithium 2KB (4× larger), but security depends on the absolute minimum assumption. This validated conservatism makes SPHINCS+ the safe choice when signature size is not critical", "It has the smallest keys", "It's the fastest algorithm"],
-      correctIndex: 1,
-      justification: "Validated measurement: SPHINCS+ relies on: ∃ a secure hash function (the most minimal cryptographic assumption). In contrast, Kyber relies on: LWE ∈ NP-hard (stronger assumption requiring structured lattices). Dilithium similarly. SPHINCS+ validated cost: ~8KB signatures vs Dilithium's ~2.4KB, ~50× slower signing. But: no lattice, no algebraic structure, no quantum vulnerability. If lattices were broken tomorrow, SPHINCS+ would remain secure. This validated 'minimal assumption' property makes it the most conservative choice."
     }
   ]
 };
@@ -239,46 +197,10 @@ const recapData = {
       justification: "Validated cost measurement: Cloudflare serves ~25M TLS handshakes/second. X25519 key exchange: 32B key + 32B ct = 64B per handshake. Kyber-768: 1184B key + 1088B ct = 2272B per handshake. Additional bytes: 2208B. 2208 × 25M × 86400 = 4.77 PB/day. At typical CDN bandwidth costs (~$0.01/GB): $47,700/day = $17.4M/year extra bandwidth. This validated cost is the primary operational challenge of PQC at scale."
     },
     {
-      question: "What validated metric proves that Dilithium is the right signature replacement for ECDSA?",
-      options: ["Dilithium was designed by NIST", "Validated comparison at NIST Level 3: ECDSA (secp384r1): pk=48B, sig=96B, sign=0.3ms, verify=0.5ms. Dilithium-3: pk=1184B (25×), sig=2420B (25×), sign=0.4ms (1.3×), verify=0.3ms (0.6×). The validated result: signature/key sizes increase ~25×, but sign/verify speeds are competitive. Dilithium-3 provides 192-bit post-quantum security vs ECDSA's 0-bit quantum. The measured tradeoff: 25× bandwidth for infinite× security gain", "Dilithium has smaller signatures", "Dilithium is faster in all metrics"],
-      correctIndex: 1,
-      justification: "Validated benchmark (NIST Level 3): ECDSA P-384: public key = 48 bytes, signature = 96 bytes. Dilithium-3: public key = 1184 bytes, signature = 2420 bytes. Size increase: 25-25×. Performance: Dilithium sign = 0.4ms (vs ECDSA 0.3ms, similar), verify = 0.3ms (vs 0.5ms, faster). The validated tradeoff: signatures go from 96B to 2.4KB, but quantum security goes from 0 bits to 192 bits. This is the validated justification for Dilithium adoption."
-    },
-    {
-      question: "What measurement validates that SPHINCS+ is 'quantum-safe' even if all lattice crypto is broken?",
-      options: ["SPHINCS+ doesn't use lattices", "Validated: SPHINCS+ security depends ONLY on: (a) SHA-256/SHAKE is a secure hash function (preimage resistance ≥ 2^128), (b) quantum Grover's attack on SHA-256 costs 2^128 operations (validated by BBBV theorem as optimal). If lattices are broken by a future quantum algorithm, Kyber and Dilithium fall but SPHINCS+ remains secure because it doesn't use lattics — it uses only hash functions. This validated independence from lattice assumptions makes SPHINCS+ the ultimate fallback", "SPHINCS+ has the smallest signatures", "SPHINCS+ is the fastest algorithm"],
-      correctIndex: 1,
-      justification: "Validated independence measurement: Kyber uses LWE (lattice), Dilithium uses Module-LWE (lattice), SPHINCS+ uses SHA-256 (symmetric). If a quantum algorithm is discovered that breaks LWE efficiently, Kyber and Dilithium fall. SPHINCS+ is unaffected because its security is mathematically independent of lattices — it depends only on hash properties. This validated independence is measured as: P(break Kyber | break LWE) ≈ 1, but P(break SPHINCS+ | break LWE) = 0."
-    },
-    {
       question: "How do we validate that a PQC implementation is correct and secure?",
       options: ["It compiles without errors", "Validated by NIST CAVP (Cryptographic Algorithm Validation Program): (1) Known-Answer Tests (KATs) — input X must produce output Y exactly, (2) Monte Carlo tests — random iterations must match reference, (3) Performance bounds — timing must not vary with secret data (side-channel resistance), (4) Memory safety verified. Implementations passing all four validations receive NIST CAVP certificates", "It passes unit tests", "It runs without crashes"],
       correctIndex: 1,
       justification: "Validated implementation criteria: NIST CAVP tests: (1) KATs: 100+ test vectors with exact expected outputs. (2) PBKDF/entropy validation. (3) Timing analysis: 10,000+ measurements must show <0.1μs variation across all secret inputs to validate side-channel resistance. (4) Memory analysis: valgrind/AFL for buffer overflows. Implementations passing all criteria (like liboqs) receive formal NIST validation. PQC implementations without this validation should not be deployed in production."
-    },
-    {
-      question: "What validated measurement shows that Kyber key establishment is secure against both classical and quantum adversaries?",
-      options: ["Kyber's key size is large", "Validated via IND-CCA2 security proof: an adversary with access to a decryption oracle cannot distinguish Kyber ciphertexts from random. Proof reduces to Module-LWE hardness, which reduces to worst-case SVP. Classical security: best attack O(2^180). Quantum security: best attack O(2^170) (mild quantum speedup via Grover in lattice sieving). Both validated > 2^128 threshold. This dual validation (classical + quantum) is Kyber's claim to post-quantum security", "Kyber is NIST-approved", "Kyber uses a different math"],
-      correctIndex: 1,
-      justification: "Validated security proofs: Kyber's IND-CCA2 security reduces to: Module-LWE hardness → SVP hardness. Best classical attack: BKZ lattice reduction with sieving → cost ~2^180 (NIST Level 1 equivalent). Best quantum attack: Grover-enhanced sieving → cost ~2^170 (still > Level 1 threshold of 2^128). Both validated > required threshold. In contrast, RSA-2048: best quantum attack (Shor's) = 2^33 → 0 bits quantum security. These validated cost measurements are why Kyber is trusted and RSA is not."
-    },
-    {
-      question: "How is the 'PQC migration complexity' measured for an organization?",
-      options: ["By counting servers", "Validated migration complexity framework: Complexity Score = (Σ each_system) of (Protocol_Impact × KeySize_Impact × Performance_Impact × Interop_Impact). TLS 1.3 upgrade: Protocol=medium (new ciphersuites), KeySize=high (3× larger certs), Performance=low (<1% CPU), Interop=high (must support old + new). Score = ~150 → MODERATE. SSH key rotation: Protocol=low, KeySize=medium, Performance=low, Interop=low → Score = 50 → EASY. This validated framework enables objective migration planning", "By the budget available", "By quantum computer availability"],
-      correctIndex: 1,
-      justification: "Validated migration complexity scoring (Google/Cloudflare experience): each system scored 1-100 on: (1) Protocol changes needed (TLS config, ciphersuite negotiation) — TLS:60, SSH:30. (2) Key/certificate size impact (handshake size, storage) — Kyber:70, Dilithium:80. (3) Performance impact (CPU, latency) — Kyber:10, Dilithium:20. (4) Interoperability requirements (backward compatibility) — public:80, internal:30. Composite score gauges migration effort. TLS: 60+70+10+80 = 220 (HIGH). Internal SSH: 30+70+20+30 = 150 (MODERATE)."
-    },
-    {
-      question: "What validated metric shows that PQC is ready for production deployment?",
-      options: ["NIST standardization alone", "Validated by three independent readiness indicators: (1) NIST FIPS 203/204/205 published (Aug 2024) — official standardization complete. (2) Production deployment validated: Cloudflare (2023+), Google Chrome (2023+), Apple iMessage (2024+) — billions of connections using hybrid Kyber. (3) Open-source implementations validated: liboqs (NIST-validated), BoringSSL (Google), AWS-LC (Amazon). These three validated indicators show PQC is production-ready", "It's available in browsers", "Academic papers confirm it"],
-      correctIndex: 1,
-      justification: "Validated readiness: (1) Standardization: FIPS 203 (ML-KEM), 204 (ML-DSA), 205 (SLH-DSA) — August 2024. (2) Production: Cloudflare's X25519Kyber768 deployed on 25M+ domains (2023), Google Chrome enabled by default for 100M+ users (2023), Apple's PQ3 protocol in iMessage (2024). (3) Implementation: liboqs (post-quantum TLS), BoringSSL (Google), AWS-LC (Amazon) — all pass NIST CAVP. The validated conclusion: hybrid PQC (not standalone) is ready for production deployment today."
-    },
-    {
-      question: "What is the validated 'cost vs security' measurement for different PQC security levels?",
-      options: ["Higher levels always cost proportionally more", "Validated measurement at all 3 NIST levels: Level 1 (128-bit): Kyber-512 ~$0.000001/connection, Dilithium-2 ~$0.000002/connection. Level 3 (192-bit): ~1.5× cost. Level 5 (256-bit): ~2× cost. Security increase: Level 1→3 = 64 bits for 1.5× cost (~$0.0000005 per bit), Level 3→5 = 64 bits for 1.33× cost (~$0.0000003 per bit). The validated result: higher PQC security levels offer excellent cost-security value ($0.0000005/bit of post-quantum security)", "Higher levels cost exponentially more", "All levels have identical costs"],
-      correctIndex: 1,
-      justification: "Validated cost-security analysis: Kyber-512 (Level 1): ~$0.05 per million connections (ciphertext cost). Kyber-1024 (Level 5): ~$0.10 per million connections (2× cost). Security increase: from 128-bit to 256-bit quantum security (double). The validated analysis: moving from Level 1 to Level 5 doubles cost but squares security (2^128 → 2^256). Given that even 2^128 is astronomically large, Level 1 provides adequate security for most applications. NIST recommends Level 3 as a conservative default (192-bit quantum)."
     }
   ]
 };
@@ -485,7 +407,19 @@ export default function PQCModule() {
         controls: ["Switch Lattice/Code/NIST Standards","Generate Keys","Encode Message"],
         dataFlow: "LWE: A, s, e → b=As+e | Code: m, G, e → c=mG+e | Both use noise/error as the security mechanism",
         processExplanation: "The LWE simulation shows how the public key b is derived by mixing the secret s with noise e. The Code simulation shows how a message m is encoded with intentional errors e. In both cases, decryption requires the private trapdoor — impossible without it.",
-        component: <PQCLab />
+        component: <PQCLab />,
+        procedure: [
+          "Switch to Lattice-Based mode and click 'Generate Keys' — observe the public matrix A and vector b = A·s + e",
+          "Note that the noise e is 'small' — this intentional error is exactly what makes LWE quantum-resistant",
+          "Switch to Code-Based mode and set msgLength and errWeight, then click 'Encode Message'",
+          "Compare the key sizes and security levels of Kyber, Dilithium, and SPHINCS+ in the NIST Standards tab"
+        ],
+        observations: [
+          { prompt: "In LWE mode, how does increasing the dimension affect the size of A and b? Does this make the problem harder?", hint: "Higher dimension = more unknowns for the attacker. But larger keys mean more bandwidth. This is the fundamental PQC tradeoff." },
+          { prompt: "Why does adding intentional noise (error) make encryption MORE secure instead of less secure?", hint: "Without noise, the attacker can solve b = A·s exactly. The noise makes this an underdetermined noisy system — exponentially harder to solve." },
+          { prompt: "Compare the measured bandwidth cost: Kyber-512 vs RSA-2048 keys. How much larger are PQC keys, and is this acceptable?", hint: "Kyber-512 public key = 800B, RSA-2048 = 256B. ~3× larger. At Cloudflare scale, this costs ~$17M/year extra bandwidth — the validated cost of quantum resistance." }
+        ],
+        conclusion: "You just experienced the mathematical foundation of post-quantum cryptography. Unlike RSA (broken by Shor's exponential speedup) and ECC (broken by Shor's solving ECDLP), LWE and Code-Based crypto rely on problems where the best quantum algorithms provide only polynomial speedup — meaning the problems remain exponentially hard even for quantum computers. This measured gap (no exponential quantum speedup for lattices vs. exponential for RSA/ECC) IS the validated proof that PQC is quantum-resistant."
       }}
       summary={{
         insights: [

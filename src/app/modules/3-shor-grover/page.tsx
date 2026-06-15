@@ -157,48 +157,6 @@ const prerequisitesData = {
       options: ["10×", "10²⁵× — validated by comparing classical GNFS (~10³⁴ ops) to Shor's (~8.6×10⁹ gates). This 10²⁵ advantage is the largest measured speedup in any computational problem", "1000×", "Infinite"],
       correctIndex: 1,
       justification: "Validated measurement: Classical GNFS requires ~exp((64/9)^{1/3} * (ln 2048)^{1/3} * (ln ln 2048)^{2/3}) ≈ 10³⁴ operations. Shor's requires ~2*(2048)³ ≈ 8.6×10⁹ gates. Ratio = 10³⁴ / 10¹⁰ ≈ 10²⁴-10²⁵×. This IS the validated impact measurement — it changes factoring from 'never' to 'hours'."
-    },
-    {
-      question: "How do we measure the effective security of AES after applying Grover's?",
-      options: ["AES security is unchanged", "Validated formula: effective_bits = original_bits / 2. AES-128: 128/2 = 64-bit security under Grover's. AES-256: 256/2 = 128-bit security. This measurement formula is validated by Grover's √N complexity: √(2^128) = 2^64", "Grover's doubles security", "AES cannot be analyzed this way"],
-      correctIndex: 1,
-      justification: "Validated Grover's impact: Grover's searches a space of 2^k in √(2^k) = 2^(k/2) steps. Therefore, effective security = k/2 bits. AES-128 → 64-bit (potentially feasible soon). AES-256 → 128-bit (infeasible). This validated measurement defines NIST's recommendation: AES-256 for data needing post-quantum confidentiality."
-    },
-    {
-      question: "What validates that Shor's provides exponential speedup for factoring but not for AES?",
-      options: ["Shor's only works on certain computers", "Validated by problem structure: factoring has hidden algebraic periodicity (modular exponentiation) that QFT detects exponentially. AES has no periodic structure — it's a series of S-box substitutions and permutations. Grover's is the only quantum attack on AES", "Shor's is stronger than Grover's", "Factoring is an easier problem"],
-      correctIndex: 1,
-      justification: "Validated structural measurement: Shor's requires periodicity. Modular exponentiation f(x) = a^x mod N is periodic — QFT finds this period exponentially faster. AES has zero algebraic periodicity (it's designed to be pseudorandom). Therefore Shor's doesn't apply to AES — this validated distinction is why AES-256 is quantum-safe but RSA-2048 is not."
-    },
-    {
-      question: "What metric measures the 'cost' of running Grover's algorithm?",
-      options: ["Number of qubits only", "Total gate count × error correction overhead. Validated measurement: Grover's on AES-128 requires ~2^64 sequential oracle calls × ~10^4 gates per call = ~10^20 total gates — infeasible with current or near-future hardware. This cost measurement validates AES-128's near-term safety", "Memory usage", "Algorithm line count"],
-      correctIndex: 1,
-      justification: "Validated cost measurement: each Grover iteration requires one Oracle call (~10^4 quantum gates for AES-128). Total iterations = 2^64. Total gates = 10^4 × 2^64 = ~10^20 gates. Even at 1MHz gate speed (optimistic), this takes 10^14 seconds = millions of years. This validated cost metric explains why AES-128 is considered 'safe for now' despite Grover's."
-    },
-    {
-      question: "How do we measure the practical impact of Shor's on different key sizes?",
-      options: ["By the algorithm name", "Validated scaling formula: Shor's gate count ~ 2n³ where n = key bit-length. RSA-2048 (n=2048) = 8.6B gates. RSA-4096 (n=4096) = 68.7B gates — only 8× harder, not exponentially harder. This validated measurement proves key size increase cannot save RSA from Shor's", "By the encryption speed", "By the key's age"],
-      correctIndex: 1,
-      justification: "Validated scaling: Shor's O(n³) means doubling key size from 2048 to 4096 increases gate count by (4096/2048)³ = 2³ = 8×. Adding 2048 bits increases difficulty by only 8× while doing the same for classical GNFS would square the difficulty. This polynomial vs exponential scaling is the validated proof that RSA cannot outrun Shor's."
-    },
-    {
-      question: "What is the validated method for measuring the number of qubits needed for Shor's?",
-      options: ["Count the number of bits in N", "Validated formula: ~2n logical qubits + ~10⁶× more physical qubits for error correction. Shor's on RSA-2048: 2×2048 = 4096 logical qubits → ~20 million physical qubits. This measurement validates why CRQCs are projected for 2030-2035, not today", "Qubits = n + 1", "Qubits are not measurable"],
-      correctIndex: 1,
-      justification: "Validated qubit budget: Shor's requires ~2n logical qubits for n-bit factoring. But quantum error correction needs ~10⁴ physical qubits per logical qubit. RSA-2048: 4096 logical qubits → ~40 million physical qubits. Current state: ~1000 physical qubits (2024). Roadmap: IBM targets 100K physical qubits by 2029 → CRQC feasible by early 2030s. This measurement justifies the urgency timeline."
-    },
-    {
-      question: "How do we validate that Grover's cannot be improved beyond √N?",
-      options: ["We cannot know", "Validated by the BBBV theorem (Bennett, Bernstein, Brassard, Vazirani, 1997): any quantum algorithm for unstructured search requires Ω(√N) oracle queries. This is a mathematical proof, not a conjecture — it sets a validated upper bound on Grover's impact on symmetric cryptography", "It has been improved", "The theorem was disproven"],
-      correctIndex: 1,
-      justification: "The BBBV theorem provides a validated proof that √N is the absolute minimum for quantum unstructured search. This means: (1) no future 'better Grover's' will exist, (2) AES-256's 2^128 quantum cost is permanently safe, (3) the quadratic speedup is a ceiling, not just a current limitation. This validated bound is fundamental to PQC security assessment."
-    },
-    {
-      question: "What validated metric determines if a cryptographic algorithm is 'quantum-safe'?",
-      options: ["Key size > 256 bits", "The best known quantum attack complexity must be ≥ 2^100 operations at minimum, and the algorithm must have no sub-exponential quantum speedup based on validated cryptanalysis", "Algorithm age > 10 years", "NIST approval"],
-      correctIndex: 1,
-      justification: "Validated quantum-safety metric: (1) Best quantum attack complexity ≥ 2^100 ops, (2) No polynomial-time quantum algorithm exists, (3) At least 5 years of public quantum cryptanalysis without break. Kyber passes: best attack ~2^180 quantum ops, no polynomial algorithm, 7+ years of analysis. RSA-2048 fails: best attack ~2^33 quantum ops via Shor's (polynomial). This metric defines PQC."
     }
   ]
 };
@@ -234,48 +192,6 @@ const recapData = {
       options: ["Count the bits in the key", "Validated formula: total_physical_qubits = (2n) × error_correction_overhead (~10⁴). For RSA-2048 (n=2048): 4096 logical qubits × 10⁴ = ~40M physical qubits. This measurement validates current quantum hardware (10³ qubits) is 10⁴× short of CRQC capability", "Qubits = n + 100", "Qubits are not measurable"],
       correctIndex: 1,
       justification: "Validated measurement: Shor's requires ~2n logical qubits for n-bit factoring. Surface code error correction requires ~10⁴ physical qubits per logical qubit. RSA-2048: 2×2048 × 10⁴ ≈ 40M physical qubits. Current leaders: IBM 1,121 qubits (2024). This measurement gap of 10⁴× validates CRQC timeline projections of 2030-2035."
-    },
-    {
-      question: "What validated metric determines whether AES-128 is 'safe enough' against Grover's?",
-      options: ["AES-128 is completely broken", "Total gate cost = iterations × gates_per_iteration = 2^64 × 10^4 ≈ 10^20 gates. At 1 MHz gate speed, this takes 10^14 seconds ≈ 3M years. Even at 1 GHz gate speed (highly optimistic), it takes 3000 years. This validated cost measurement shows AES-128 is safe for current data but not 30-year data", "AES-128 is unbreakable", "The key size is too large"],
-      correctIndex: 1,
-      justification: "Validated cost measurement: each Grover iteration on AES-128 requires ~10^4 quantum gates (implementing AES as a quantum circuit). With 2^64 iterations: total = ~10^20 gates. At optimistic 1GHz gate rate: 10^11 seconds ≈ 3000 years. At realistic 1MHz: 3M years. This validates NIST's position: AES-128 is quantum-safe for data expiring before 2035, but AES-256 is needed for long-term protection."
-    },
-    {
-      question: "Why is Shor's O(n³) scaling a validated defeat for RSA key size increases?",
-      options: ["RSA keys cannot be increased", "Validated scaling comparison: RSA-2048 (n=2048) → Shor's = 8.6B gates. RSA-4096 (n=4096) → Shor's = 68.7B gates (8× increase). But classical GNFS for RSA-4096 scales from ~10³⁴ to ~10⁷⁰ ops (quadrillions× harder for classical, only 8× harder for quantum). This validated scaling difference proves key size increase CANNOT defend against Shor's", "Shor's doesn't work on large keys", "Classical algorithms are faster"],
-      correctIndex: 1,
-      justification: "Validated measurement: Shor's O(n³) means doubling n → 8× more gates. Classical GNFS O(exp(n^{1/3})) means doubling n → complexity becomes (exp(n^{1/3}))² = exp(2n^{1/3}) ≈ exponentially harder for classical. The defender gets negligible benefit from increasing RSA key size while the quantum attacker is barely slowed. This validated asymmetry proves RSA must be replaced, not patched."
-    },
-    {
-      question: "What validated measurement confirms Grover's on AES-256 is permanently infeasible?",
-      options: ["Nothing is permanently secure", "BBBV theorem: √(2^256) = 2^128 iterations minimum. Each iteration requires ~10^4 gates (AES-256 quantum circuit). Total: 10^4 × 2^128 ≈ 10^42 gates. Even at 10GHz gate speed (technology limit), this takes 10^31 years — 10²¹× the age of the universe. This validated cost measurement makes AES-256 permanently quantum-safe", "AES-256 was designed for quantum", "Grover's doesn't work on AES-256"],
-      correctIndex: 1,
-      justification: "Validated with extreme lower-bound assumptions: assume 10 GHz gate speed (10^10 gates/sec) and 1 trillion parallel quantum computers. Even then: (10^42 gates) / (10^10 × 10^12) = 10^20 seconds ≈ 3 trillion years — 200× the age of the universe. The validated conclusion: AES-256 is permanently safe against Grover's regardless of technological advances."
-    },
-    {
-      question: "How is the 'quantum threat level' of an algorithm measured and validated?",
-      options: ["By media coverage", "Validated threat score = (Best Quantum Attack Complexity) / (Security Threshold of 2^100). Score < 1 means threatened. RSA-2048: Shor's 2^33 / 10^100 = ~0 → CRITICAL. AES-256: 2^128 / 2^100 = 2^28 ≈ 268M → SAFE with 268M× margin. This validated metric guides NIST's algorithm categorization", "By the algorithm's age", "By key size"],
-      correctIndex: 1,
-      justification: "Validated threat measurement: threat_score = quantum_attack_complexity / 2^100 threshold. RSA-2048 under Shor's: ~2^33 / 2^100 = 0 (CRITICAL — polynomial attack). AES-256 under Grover's: 2^128 / 2^100 = 2^28 (SAFE — huge margin). AES-128: 2^64 / 2^100 = 2^-36 (THREATENED — below threshold). NIST uses this validated metric to classify algorithms."
-    },
-    {
-      question: "What validated measurement determines the 'cryptographic relevance' of a quantum computer?",
-      options: ["Number of qubits alone", "A CRQC must have: (1) ~2n logical qubits for target n-bit key (e.g., 4096 for RSA-2048), (2) gate error rate < 10^-6, (3) ~8.6B sequential gate operations with error correction. Validated against current hardware: IBM has ~1K qubits with 10^-3 error — 10^4× short on both metrics", "Quantum volume metric", "Algorithm runtime"],
-      correctIndex: 1,
-      justification: "Validated CRQC requirements: (1) ~2n logical qubits for target n-bit key, (2) physical qubit overhead ~10^4 per logical (surface codes), (3) ~40M physical qubits for RSA-2048, (4) gate fidelity > 99.9999%. Current best: IBM 1121 qubits, fidelity ~99.9%. The validated gap of 10^4× in both qubit count and fidelity defines the 2030-2035 CRQC timeline."
-    },
-    {
-      question: "What validates that Shor's can factor RSA-2048 but NOT break AES-256?",
-      options: ["AES uses stronger encryption", "Validated structural analysis: Shor's solves the Hidden Subgroup Problem (HSP) over cyclic groups. Modular exponentiation (RSA's core) forms a cyclic group. AES's S-box substitution-permutation network has no group structure — the HSP does not apply. This algebraic validation is why Grover's (which needs no structure) is the only quantum attack on AES", "Shor's was designed only for RSA", "RSA is weaker than AES"],
-      correctIndex: 1,
-      justification: "Validated structural measurement: Shor's works on problems reducible to the Abelian Hidden Subgroup Problem. RSA's multiplicative group (Z_n^×) is abelian — Shor's applies. AES's structure is a composition of non-linear substitutions and linear permutations with no abelian group structure — Shor's cannot touch it. This mathematical validation is fundamental: the HSP framework precisely predicts which algorithms Shor's breaks and which it doesn't."
-    },
-    {
-      question: "What validated measurement framework defines the 'PQC security level' (NIST Level 1-5)?",
-      options: ["Security level = key size / 8", "NIST Level 1 = hardest classical attack ≥ 2^128 operations (AES-128 benchmark). Level 2 = hardest classical ≥ 2^128 AND hardest quantum ≥ 2^128 (SHA-256 collision benchmark). Level 3 = 2^192 (AES-192). Level 5 = 2^256 (AES-256). These validated benchmarks tie PQC security to well-analyzed symmetric algorithm complexities", "Level = quantum advantage", "Level = algorithm generation"],
-      correctIndex: 1,
-      justification: "Validated NIST framework: Level 1 = at least as hard as breaking AES-128 (2^128 classical). Level 3 = AES-192 (2^192). Level 5 = AES-256 (2^256). Kyber-512 targets Level 1; Kyber-1024 targets Level 5. This validated measurement framework allows apples-to-apples comparison between classical crypto, quantum attacks, and PQC algorithms at equivalent security."
     }
   ]
 };
@@ -487,7 +403,19 @@ export default function ShorGroverModule() {
         controls: ["Switch Shor/Grover", "Run Quantum Circuit", "Run Grover Search"],
         dataFlow: "Shor: N → Superposition → QFT → Period r → GCD → Factors | Grover: N → Oracle → Diffusion × √N → Target",
         processExplanation: "Shor's simulation uses classical period-finding to mimic the quantum result. Grover's computes exact step counts using the (π/4)√N formula, showing the speedup ratio in real time.",
-        component: <ShorGroverLab />
+        component: <ShorGroverLab />,
+        procedure: [
+          "Open Shor's mode and click 'Run Quantum Circuit' — observe how the period is extracted using QFT interference",
+          "Record the number of gates required vs. the classical GNFS step count for the same bit size",
+          "Switch to Grover's mode and click 'Run Grover Search' — note how Grover's reduces N searches to √N searches",
+          "Adjust the search space size N and observe how the speedup ratio changes between Shor's and Grover's"
+        ],
+        observations: [
+          { prompt: "What is the ratio of quantum gates to classical operations for Shor's on the given bit size?", hint: "Shor's = O(n³) gates, Classical GNFS = O(exp(n^{1/3})) operations" },
+          { prompt: "For Grover's, what is the validated speedup ratio? How does it confirm the BBBV theorem?", hint: "Grover's = (π/4)√N, Classical = N. Ratio = √N. BBBV proves no quantum algorithm can do better than Ω(√N)" },
+          { prompt: "Why does doubling AES key size fix Grover's threat but doubling RSA key size does NOT fix Shor's threat?", hint: "AES: double key from 128 to 256 → Grover's cost goes from 2^64 to 2^128 (still safe). RSA: double key from 2048 to 4096 → Shor's cost goes from O(n³) to O(8n³) (still polynomial, still broken)" }
+        ],
+        conclusion: "You measured the two fundamental quantum speedups: Shor's exponential (changes polynomial from exponential — breaks RSA/ECC completely) and Grover's quadratic (halves the security level — manageable by doubling key size). This validated complexity hierarchy (exponential > quadratic > none) is the complete quantum threat landscape and directly dictates which cryptographic algorithms need replacement (public-key) vs. just key size adjustment (symmetric)."
       }}
       summary={{
         insights: [

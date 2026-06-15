@@ -26,52 +26,10 @@ const prerequisitesData = {
       justification: "NIST Level 1 = brute-force attack on AES-128 requires ~2^128 operations. All NIST PQC candidates must provide at least this level of quantum security. This is the standard benchmark for PQC impact measurement."
     },
     {
-      question: "How is the 'impact' of a cryptographic vulnerability measured?",
-      options: ["By counting the number of affected users", "By the product of: Severity of the attack × Value of the data × Urgency of migration required", "By testing if the algorithm breaks", "By the number of CVEs reported"],
-      correctIndex: 1,
-      justification: "Impact measurement = Severity × Data Value × Urgency. For Shor's on RSA: Severity=Critical (complete break), Data Value=Global (entire internet), Urgency=Immediate (HNDL active). This gives the highest possible impact score."
-    },
-    {
-      question: "What is the purpose of cryptographic validation?",
-      options: ["To verify that an algorithm produces output quickly", "To confirm that an implementation correctly and securely performs the cryptographic operations as specified by the standard", "To measure power consumption", "To test user authentication"],
-      correctIndex: 1,
-      justification: "Validation confirms: (a) mathematical correctness — encrypt/decrypt round-trips, (b) security properties — no side-channel leakage, (c) standard conformance — matches published specifications. PQC validation requires all three."
-    },
-    {
-      question: "What does 'security margin' mean when evaluating a PQC algorithm?",
-      options: ["The profit margin from selling security products", "The gap between the best known attack and the claimed security level — a larger margin means more conservative safety", "The difference between encryption and decryption speed", "The algorithm's patent protection"],
-      correctIndex: 1,
-      justification: "Security margin measures how much better the best attack is than the brute-force benchmark. A 256-bit algorithm with best attack at 2^240 has a 16-bit margin. High margins provide confidence against future cryptanalytic advances."
-    },
-    {
-      question: "What benchmark is used to compare classical vs quantum algorithm difficulty?",
-      options: ["Seconds to execute", "Gate complexity — the total number of quantum or classical gate operations required", "Megabytes of RAM used", "Lines of code"],
-      correctIndex: 1,
-      justification: "Gate complexity is the universal metric: Shor's factoring RSA-2048 requires ~8.6 billion quantum gate operations (O(n³)), while classical GNFS requires ~10^34 operations. This O(n³) vs O(exp) comparison is the standard impact measurement."
-    },
-    {
-      question: "Why is 'data sensitivity lifetime' a critical metric in PQC impact assessment?",
-      options: ["It determines the encryption algorithm to use", "It defines how long encrypted data must remain confidential — directly determining the migration urgency for PQC", "It measures how long encryption keys last", "It tracks how long data takes to encrypt"],
-      correctIndex: 1,
-      justification: "Data with 50+ year sensitivity (medical records) encrypted today with RSA-2048 will be vulnerable when CRQCs arrive in 2030-2035. Lifetime measurement is the key metric for HNDL risk quantification."
-    },
-    {
       question: "What is the 'complexity class' of a problem and why does it matter for PQC impact?",
       options: ["A classification based on programming difficulty", "A categorization of time/space requirements as input grows — P matters because Shor's moves factoring from exponential to polynomial class", "A measure of code complexity", "A security classification level"],
       correctIndex: 1,
       justification: "Complexity class determines feasibility: P (polynomial) = feasible for large inputs. Shor's moves factoring from NP/intermediate to BQP (quantum polynomial). This class change IS the impact — it transforms impossible into possible."
-    },
-    {
-      question: "What is the role of 'test vectors' in validating PQC implementations?",
-      options: ["They test network connectivity", "Known input-output pairs provided by NIST to verify that an implementation produces exactly the expected outputs", "They measure algorithm speed", "They generate random encryption keys"],
-      correctIndex: 1,
-      justification: "Test vectors are standardized known-answer tests. If your Kyber implementation produces the exact same ciphertext for a given message and key as NIST's reference, it's validated. This is the foundation of PQC conformance testing."
-    },
-    {
-      question: "How do we measure the 'quantum advantage' for a given problem?",
-      options: ["By counting qubits used", "By the ratio T_classical / T_quantum for a fixed input size — the speedup factor quantifies the practical impact of quantum algorithms", "By measuring quantum computer temperature", "By comparing code lengths"],
-      correctIndex: 1,
-      justification: "Quantum advantage ratio = Classical time / Quantum time. For factoring RSA-2048: 10^34 / 8.6×10^9 ≈ 10^24× speedup. This measurement quantifies why Shor's is devastating — it's not just faster, it's a trillion-trillion times faster."
     }
   ]
 };
@@ -97,58 +55,16 @@ const recapData = {
       justification: "Impact measurement = change in feasibility. Shor's moves factoring from exponential (infeasible for 2048-bit numbers — would take 300 trillion years) to polynomial (feasible — about 8 hours). This class change IS the impact, not the hardware details."
     },
     {
-      question: "What does 'quantum advantage ratio' measure?",
-      options: ["Number of qubits over classical bits", "Classical time divided by quantum time for the same task — quantifies the speedup factor", "Quantum computer cost over classical cost", "Algorithm code length ratio"],
-      correctIndex: 1,
-      justification: "Quantum advantage ratio = T_classical / T_quantum at fixed input size. For RSA-2048 factoring: 10^34 / 8.6×10^9 ≈ 10^24×. This is the validated measurement of why Shor's is practically devastating, not just theoretically interesting."
-    },
-    {
       question: "Why is RSA-2048's quantum security rated as '0 bits' in PQC impact assessments?",
       options: ["Because quantum computers don't exist yet", "Because Shor's algorithm mathematically breaks RSA regardless of key size — there is no quantum security in classical public-key algorithms", "Because RSA uses small keys", "Because quantum computers are too slow"],
       correctIndex: 1,
       justification: "Quantum security rating = log₂(operations needed for best quantum attack). Shor's factors RSA-2048 in O(n³) ≈ 8.6×10^9 gates. log₂(8.6×10^9) ≈ 33 bits. But any attacker who runs Shor's succeeds with high probability — the rated 'security' is effectively 0 because the attack is polynomial and will run instantly on a CRQC."
     },
     {
-      question: "What validation confirms that lattice-based PQC is quantum-resistant?",
-      options: ["NIST ran a public competition for 7 years", "No quantum algorithm provides exponential speedup for SVP (Shortest Vector Problem) — the best is Grover-enhanced sieving which is only quadratic", "Lattice math is too complex for quantum computers", "Quantum computers can't run lattice algorithms"],
-      correctIndex: 1,
-      justification: "The validated reason: Shor's exploits algebraic periodicity in cyclic groups (used by RSA/ECC). Lattice problems (SVP, LWE) are geometric — they lack the periodic algebraic structure that QFT targets. This geometric hardness is validated by 30+ years of quantum cryptanalysis showing no exponential speedup."
-    },
-    {
       question: "How do we measure the urgency of PQC migration for a specific organization?",
       options: ["By the organization's budget", "By computing: Impact Score = (Data Sensitivity Lifetime) × (Value at Risk) / (Migration Time Remaining) where T_migrate = T_QDay - T_DataLifetime", "By the number of employees", "By the type of encryption used"],
       correctIndex: 1,
       justification: "Urgency = (Lifetime × Value) / TimeRemaining. T_migrate = T_QDay - T_DataLifetime. If T_migrate < CurrentYear, the organization is already overdue. This formula is the standard impact measurement for HNDL risk assessment."
-    },
-    {
-      question: "What is the validated benchmark for comparing classical and quantum algorithm performance?",
-      options: ["Milliseconds of execution time", "Gate complexity — total number of elementary gates (classical or quantum) required for the computation", "Megabytes of memory", "Watts of power consumption"],
-      correctIndex: 1,
-      justification: "Gate complexity is architecture-independent. Shor's factoring: ~2n³ quantum gates. Classical GNFS: ~exp(n^{1/3}) gates. This metric allows fair comparison across fundamentally different computing paradigms. It's the validated standard in computational complexity theory."
-    },
-    {
-      question: "What metric determines whether data encrypted today is at risk from HNDL?",
-      options: ["The encryption algorithm name", "The comparison: T_EncryptionDate + T_DataLifetime > T_QDay — if data remains sensitive past Q-Day, it's at risk", "The file size", "The operating system used"],
-      correctIndex: 1,
-      justification: "Risk condition: EncryptionDate + DataLifetime > QDay. Example: Medical record encrypted today (2026) with 80yr lifetime → sensitive until 2106. QDay ≈ 2032. 2026+80 > 2032? Yes → AT RISK. This metric drives all HNDL impact assessments."
-    },
-    {
-      question: "What is the 'security margin' of a PQC algorithm and how is it validated?",
-      options: ["The difference between public and private key sizes", "The gap between the best known attack's complexity and the claimed security — validated by continuous cryptanalysis and updated by the research community", "The algorithm's patent expiration date", "The time until the algorithm is broken"],
-      correctIndex: 1,
-      justification: "Security margin = log₂(best_attack_complexity) - claimed_security_bits. A positive margin means the algorithm is conservative. For example, if best attack on 128-bit security target costs 2^140 operations, margin = 12 bits. Validated through peer-reviewed cryptanalysis publications."
-    },
-    {
-      question: "Why is 'proof by reduction' important for validating PQC security?",
-      options: ["It reduces code size", "It proves that breaking the cryptosystem is at least as hard as solving a well-studied hard problem (e.g., SVP in lattics) — providing validated confidence in security", "It reduces power consumption", "It simplifies implementation"],
-      correctIndex: 1,
-      justification: "Security reduction: 'If attacker breaks this PQC scheme, then they can also solve SVP' → since SVP is believed hard, the scheme is secure. This is the gold standard for validating cryptographic security. LWE-based schemes (Kyber, Dilithium) have provable reductions to worst-case lattice problems."
-    },
-    {
-      question: "What is the validated methodology for measuring PQC algorithm performance against classical alternatives?",
-      options: ["Run only on supercomputers", "Benchmark across three dimensions: key generation time, encapsulation/signing time, and key/ciphertext/signature size — at equivalent NIST security levels", "Count lines of code", "Measure only on quantum hardware"],
-      correctIndex: 1,
-      justification: "Fair PQC vs classical comparison requires: (1) same NIST security level (e.g., Level 1 = AES-128 equivalent), (2) measure all three operations (keygen, enc/sign, dec/verify), (3) report all sizes. Results: Kyber-512 keygen is ~3× faster than RSA-2048 but keys are ~3× larger — the validated tradeoff."
     }
   ]
 };
@@ -850,7 +766,19 @@ export default function NeedPQCModule() {
         controls: ["Compute Step", "Reset Simulator"],
         dataFlow: "Input Integer -> Modular Exponentiation -> QFT Waveform -> Period Extraction",
         processExplanation: "While a classical computer checks each point one by one, the QFT uses constructive interference to make the 'period' peak stand out from the noise.",
-        component: <ShorSimulation />
+        component: <ShorSimulation />,
+        procedure: [
+          "Click 'Compute Step' repeatedly and observe the sequence of f(x) = 7^x mod 15 values",
+          "Count how many steps before the pattern repeats — that is the 'period' r",
+          "Record the period r and compute gcd(7^{r/2} ± 1, 15) to find the factors",
+          "Compare: a classical computer would need to check every possible period (up to 15 values); QFT finds r in one shot"
+        ],
+        observations: [
+          { prompt: "What is the period r of the sequence f(x) = 7^x mod 15?", hint: "Count the number of distinct values before the sequence repeats" },
+          { prompt: "How many classical steps would it take to find this period by brute force?", hint: "In the worst case, you'd need to check r different values" },
+          { prompt: "What two factors did Shor's algorithm recover?", hint: "Use gcd(7^{r/2} + 1, 15) and gcd(7^{r/2} - 1, 15)" }
+        ],
+        conclusion: "You just performed the same mathematical process as Shor's algorithm — but manually. The quantum advantage comes from the QFT finding this period in a single operation using superposition and interference, while classical search takes O(r) steps. For RSA-2048, the period search space is astronomically large (~10^308), making the exponential speedup from polynomial to classical the fundamental validated impact."
       }}
       summary={{
         insights: [
